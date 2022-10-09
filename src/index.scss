@@ -1,0 +1,14 @@
+*,*::after, *::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+};
+
+body {
+  background-color: #111111;
+  color: #e0e0e0;
+}
