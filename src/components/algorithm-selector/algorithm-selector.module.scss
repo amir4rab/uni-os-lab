@@ -1,0 +1,32 @@
+.title {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  color: #0ce7d5;
+}
+
+.item{
+  &:not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+  .title{
+    margin-bottom: .5rem;
+    font-size: 1.25rem;
+  } 
+  .about{
+    padding-bottom: 1rem;
+    line-height: 150%;
+  } 
+  .submitWrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .submit{
+    background: #0ce7d5;
+    &:hover {
+      background: #19eedc;
+    }
+    &:active {
+      background: #50fff0;
+    }
+  }
+} 
