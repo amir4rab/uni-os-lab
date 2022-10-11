@@ -12,3 +12,52 @@ body {
   background-color: #111111;
   color: #e0e0e0;
 }
+
+input {
+  background-color: #303030;
+  color: #e0e0e0;
+  border: none;
+  border-radius: .25rem;
+  padding: .5em .75em;
+}
+
+button {
+  background-color: #e0e0e0;
+  color: #303030;
+  border: none;
+  font-weight: 600;
+  border-radius: .25rem;
+  padding: .75em 1.25em;
+  transition: background-color .15s ease-in-out, transform .15s ease-in-out;
+  &:not(:disabled):hover {
+    cursor: pointer;
+    background: #e9e9e9;
+    transform: translate(0, -.05em);
+  }
+  &:not(:disabled):active {
+    background: #ffffff;
+    transform: translate(0, -.15em);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .75;
+  }
+  &[data-compact] {
+    font-size: .75rem;
+    padding: .4em .75em;
+  }
+  &[data-primary] {
+    border: #0ce7d5 .1rem solid;
+    background-color: #0ce7d5;
+
+    &:not(:disabled):hover {
+      border: #0cc9b9 .1rem solid;
+      background-color: #0cc9b9;
+    }
+
+    &:not(:disabled):active {
+      border: #099e92 .1rem solid;
+      background-color: #099e92;
+    }
+  }
+}

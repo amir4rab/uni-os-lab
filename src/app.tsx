@@ -1,13 +1,21 @@
-import { useState } from 'preact/hooks';
 import classes from './app.module.scss';
+import Footer from './components/footer';
+import ProcessGuider from './components/process-guider';
 
 export function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <main className={classes.main}>
-      <h1 className={classes.title}>CPU Timing system emulator</h1>
-      <div></div>
+      <div className={classes.hero}>
+        <h1 className={classes.title}>
+          <span>CPU</span>
+          <span>Scheduler</span>
+          <span>Emulator</span>
+        </h1>
+      </div>
+      <div className={classes.contentBox}>
+        <ProcessGuider />
+      </div>
+      <Footer />
     </main>
   );
 }
