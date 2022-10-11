@@ -1,0 +1,22 @@
+.progressWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  .dot {
+    background-color: #0ce7d5;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    opacity: .25;
+    box-shadow: 0 0 1rem 0 #0ce7d500;
+    transition: box-shadow .15s ease-in-out, opacity .15s ease-in-out;
+    &:not(:last-child) {
+      margin-right: .5rem;
+    }
+    &[data-active] {
+      opacity: 1;
+      box-shadow: 0 0 1rem .25rem #0ce7d5;
+    }
+  }
+}
