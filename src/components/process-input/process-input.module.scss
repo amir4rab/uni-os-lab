@@ -1,0 +1,42 @@
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  input {
+    flex-grow: 1;
+    margin-left: .5rem;
+  }
+  &:not(:last-of-type) {
+    margin-bottom: .75rem;
+  }
+}
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 1100px) {
+  .inputWrapper {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    input {
+      width: 100%;
+      margin-top: .25rem;
+      margin-left: 0;
+    }
+
+    &:not(:last-of-type) {
+      margin-bottom: .75rem;
+    }
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    }
+}
