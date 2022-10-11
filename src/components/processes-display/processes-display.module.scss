@@ -1,0 +1,82 @@
+.title {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  color: #0ce7d5;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  button{
+    &:not(:last-child) {
+      margin-right: .75rem;
+    }
+    &:not([data-primary]){
+      color: #0ce7d5;
+      border: #0ce7d5 .1rem solid;
+      background-color: transparent;
+      &:not(:disabled):hover {
+        border: #0ce7d5 .1rem solid;
+        background-color: transparent;
+      }
+      &:not(:disabled):active {
+        border: #0ce7d5 .1rem solid;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+@keyframes animateIn {
+  from {
+    max-height: 0rem;
+    overflow: hidden;
+    opacity: 0;
+  }
+  to {
+    max-height: 10rem;
+    overflow: hidden;
+    opacity: 1;
+  }
+}
+
+.listDisplay {
+
+  .item {
+    &[open] summary ~ * {
+      animation: animateIn .5s ease-in-out;
+    }
+
+    .summary {
+      cursor: pointer;
+      font-size: 1;
+      font-weight: 600;
+      transition: color .15s ease-in-out;
+      &:hover {
+        color: #0ce7d5;
+      }
+    }
+
+    .summary, .row {
+      padding: .75rem 0rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .row:last-child {
+      justify-content: flex-end;
+      button {
+        font-size: .75rem;
+        &:not(:last-child) {
+          margin-right: .5rem;
+        }
+      }
+      
+
+    }
+    .content {
+      margin-top: .5rem;
+    }
+  }
+}
