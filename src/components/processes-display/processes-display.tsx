@@ -1,11 +1,15 @@
 import { useState } from 'preact/hooks';
-import { Process } from '../../types/process';
+import ProcessesArray from '../../types/process';
 import Dialog from '../dialog';
 import ProcessInput from '../process-input';
 import classes from './processes-display.module.scss';
 
-const ProcessesDisplay = () => {
-  const [processes, setProcesses] = useState<Process[]>([]);
+interface Props {
+  onSubmit: (v: ProcessesArray) => void;
+}
+
+const ProcessesDisplay = ({ onSubmit }: Props) => {
+  const [processes, setProcesses] = useState<ProcessesArray>([]);
   const [dialogSate, setDialogState] = useState(false);
 
   const moveItem = (action: 'down' | 'up', i: number) => {
@@ -67,7 +71,11 @@ const ProcessesDisplay = () => {
       </div>
       <div className={classes.actions}>
         <button onClick={() => setDialogState(true)}>Add</button>
-        <button disabled={processes.length === 0} data-primary={true}>
+        <button
+          onClick={() => onSubmit(processes)}
+          disabled={processes.length === 0}
+          data-primary={true}
+        >
           Submit
         </button>
       </div>
