@@ -25,39 +25,41 @@ const ProcessesDisplay = () => {
     <div>
       <h3 className={classes.title}>Add Processes</h3>
       <div className={classes.listDisplay}>
-        {processes.map(({ duration, id, insertionTime, name, priority }, i) => (
-          <details className={classes.item} key={id}>
-            <summary className={classes.summary}>
-              <p>{name}</p>
-              <p>More info</p>
-            </summary>
-            <div className={classes.content}>
-              <div className={classes.row}>
-                <p>Duration: {duration}ms</p>
-                <p>Insertion Time: {insertionTime}ms</p>
-                <p>Priority: {priority}</p>
-              </div>
-              <div className={classes.row}>
-                <button onClick={() => deleteItem(i)} data-compact>
-                  Remove
-                </button>
-                <button
-                  onClick={() => moveItem('up', i)}
-                  data-compact
-                  disabled={i === 0}
-                >
-                  move up
-                </button>
-                <button
-                  onClick={() => moveItem('down', i)}
-                  data-compact
-                  disabled={i + 1 >= processes.length}
-                >
-                  move down
-                </button>
-              </div>
+        {processes.map(({ id, name }, i) => (
+          <div className={classes.item} key={id}>
+            <p className={classes.name}>{name}</p>
+            <div className={classes.processActions}>
+              <button
+                data-type="delete"
+                onClick={() => deleteItem(i)}
+                data-compact
+              >
+                <img loading="lazy" src="/icons/delete.svg" alt="Delete" />
+              </button>
+              <button
+                onClick={() => moveItem('up', i)}
+                data-compact
+                disabled={i === 0}
+              >
+                <img
+                  loading="lazy"
+                  src="/icons/arrow_upward.svg"
+                  alt="Move up"
+                />
+              </button>
+              <button
+                onClick={() => moveItem('down', i)}
+                data-compact
+                disabled={i + 1 >= processes.length}
+              >
+                <img
+                  loading="lazy"
+                  src="/icons/arrow_downward.svg"
+                  alt="Move down"
+                />
+              </button>
             </div>
-          </details>
+          </div>
         ))}
         {processes.length === 0 ? (
           <p>No process added yet! click on the add button to add one</p>
