@@ -3,8 +3,9 @@ import useAlgorithm from '../../hooks/use-algorithm';
 import ProcessArray from '../../types/process';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import AlgorithmSelector from '../algorithm-selector';
+import LoadingEmulator from '../loading-emulator';
 import ProcessesDisplay from '../processes-display';
-import ResultDisplayer from '../result-displayer/result-displayer';
+import ResultDisplayer from '../result-displayer';
 import classes from './process-guider.module.scss';
 
 const steps = ['Choose algorithm', 'Add processes', 'Calculating', 'Results'];
@@ -15,6 +16,12 @@ const ProcessGuider = () => {
     useState<SchedulingAlgorithm | null>(null);
   const [processes, setProcesses] = useState<ProcessArray>([]);
   const { process } = useAlgorithm();
+
+  const reset = () => {
+    setCurrentStep(0);
+    setSelectedAlgorithm(null);
+    setProcesses([]);
+  };
 
   return (
     <section>
@@ -43,7 +50,15 @@ const ProcessGuider = () => {
           }}
         />
       )}
-      {currentStep === 2 && <ResultDisplayer />}
+      {currentStep === 2 && (
+        <LoadingEmulator onComplete={() => setCurrentStep(3)} />
+      )}
+      {currentStep === 3 && selectedAlgorithm !== null && (
+        <ResultDisplayer
+          data={process({ algorithm: selectedAlgorithm, processes })}
+          onReset={reset}
+        />
+      )}
     </section>
   );
 };
