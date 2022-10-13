@@ -60,4 +60,10 @@ button {
       background-color: #099e92;
     }
   }
+  &[data-border-less] {
+    border: none !important;
+    &:not(:disabled):hover, &:not(:disabled):active {
+      border: none !important;
+    }
+  }
 }
