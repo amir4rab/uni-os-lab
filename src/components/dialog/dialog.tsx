@@ -14,7 +14,6 @@ const Dialog = ({ children, state, title, setState }: Props) => {
 
   useEffect(() => {
     let timeOut: undefined | number;
-    console.log(state);
     if (state) {
       elRef.current && elRef.current.showModal();
     } else {

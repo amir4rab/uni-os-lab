@@ -27,6 +27,8 @@ const ChartItem = ({
 };
 
 const GanttChart = ({ gantt }: { gantt: Gantt }) => {
+  const processEndTime = gantt[gantt.length - 1].endTime;
+
   return (
     <div>
       <p>Gantt chart</p>
@@ -35,10 +37,11 @@ const GanttChart = ({ gantt }: { gantt: Gantt }) => {
           <>
             {i !== 0 && startTime !== gantt[i - 1].endTime && (
               <ChartItem
-                start={gantt[i - 1].startTime}
+                start={gantt[i - 1].endTime}
                 end={startTime}
-                endTime={gantt[gantt.length - 1].endTime}
+                endTime={processEndTime}
                 index={i}
+                key={id + '-spacer'}
                 name="Free time"
               />
             )}
@@ -46,7 +49,7 @@ const GanttChart = ({ gantt }: { gantt: Gantt }) => {
               end={endTime}
               start={startTime}
               name={processName}
-              endTime={gantt[gantt.length - 1].endTime}
+              endTime={processEndTime}
               index={i}
               key={id}
             />
