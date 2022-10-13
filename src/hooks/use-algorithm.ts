@@ -1,16 +1,11 @@
 import Gantt from '../types/gannt';
 import ProcessArray from '../types/process';
+import ProcessResult from '../types/process-results';
 import SchedulingAlgorithm from '../types/scheduling-algorithm';
 
 interface Props {
   algorithm: SchedulingAlgorithm;
   processes: ProcessArray;
-}
-
-interface Result {
-  gantt: Gantt;
-  averageReturnTime: number;
-  averageResponseTime: number;
 }
 
 /** Sorts processes array based on processes insertion time **/
@@ -19,7 +14,7 @@ const sortProcessesByInsertionTime = (processes: ProcessArray) =>
     aIn < bIn ? -1 : aIn === bIn ? 0 : 1,
   );
 
-const fcfs = (processes: ProcessArray): Result => {
+const fcfs = (processes: ProcessArray): ProcessResult => {
   const sortedArray = sortProcessesByInsertionTime(processes);
 
   let startTime = 0;
@@ -67,11 +62,17 @@ const useAlgorithm = () => {
       case 'fcfs':
         return fcfs(processes);
       // case 'sjf':
-      //   return sjf(processes);
+      // return fcfs(processes);
       // case 'priority':
       //   return roundRobin(processes);
       // case 'round-robin':
       //   return priority(processes);
+      default:
+        return {
+          gantt: [],
+          averageResponseTime: 0,
+          averageReturnTime: 0,
+        };
     }
   };
 

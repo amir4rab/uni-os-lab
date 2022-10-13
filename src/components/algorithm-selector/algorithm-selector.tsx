@@ -14,14 +14,14 @@ const algorithms: Algorithm[] = [
     name: 'Shortest Job First',
     shortInfo:
       'Shortest job first (SJF) or shortest process next (SPN), is a scheduling policy that selects for execution the waiting process with the smallest execution time. SJN is a non-preemptive algorithm. Shortest remaining time is a preemptive variant of SJN.',
-    implemented: true,
+    implemented: false,
   },
   {
     id: 'fcfs',
     name: 'First Come First Served',
     shortInfo:
       'First in, first out (FIFO), also known as first come, first served (FCFS), is the simplest scheduling algorithm. FIFO simply queues processes in the order that they arrive in the ready queue. This is commonly used for a task queue, for example as illustrated in this section.',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'round-robin',
