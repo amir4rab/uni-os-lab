@@ -17,7 +17,7 @@ const ChartItem = ({
   return (
     <div
       className={classes.item}
-      style={`width: ${(endTime / (end - start)) * 100}%`}
+      style={`width: ${((end - start) / endTime) * 100}%`}
     >
       <p className={classes.title}>{name}</p>
       {index === 0 && <p className={classes.leftIndicator}>{start}</p>}
