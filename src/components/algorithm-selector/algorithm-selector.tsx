@@ -14,7 +14,7 @@ const algorithms: Algorithm[] = [
     name: 'Shortest Job First',
     shortInfo:
       'Shortest job first (SJF) or shortest process next (SPN), is a scheduling policy that selects for execution the waiting process with the smallest execution time. SJN is a non-preemptive algorithm. Shortest remaining time is a preemptive variant of SJN.',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'fcfs',
