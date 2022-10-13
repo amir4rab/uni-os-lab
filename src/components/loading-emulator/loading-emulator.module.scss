@@ -1,0 +1,32 @@
+.loadingEmulator {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  img {
+    width: 20vh;
+    height: 20vh;
+    display: block;
+  }
+  progress {
+    appearance: none;
+    border: none;
+
+    position: relative;
+    height: .5rem;
+    border-radius: .75rem;
+    overflow: hidden;
+
+    &::-moz-progress-bar, &::-webkit-progress-bar {
+      background-color: #0ce7d52f;
+    }
+
+    &::-webkit-progress-value {
+      background-color: #0ce7d5;
+      transition: inline-size 1s ease-in-out;
+    }
+  }
+}
