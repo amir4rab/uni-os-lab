@@ -1,0 +1,29 @@
+.ganttChart {
+  display: flex;
+  background: #222222;
+  margin: 1rem .75rem 2rem .75rem;
+  .item {
+    padding: .75rem;
+    position: relative;
+    border: .15rem solid #3f3f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    .title {
+      font-weight: 600;
+      text-align: center;
+    } 
+    .leftIndicator, .rightIndicator {
+      position: absolute;
+      bottom: -.75rem;
+      transform: translate(0, 75%);
+    } 
+    .rightIndicator {
+      right: -.75rem;
+    } 
+    .leftIndicator {
+      left: -.75rem;
+    }
+  } 
+}
