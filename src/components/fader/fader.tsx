@@ -10,13 +10,10 @@ interface Props {
 /** Adds fade animation to components */
 const Fader = ({ children, displayed }: Props) => {
   const [state, setState] = useState(displayed);
-  const [clientRect, setClientRect] = useState<{
-    left: number;
-    top: number;
-    width: number;
-  } | null>(null);
+  const [elWidth, setElWidth] = useState<number>(0);
   const elRef = useRef<HTMLDivElement | null>(null);
 
+  // sets visual state of the element upon displaying or removal
   useEffect(() => {
     let unmountingTimeout: number;
 
@@ -31,17 +28,10 @@ const Fader = ({ children, displayed }: Props) => {
     };
   }, [displayed]);
 
+  // sets element visual status to be used in animation
   useLayoutEffect(() => {
     if (elRef.current && displayed && state) {
-      const rect = elRef.current.getBoundingClientRect();
-
-      console.log(rect);
-
-      setClientRect({
-        left: rect.x,
-        top: rect.y,
-        width: rect.width,
-      });
+      setElWidth(elRef.current.getBoundingClientRect().width);
     }
   }, [displayed, state]);
 
@@ -52,7 +42,7 @@ const Fader = ({ children, displayed }: Props) => {
           ref={elRef}
           className={classes.fader}
           data-displayed={displayed}
-          style={!displayed ? `width: ${clientRect?.width}px;` : ''}
+          style={!displayed ? `width: ${elWidth}px;` : ''}
         >
           {children}
         </div>
