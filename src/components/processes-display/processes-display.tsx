@@ -1,5 +1,5 @@
-import { useState } from 'preact/hooks';
-import ProcessesArray from '../../types/process';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import ProcessesArray, { Process } from '../../types/process';
 import Dialog from '../dialog';
 import ProcessInput from '../process-input';
 import classes from './processes-display.module.scss';
@@ -7,6 +7,75 @@ import classes from './processes-display.module.scss';
 interface Props {
   onSubmit: (v: ProcessesArray) => void;
 }
+
+const ProcessDisplay = ({
+  deleteItem,
+  i,
+  moveItem,
+  p,
+  processesLength,
+}: {
+  p: Process;
+  moveItem: (d: 'up' | 'down', i: number) => void;
+  deleteItem: (i: number) => void;
+  processesLength: number;
+  i: number;
+}) => {
+  const { name } = p;
+  const elRef = useRef<HTMLDivElement | null>(null);
+  let timeout: number | undefined;
+
+  useEffect(() => {
+    // clearing timeout upon element removal
+    return () => timeout && clearTimeout(timeout);
+  }, []);
+
+  const recentlyMoved = () => {
+    // verifying element existence and then selecting it
+    if (elRef.current === null) return;
+    const div = elRef.current;
+
+    // setting attribute
+    div.setAttribute('data-recently-moved', 'true');
+
+    // clearing previous timeout if existed
+    timeout && clearTimeout(timeout);
+
+    // setting a new timeout
+    timeout = setTimeout(() => div.removeAttribute('data-recently-moved'), 300);
+  };
+
+  return (
+    <div ref={elRef} className={classes.item}>
+      <p className={classes.name}>{name}</p>
+      <div className={classes.processActions}>
+        <button data-type="delete" onClick={() => deleteItem(i)} data-compact>
+          <img loading="lazy" src="/icons/delete.svg" alt="Delete" />
+        </button>
+        <button
+          onClick={() => {
+            recentlyMoved();
+            moveItem('up', i);
+          }}
+          data-compact
+          disabled={i === 0}
+        >
+          <img loading="lazy" src="/icons/arrow_upward.svg" alt="Move up" />
+        </button>
+        <button
+          onClick={() => {
+            recentlyMoved();
+            moveItem('down', i);
+          }}
+          data-compact
+          disabled={i + 1 >= processesLength}
+        >
+          <img loading="lazy" src="/icons/arrow_downward.svg" alt="Move down" />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const ProcessesDisplay = ({ onSubmit }: Props) => {
   const [processes, setProcesses] = useState<ProcessesArray>([]);
@@ -29,41 +98,15 @@ const ProcessesDisplay = ({ onSubmit }: Props) => {
     <div>
       <h3 className={classes.title}>Add Processes</h3>
       <div className={classes.listDisplay}>
-        {processes.map(({ id, name }, i) => (
-          <div className={classes.item} key={id}>
-            <p className={classes.name}>{name}</p>
-            <div className={classes.processActions}>
-              <button
-                data-type="delete"
-                onClick={() => deleteItem(i)}
-                data-compact
-              >
-                <img loading="lazy" src="/icons/delete.svg" alt="Delete" />
-              </button>
-              <button
-                onClick={() => moveItem('up', i)}
-                data-compact
-                disabled={i === 0}
-              >
-                <img
-                  loading="lazy"
-                  src="/icons/arrow_upward.svg"
-                  alt="Move up"
-                />
-              </button>
-              <button
-                onClick={() => moveItem('down', i)}
-                data-compact
-                disabled={i + 1 >= processes.length}
-              >
-                <img
-                  loading="lazy"
-                  src="/icons/arrow_downward.svg"
-                  alt="Move down"
-                />
-              </button>
-            </div>
-          </div>
+        {processes.map((p, i) => (
+          <ProcessDisplay
+            p={p}
+            deleteItem={deleteItem}
+            moveItem={moveItem}
+            i={i}
+            key={p.id}
+            processesLength={processes.length}
+          />
         ))}
         {processes.length === 0 ? (
           <p>No process added yet! click on the add button to add one</p>
