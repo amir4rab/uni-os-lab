@@ -3,6 +3,7 @@ import useAlgorithm from '../../hooks/use-algorithm';
 import ProcessArray from '../../types/process';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import AlgorithmSelector from '../algorithm-selector';
+import Fader from '../fader';
 import LoadingEmulator from '../loading-emulator';
 import ProcessesDisplay from '../processes-display';
 import ResultDisplayer from '../result-displayer';
@@ -34,31 +35,33 @@ const ProcessGuider = () => {
           ></div>
         ))}
       </div>
-      {currentStep === 0 && (
+      <Fader displayed={currentStep === 0}>
         <AlgorithmSelector
           onSubmit={(v) => {
             setSelectedAlgorithm(v);
             setCurrentStep((curr) => curr + 1);
           }}
         />
-      )}
-      {currentStep === 1 && (
+      </Fader>
+      <Fader displayed={currentStep === 1}>
         <ProcessesDisplay
           onSubmit={(v) => {
             setProcesses(v);
             setCurrentStep((curr) => curr + 1);
           }}
         />
-      )}
-      {currentStep === 2 && (
+      </Fader>
+      <Fader displayed={currentStep === 2}>
         <LoadingEmulator onComplete={() => setCurrentStep(3)} />
-      )}
-      {currentStep === 3 && selectedAlgorithm !== null && (
-        <ResultDisplayer
-          data={process({ algorithm: selectedAlgorithm, processes })}
-          onReset={reset}
-        />
-      )}
+      </Fader>
+      <Fader displayed={currentStep === 3}>
+        {selectedAlgorithm !== null && processes.length !== 0 && (
+          <ResultDisplayer
+            data={process({ algorithm: selectedAlgorithm, processes })}
+            onReset={reset}
+          />
+        )}
+      </Fader>
     </section>
   );
 };
