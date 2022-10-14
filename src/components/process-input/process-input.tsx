@@ -25,7 +25,7 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
       return;
     }
 
-    nameInputRef.current.value = currentCount + 1 + 'P';
+    nameInputRef.current.value = 'P' + (currentCount + 1);
     priorityInputRef.current.value = priorityInputRef.current.defaultValue;
     insertionTimeInputRef.current.value =
       insertionTimeInputRef.current.defaultValue;
@@ -82,7 +82,7 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
             type="text"
             id="processName"
             name="processName"
-            defaultValue={'1P'}
+            defaultValue={'P1'}
             ref={nameInputRef}
           />
         </div>

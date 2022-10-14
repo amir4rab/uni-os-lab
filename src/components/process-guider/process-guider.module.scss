@@ -1,3 +1,15 @@
+@keyframes dance {
+  0% {
+    transform: translate(0,0) scale(1);
+  }
+  50% {
+    transform: translate(0, -0.75rem) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
 .progressWrapper {
   display: flex;
   justify-content: center;
@@ -17,6 +29,7 @@
     &[data-active] {
       opacity: 1;
       box-shadow: 0 0 1rem .25rem #0ce7d5;
+      animation: dance .3s ease-in-out forwards;
     }
   }
 }

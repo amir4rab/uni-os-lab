@@ -4,24 +4,26 @@ import classes from './gantt-chart.module.scss';
 const ChartItem = ({
   end,
   endTime,
-  index,
   name,
   start,
+  freeSpace = undefined,
 }: {
   start: number;
   end: number;
   name: string;
   endTime: number;
   index: number;
+  freeSpace?: boolean;
 }) => {
   return (
     <div
       className={classes.item}
       style={`width: ${((end - start) / endTime) * 100}%`}
+      data-free-space={freeSpace}
     >
       <p className={classes.title}>{name}</p>
-      {index === 0 && <p className={classes.leftIndicator}>{start}</p>}
-      {<p className={classes.rightIndicator}>{end}</p>}
+      <p className={classes.leftIndicator}>{start}</p>
+      <p className={classes.rightIndicator}>{end}</p>
     </div>
   );
 };
@@ -43,6 +45,7 @@ const GanttChart = ({ gantt }: { gantt: Gantt }) => {
                 index={i}
                 key={id + '-spacer'}
                 name="Free time"
+                freeSpace={true}
               />
             )}
             <ChartItem

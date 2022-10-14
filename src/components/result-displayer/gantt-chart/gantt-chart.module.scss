@@ -1,6 +1,6 @@
 .ganttChart {
   display: flex;
-  background: #222222;
+  background-color: #222222;
   margin: 1rem .75rem 2rem .75rem;
   .item {
     padding: .75rem;
@@ -10,20 +10,58 @@
     justify-content: center;
     align-items: center;
     align-content: center;
+    transition: 
+      background-color .15s ease-in-out, 
+      scale .15s ease-in-out, 
+      z-index .15s ease-in-out, 
+      box-shadow .15s ease-in-out, 
+      color .15s ease-in-out,
+      opacity .15s ease-in-out;
+    &[data-free-space] {
+      background-color: #3f3f3f;
+    }
+    &:hover{
+      background-color: #141414;
+      scale: 1.1;
+      z-index: 5;
+      box-shadow: 0 0 1rem 0 #141414;
+      .title {
+        color: #0ce7d5;
+      }
+    }
+
+    &:not(:first-child):not(:hover)  .leftIndicator {
+      display: none;
+      opacity: 0;
+    }
+
     .title {
       font-weight: 600;
       text-align: center;
     } 
+
     .leftIndicator, .rightIndicator {
       position: absolute;
       bottom: -.75rem;
       transform: translate(0, 75%);
+      transition: opacity .15s ease-in-out, transform .15s ease-in-out;
     } 
+
     .rightIndicator {
       right: -.75rem;
     } 
     .leftIndicator {
       left: -.75rem;
     }
-  } 
+  }
+
+  &:hover {
+    .item:not(:hover){
+      .leftIndicator,
+      .rightIndicator {
+        transform: translate(0, -.25rem);
+        opacity: 0;
+      }
+    }
+  }
 }
