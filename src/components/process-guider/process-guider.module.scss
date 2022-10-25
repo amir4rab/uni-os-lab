@@ -1,3 +1,30 @@
+.header {
+  min-height: 3rem;
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: translate(0, -.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.algorithm {
+  animation: animateIn .3s ease-in-out forwards;
+  color: #0ce7d5;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 @keyframes dance {
   0% {
     transform: translate(0,0) scale(1);
@@ -11,10 +38,16 @@
 }
 
 .progressWrapper {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
+  transition: right .3s ease-in-out, transform .3s ease-in-out;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
+  &[data-to-right=true]{
+    right: 0;
+    transform: translate(0, -50%);
+  }
   .dot {
     background-color: #0ce7d5;
     width: 1rem;

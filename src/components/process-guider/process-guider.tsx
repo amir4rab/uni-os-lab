@@ -26,15 +26,21 @@ const ProcessGuider = () => {
 
   return (
     <section>
-      <div className={classes.progressWrapper}>
-        {steps.map((_, i) => (
-          <div
-            key={i}
-            className={classes.dot}
-            data-active={i <= currentStep ? true : null}
-          ></div>
-        ))}
-      </div>
+      <header className={classes.header}>
+        <p className={classes.algorithm}>{selectedAlgorithm}</p>
+        <div
+          data-to-right={selectedAlgorithm !== null && true}
+          className={classes.progressWrapper}
+        >
+          {steps.map((_, i) => (
+            <div
+              key={i}
+              className={classes.dot}
+              data-active={i <= currentStep ? true : null}
+            ></div>
+          ))}
+        </div>
+      </header>
       <Fader displayed={currentStep === 0}>
         <AlgorithmSelector
           onSubmit={(v) => {
