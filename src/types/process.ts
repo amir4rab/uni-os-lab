@@ -2,7 +2,7 @@ export interface Process {
   priority: number;
   name: string;
   id: string;
-  insertionTime: number;
+  arrivalTime: number;
   duration: number;
 }
 

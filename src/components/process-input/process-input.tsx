@@ -12,14 +12,14 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
 
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const priorityInputRef = useRef<HTMLInputElement | null>(null);
-  const insertionTimeInputRef = useRef<HTMLInputElement | null>(null);
+  const arrivalTimeInputRef = useRef<HTMLInputElement | null>(null);
   const durationInputRef = useRef<HTMLInputElement | null>(null);
 
   const resetInput = () => {
     if (
       nameInputRef.current === null ||
       priorityInputRef.current === null ||
-      insertionTimeInputRef.current === null ||
+      arrivalTimeInputRef.current === null ||
       durationInputRef.current === null
     ) {
       return;
@@ -27,8 +27,8 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
 
     nameInputRef.current.value = 'P' + (currentCount + 1);
     priorityInputRef.current.value = priorityInputRef.current.defaultValue;
-    insertionTimeInputRef.current.value =
-      insertionTimeInputRef.current.defaultValue;
+    arrivalTimeInputRef.current.value =
+      arrivalTimeInputRef.current.defaultValue;
     durationInputRef.current.value = durationInputRef.current.defaultValue;
   };
 
@@ -39,7 +39,7 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
     if (
       nameInputRef.current === null ||
       priorityInputRef.current === null ||
-      insertionTimeInputRef.current === null ||
+      arrivalTimeInputRef.current === null ||
       durationInputRef.current === null
     ) {
       return;
@@ -48,7 +48,7 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
     if (
       typeof nameInputRef.current.value !== 'string' ||
       parseInt(priorityInputRef.current.value) === NaN ||
-      parseInt(insertionTimeInputRef.current.value) === NaN ||
+      parseInt(arrivalTimeInputRef.current.value) === NaN ||
       parseInt(durationInputRef.current.value) === NaN
     ) {
       const err =
@@ -60,13 +60,13 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
 
     const name = nameInputRef.current.value;
     const priority = parseInt(priorityInputRef.current.value);
-    const insertionTime = parseInt(insertionTimeInputRef.current.value);
+    const arrivalTime = parseInt(arrivalTimeInputRef.current.value);
     const duration = parseInt(durationInputRef.current.value);
 
     submitProcess({
       duration,
       id: 'p' + (Math.random() * 10000).toFixed(0),
-      insertionTime,
+      arrivalTime,
       name,
       priority,
     });
@@ -100,15 +100,15 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
           />
         </div>
         <div className={classes.inputWrapper}>
-          <label htmlFor="insertionTime">Insertion Time</label>
+          <label htmlFor="arrivalTime">Arrival Time</label>
           <input
             required
             min={0}
             type="number"
-            id="insertionTime"
-            name="insertionTime"
+            id="arrivalTime"
+            name="arrivalTime"
             defaultValue={'0'}
-            ref={insertionTimeInputRef}
+            ref={arrivalTimeInputRef}
           />
         </div>
         <div className={classes.inputWrapper}>

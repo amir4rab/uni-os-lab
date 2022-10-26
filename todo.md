@@ -2,7 +2,7 @@ Todo list:
 
 - [X] Add Priority scheduling
 - [ ] Add Round Robin scheduling
-- [ ] Translation fixes
+- [X] Translation fixes
 - [ ] Ui improvements
 - [ ] Add back button
 - [ ] Add Print functionality

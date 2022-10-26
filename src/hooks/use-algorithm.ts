@@ -15,21 +15,21 @@ const defaultResult: ProcessResult = {
 };
 
 /** Sorts processes array based on processes insertion time **/
-const sortProcessesByInsertionTime = (processes: ProcessArray) =>
-  processes.sort(({ insertionTime: aIn }, { insertionTime: bIn }) =>
+const sortProcessesByarrivalTime = (processes: ProcessArray) =>
+  processes.sort(({ arrivalTime: aIn }, { arrivalTime: bIn }) =>
     aIn < bIn ? -1 : aIn === bIn ? 0 : 1,
   );
 
 /** Processes an array of processes with first come, first serve algorithm */
 const fcfs = (processes: ProcessArray): ProcessResult => {
-  const sortedArray = sortProcessesByInsertionTime(processes);
+  const sortedArray = sortProcessesByarrivalTime(processes);
 
   let startTime = 0;
   let averageReturnTime = 0;
   let averageResponseTime = 0;
   const gantt: Gantt = sortedArray.map(
-    ({ duration, name, id, insertionTime }) => {
-      if (startTime < insertionTime) startTime = insertionTime;
+    ({ duration, name, id, arrivalTime }) => {
+      if (startTime < arrivalTime) startTime = arrivalTime;
 
       const result = {
         endTime: startTime + duration,
@@ -39,8 +39,8 @@ const fcfs = (processes: ProcessArray): ProcessResult => {
       };
 
       startTime += duration;
-      averageReturnTime += result.endTime - insertionTime;
-      averageResponseTime += result.startTime - insertionTime;
+      averageReturnTime += result.endTime - arrivalTime;
+      averageResponseTime += result.startTime - arrivalTime;
 
       return result;
     },
@@ -62,10 +62,10 @@ const fcfs = (processes: ProcessArray): ProcessResult => {
 
 /** Processes an array of processes with Shortest job first algorithm */
 const sjf = (processes: ProcessArray): ProcessResult => {
-  const pArray = sortProcessesByInsertionTime(processes);
+  const pArray = sortProcessesByarrivalTime(processes);
 
   // loop variables
-  let currentTime = pArray[0].insertionTime;
+  let currentTime = pArray[0].arrivalTime;
   let completedItems = ([] as boolean[]).fill(false, 0, pArray.length - 1);
 
   // results
@@ -81,14 +81,14 @@ const sjf = (processes: ProcessArray): ProcessResult => {
         smallestItemIndex = j;
 
         // Incase next process insertion time is later than current time we have to skip to that point in timeline
-        if (pArray[j].insertionTime > currentTime) {
-          currentTime = pArray[j].insertionTime;
+        if (pArray[j].arrivalTime > currentTime) {
+          currentTime = pArray[j].arrivalTime;
         }
         continue;
       } else if (smallestItemIndex === -1) continue;
 
       // Checking if there is no more available processes in that time
-      if (pArray[j].insertionTime > currentTime) break;
+      if (pArray[j].arrivalTime > currentTime) break;
 
       // Incase there is a shorter process, setting that is the smallest one
       if (
@@ -118,9 +118,8 @@ const sjf = (processes: ProcessArray): ProcessResult => {
     averageReturnTime +=
       currentTime +
       pArray[smallestItemIndex].duration -
-      pArray[smallestItemIndex].insertionTime;
-    averageResponseTime +=
-      currentTime - pArray[smallestItemIndex].insertionTime;
+      pArray[smallestItemIndex].arrivalTime;
+    averageResponseTime += currentTime - pArray[smallestItemIndex].arrivalTime;
 
     // Updating loop variables
     currentTime += pArray[smallestItemIndex].duration;
@@ -165,20 +164,16 @@ const priority = (processes: ProcessArray): ProcessResult => {
         continue;
       }
 
-      console.log(
-        `pTime: ${processes[j].insertionTime}, currentTime: ${currentTime}`,
-      );
-
       // Changing the item incase we found another item that is more prioritized and has been added in same time or before the current selected item
       if (
-        processes[j].insertionTime < processes[selectedItem].insertionTime &&
-        processes[j].insertionTime <= currentTime
+        processes[j].arrivalTime < processes[selectedItem].arrivalTime &&
+        processes[j].arrivalTime <= currentTime
       ) {
         selectedItem = j;
         continue;
       } else if (
         processes[j].priority < processes[selectedItem].priority &&
-        processes[j].insertionTime <= processes[selectedItem].insertionTime
+        processes[j].arrivalTime <= processes[selectedItem].arrivalTime
       ) {
         selectedItem = j;
         continue;
@@ -189,9 +184,9 @@ const priority = (processes: ProcessArray): ProcessResult => {
       break;
     }
 
-    const { id, duration, name, insertionTime } = processes[selectedItem];
+    const { id, duration, name, arrivalTime } = processes[selectedItem];
 
-    currentTime = currentTime > insertionTime ? currentTime : insertionTime;
+    currentTime = currentTime > arrivalTime ? currentTime : arrivalTime;
     gantt.push({
       startTime: currentTime,
       endTime: currentTime + duration,
@@ -199,8 +194,8 @@ const priority = (processes: ProcessArray): ProcessResult => {
       processName: name,
     });
 
-    averageReturnTime += currentTime + duration - insertionTime;
-    averageResponseTime += currentTime - insertionTime;
+    averageReturnTime += currentTime + duration - arrivalTime;
+    averageResponseTime += currentTime - arrivalTime;
     currentTime += duration;
 
     seen[selectedItem] = true;
