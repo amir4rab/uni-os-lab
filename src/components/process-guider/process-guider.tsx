@@ -51,6 +51,7 @@ const ProcessGuider = () => {
       </Fader>
       <Fader displayed={currentStep === 1}>
         <ProcessesDisplay
+          algorithm={selectedAlgorithm ? selectedAlgorithm : 'fcfs'}
           onSubmit={(v) => {
             setProcesses(v);
             setCurrentStep((curr) => curr + 1);

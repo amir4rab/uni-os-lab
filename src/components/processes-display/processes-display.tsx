@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import ProcessesArray, { Process } from '../../types/process';
+import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import Dialog from '../dialog';
 import ProcessInput from '../process-input';
 import classes from './processes-display.module.scss';
 
 interface Props {
+  algorithm: SchedulingAlgorithm;
   onSubmit: (v: ProcessesArray) => void;
 }
 
@@ -77,7 +79,7 @@ const ProcessDisplay = ({
   );
 };
 
-const ProcessesDisplay = ({ onSubmit }: Props) => {
+const ProcessesDisplay = ({ onSubmit, algorithm }: Props) => {
   const [processes, setProcesses] = useState<ProcessesArray>([]);
   const [dialogSate, setDialogState] = useState(false);
 
@@ -124,6 +126,7 @@ const ProcessesDisplay = ({ onSubmit }: Props) => {
       </div>
       <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
         <ProcessInput
+          disablePriorityField={algorithm !== 'priority'}
           currentCount={processes.length + 1}
           submitProcess={(v) => {
             setProcesses((curr) => [...curr, v]);

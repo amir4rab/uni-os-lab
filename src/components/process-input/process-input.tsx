@@ -5,9 +5,14 @@ import classes from './process-input.module.scss';
 interface Props {
   submitProcess: (v: Process) => void;
   currentCount: number;
+  disablePriorityField?: boolean;
 }
 
-const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
+const ProcessInput = ({
+  submitProcess,
+  currentCount = 1,
+  disablePriorityField = false,
+}: Props) => {
   const [error, setError] = useState<null | string>(null);
 
   const nameInputRef = useRef<HTMLInputElement | null>(null);
@@ -93,6 +98,7 @@ const ProcessInput = ({ submitProcess, currentCount = 1 }: Props) => {
             type="number"
             id="priority"
             name="priority"
+            disabled={disablePriorityField}
             min={0}
             max={127}
             defaultValue={'0'}
