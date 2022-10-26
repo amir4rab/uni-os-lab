@@ -35,7 +35,7 @@ const algorithms: Algorithm[] = [
     name: 'Priority Scheduling',
     shortInfo:
       'Earliest deadline first (EDF) or least time to go is a dynamic scheduling algorithm used in real-time operating systems to place processes in a priority queue. Whenever a scheduling event occurs (a task finishes, new task is released, etc.), the queue will be searched for the process closest to its deadline, which will be the next to be scheduled for execution.',
-    implemented: false,
+    implemented: true,
   },
 ];
 

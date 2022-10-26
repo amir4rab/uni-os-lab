@@ -142,7 +142,83 @@ const sjf = (processes: ProcessArray): ProcessResult => {
 };
 
 // const roundRobin = (processes: ProcessArray): Result => {};
-// const priority = (processes: ProcessArray): Result : Result=> {};
+const priority = (processes: ProcessArray): ProcessResult => {
+  // Results variables
+  const gantt: Gantt = [];
+  let averageReturnTime = 0;
+  let averageResponseTime = 0;
+
+  // Processing variables
+  const seen = ([] as boolean[]).fill(false, 0, processes.length - 1);
+  let currentTime = 0;
+
+  for (let _ = 0; _ < processes.length; _++) {
+    let selectedItem = -1;
+
+    for (let j = 0; j < processes.length; j++) {
+      // Skipping incase that the item has been processed before
+      if (seen[j]) continue;
+
+      // Setting the first item
+      if (selectedItem === -1) {
+        selectedItem = j;
+        continue;
+      }
+
+      console.log(
+        `pTime: ${processes[j].insertionTime}, currentTime: ${currentTime}`,
+      );
+
+      // Changing the item incase we found another item that is more prioritized and has been added in same time or before the current selected item
+      if (
+        processes[j].insertionTime < processes[selectedItem].insertionTime &&
+        processes[j].insertionTime <= currentTime
+      ) {
+        selectedItem = j;
+        continue;
+      } else if (
+        processes[j].priority < processes[selectedItem].priority &&
+        processes[j].insertionTime <= processes[selectedItem].insertionTime
+      ) {
+        selectedItem = j;
+        continue;
+      }
+    }
+
+    if (selectedItem === -1) {
+      break;
+    }
+
+    const { id, duration, name, insertionTime } = processes[selectedItem];
+
+    currentTime = currentTime > insertionTime ? currentTime : insertionTime;
+    gantt.push({
+      startTime: currentTime,
+      endTime: currentTime + duration,
+      id,
+      processName: name,
+    });
+
+    averageReturnTime += currentTime + duration - insertionTime;
+    averageResponseTime += currentTime - insertionTime;
+    currentTime += duration;
+
+    seen[selectedItem] = true;
+  }
+
+  averageResponseTime = parseFloat(
+    (averageResponseTime / processes.length).toFixed(2),
+  );
+  averageReturnTime = parseFloat(
+    (averageReturnTime / processes.length).toFixed(2),
+  );
+
+  return {
+    averageResponseTime,
+    averageReturnTime,
+    gantt,
+  };
+};
 
 /**
  * A hook to processes, processes data
@@ -157,8 +233,8 @@ const useAlgorithm = () => {
         return fcfs([...processes]);
       case 'sjf':
         return sjf([...processes]);
-      // case 'priority':
-      //   return roundRobin(processes);
+      case 'priority':
+        return priority(processes);
       // case 'round-robin':
       //   return priority(processes);
       default:

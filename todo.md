@@ -1,6 +1,6 @@
 Todo list:
 
-- [ ] Add Priority scheduling
+- [X] Add Priority scheduling
 - [ ] Add Round Robin scheduling
 - [ ] Translation fixes
 - [ ] Ui improvements
