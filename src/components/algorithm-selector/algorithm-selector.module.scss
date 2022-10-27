@@ -8,14 +8,38 @@
   &:not(:last-child) {
     margin-bottom: 0.75rem;
   }
-  .title{
+  .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
     margin-bottom: .5rem;
+
+    button {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      margin-left: 0.75rem;
+      &:hover, &:active {
+        background: transparent;
+      }
+    }
+  }
+  &[data-expanded] {
+    .about {
+        max-height: 10rem;
+      }
+  }
+  .title{
     font-size: 1.25rem;
+    margin: 0;
   } 
   .about{
-    padding-bottom: 1rem;
+    transition: max-height .3s ease-in-out;
+    margin-bottom: 1rem;
     line-height: 150%;
-  } 
+    max-height: 0rem;
+    overflow: hidden;
+  }
   .submitWrapper {
     display: flex;
     justify-content: flex-end;

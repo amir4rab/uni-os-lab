@@ -25,8 +25,9 @@ const ProcessDisplay = ({
   processesLength: number;
   i: number;
 }) => {
-  const { name } = p;
+  const { name, arrivalTime, duration, id, priority } = p;
   const elRef = useRef<HTMLDivElement | null>(null);
+  const [expanded, setExpanded] = useState(false);
   let timeout: number | undefined;
 
   useEffect(() => {
@@ -51,7 +52,10 @@ const ProcessDisplay = ({
 
   return (
     <div ref={elRef} className={classes.item}>
-      <p className={classes.name}>{name}</p>
+      <div className={classes.mainInfo}>
+        <p className={classes.name}>{name}</p>
+        <button onClick={() => setExpanded((curr) => !curr)}>i</button>
+      </div>
       <div className={classes.processActions}>
         <button data-type="delete" onClick={() => deleteItem(i)} data-compact>
           <img loading="lazy" src="/icons/delete.svg" alt="Delete" />
@@ -76,6 +80,12 @@ const ProcessDisplay = ({
         >
           <img loading="lazy" src="/icons/arrow_downward.svg" alt="Move down" />
         </button>
+      </div>
+      <div className={classes.subInfo} data-shown={expanded ? true : undefined}>
+        <p>Arrival time: {arrivalTime}ms</p>
+        <p>Duration: {duration}ms</p>
+        <p>ID: {id}</p>
+        <p>Priority: {priority}</p>
       </div>
     </div>
   );

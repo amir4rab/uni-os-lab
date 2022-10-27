@@ -1,3 +1,4 @@
+import { useState } from 'preact/hooks';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import classes from './algorithm-selector.module.scss';
 
@@ -44,13 +45,22 @@ interface Props {
 }
 
 const AlgorithmSelector = ({ onSubmit }: Props) => {
+  const [expandedIndex, setExpandedIndex] = useState(-1);
+
   return (
     <div>
       <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
       <div>
-        {algorithms.map(({ id, name, shortInfo, implemented }) => (
-          <div key={id} className={classes.item}>
-            <h4 className={classes.title}>{name}</h4>
+        {algorithms.map(({ id, name, shortInfo, implemented }, i) => (
+          <div
+            key={id}
+            data-expanded={i === expandedIndex ? true : undefined}
+            className={classes.item}
+          >
+            <div className={classes.header}>
+              <h4 className={classes.title}>{name}</h4>
+              <button onClick={() => setExpandedIndex(i)}>More info</button>
+            </div>
             <p className={classes.about}>{shortInfo}</p>
             <div className={classes.submitWrapper}>
               <button

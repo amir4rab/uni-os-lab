@@ -48,16 +48,55 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+    flex-wrap: wrap;
     transition: background-color 1s ease-in-out;
 
     &[data-recently-moved] {
       transition: background-color .05s ease-in-out;
       background-color: #0ce7d585;
     }
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
-  .name {
-    font-weight: 600;
-    font-size: 1.15rem;
+  .mainInfo {
+    display: flex;
+    .name {
+      margin-right: .5rem;
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+    button {
+      padding: .5rem;
+      font-size: .5rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      background: transparent;
+      color: inherit;
+      border: .1rem solid #e0e0e0;
+      &:hover, &:active {
+        background: transparent;
+      }
+    }
+  }
+  .subInfo {
+    margin-top: 1rem;
+    font-size: .8rem;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: max-height .3s ease-in-out;
+    &[data-shown]{
+      max-height: 10rem;
+    }
   }
   .processActions {
     button {
