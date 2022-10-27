@@ -132,14 +132,21 @@ const ProcessesDisplay = ({
         ) : null}
       </div>
       <div className={classes.actions}>
-        <button onClick={() => goBack()} style="margin-right:auto;">
+        <button
+          onClick={() => goBack()}
+          className="secondary"
+          style="margin-right:auto;"
+        >
           Go back
         </button>
-        <button onClick={() => setDialogState(true)}>Add</button>
+        <button className="secondary" onClick={() => setDialogState(true)}>
+          Add
+        </button>
         <button
+          style="margin-left: .5rem;"
+          className="primary"
           onClick={() => onSubmit(processes)}
           disabled={processes.length === 0}
-          data-primary={true}
         >
           Submit
         </button>

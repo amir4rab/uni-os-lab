@@ -6,6 +6,7 @@ import AlgorithmSelector from '../algorithm-selector';
 import Fader from '../fader';
 import ProcessesDisplay from '../processes-display';
 import ResultDisplayer from '../result-displayer';
+import ResultGallery from '../result-gallery';
 import classes from './process-guider.module.scss';
 
 const steps = ['Choose algorithm', 'Add processes', 'Results'];
@@ -62,13 +63,17 @@ const ProcessGuider = () => {
         />
       </Fader>
       <Fader displayed={currentStep === 2}>
-        {selectedAlgorithm !== null && processes.length !== 0 && (
-          <ResultDisplayer
-            goBack={stepBack}
-            data={process({ algorithm: selectedAlgorithm, processes })}
-            onReset={reset}
-          />
-        )}
+        {selectedAlgorithm !== null &&
+          processes.length !== 0 &&
+          (selectedAlgorithm !== 'all' ? (
+            <ResultDisplayer
+              goBack={stepBack}
+              data={process({ algorithm: selectedAlgorithm, processes })}
+              onReset={reset}
+            />
+          ) : (
+            <ResultGallery goBack={stepBack} data={processes} onReset={reset} />
+          ))}
       </Fader>
     </section>
   );

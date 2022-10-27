@@ -1,0 +1,29 @@
+.resultGallery {
+  .title {
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    color: #0ce7d5;
+  }
+  .subDetails{
+    padding: 1rem 0 2rem 0;
+    p:not(:last-child) {
+      margin-bottom: .5rem;
+    }
+  } 
+  .actions{
+    display: flex;
+    justify-content: flex-end;
+    button:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+
+  .subtitle {
+    margin-bottom: .75rem;
+  }
+
+
+  .item {
+    margin-bottom: 2rem;
+  }
+}

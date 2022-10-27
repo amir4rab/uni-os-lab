@@ -8,24 +8,6 @@
   margin-top: 2rem;
   display: flex;
   justify-content: flex-end;
-  button{
-    &:not(:last-child) {
-      margin-right: .75rem;
-    }
-    &:not([data-primary]){
-      color: #0ce7d5;
-      border: #0ce7d5 .1rem solid;
-      background-color: transparent;
-      &:not(:disabled):hover {
-        border: #0ce7d5 .1rem solid;
-        background-color: transparent;
-      }
-      &:not(:disabled):active {
-        border: #0ce7d5 .1rem solid;
-        background-color: transparent;
-      }
-    }
-  }
 }
 
 @keyframes animateIn {

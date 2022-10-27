@@ -1,0 +1,28 @@
+button {
+  &.primary {
+    background-color: #0ce7d5;
+    
+    &:not(:disabled):hover {
+      background-color: #0bbeb0;
+    }
+  
+    &:not(:disabled):active {
+      background-color: #0ba79a;
+    }
+  }
+  &.secondary {
+    color: #0ce7d5;
+    border: #0ce7d5 .1rem solid;
+    background-color: transparent;
+
+    &:not(:disabled):hover {
+      border: #0ce7d5 .1rem solid;
+      background-color: transparent;
+    }
+
+    &:not(:disabled):active {
+      border: #0ce7d5 .1rem solid;
+      background-color: transparent;
+    }
+  }
+}

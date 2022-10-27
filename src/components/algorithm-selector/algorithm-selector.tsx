@@ -51,6 +51,20 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     <div>
       <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
       <div>
+        <div data-expanded={true} className={classes.item}>
+          <div className={classes.header}>
+            <h4 className={classes.title}>Expert mode</h4>
+          </div>
+          <p className={classes.about}>
+            Processes your data with every possible algorithm
+          </p>
+          <div className={classes.submitWrapper}>
+            <button onClick={() => onSubmit('all')} className={classes.submit}>
+              Select
+            </button>
+          </div>
+        </div>
+        <div className={classes.breakLine} />
         {algorithms.map(({ id, name, shortInfo, implemented }, i) => (
           <div
             key={id}
