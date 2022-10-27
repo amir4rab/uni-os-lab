@@ -7,7 +7,9 @@ import classes from './processes-display.module.scss';
 
 interface Props {
   algorithm: SchedulingAlgorithm;
+  defaultProcesses?: ProcessesArray;
   onSubmit: (v: ProcessesArray) => void;
+  goBack: () => void;
 }
 
 const ProcessDisplay = ({
@@ -79,8 +81,13 @@ const ProcessDisplay = ({
   );
 };
 
-const ProcessesDisplay = ({ onSubmit, algorithm }: Props) => {
-  const [processes, setProcesses] = useState<ProcessesArray>([]);
+const ProcessesDisplay = ({
+  onSubmit,
+  algorithm,
+  defaultProcesses = [],
+  goBack,
+}: Props) => {
+  const [processes, setProcesses] = useState<ProcessesArray>(defaultProcesses);
   const [dialogSate, setDialogState] = useState(false);
 
   const moveItem = (action: 'down' | 'up', i: number) => {
@@ -115,6 +122,9 @@ const ProcessesDisplay = ({ onSubmit, algorithm }: Props) => {
         ) : null}
       </div>
       <div className={classes.actions}>
+        <button onClick={() => goBack()} style="margin-right:auto;">
+          Go back
+        </button>
         <button onClick={() => setDialogState(true)}>Add</button>
         <button
           onClick={() => onSubmit(processes)}

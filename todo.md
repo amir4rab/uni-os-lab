@@ -4,7 +4,7 @@ Todo list:
 - [ ] Add Round Robin scheduling
 - [x] Translation fixes
 - [x] Ui improvements
-- [ ] Add back button
+- [x] Add back button
 - [ ] Add Print functionality
 - [ ] Add dynamic loading
 - [ ] Add thumbnail image

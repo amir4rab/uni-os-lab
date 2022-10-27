@@ -5,9 +5,10 @@ import classes from './result-displayer.module.scss';
 interface Props {
   data: ProcessResult;
   onReset: () => void;
+  goBack: () => void;
 }
 
-const ResultDisplayer = ({ data, onReset }: Props) => {
+const ResultDisplayer = ({ data, onReset, goBack }: Props) => {
   return (
     <div className={classes.resultDisplayer}>
       <h1 className={classes.title}>Processes result</h1>
@@ -23,6 +24,9 @@ const ResultDisplayer = ({ data, onReset }: Props) => {
         </p>
       </div>
       <div className={classes.actions}>
+        <button onClick={() => goBack()} style="margin-right:auto;">
+          Go back
+        </button>
         <button onClick={onReset}>Reset</button>
         <button data-border-less data-primary>
           Print

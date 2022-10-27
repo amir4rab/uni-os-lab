@@ -4,12 +4,11 @@ import ProcessArray from '../../types/process';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import AlgorithmSelector from '../algorithm-selector';
 import Fader from '../fader';
-import LoadingEmulator from '../loading-emulator';
 import ProcessesDisplay from '../processes-display';
 import ResultDisplayer from '../result-displayer';
 import classes from './process-guider.module.scss';
 
-const steps = ['Choose algorithm', 'Add processes', 'Calculating', 'Results'];
+const steps = ['Choose algorithm', 'Add processes', 'Results'];
 
 const ProcessGuider = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -23,6 +22,8 @@ const ProcessGuider = () => {
     setSelectedAlgorithm(null);
     setProcesses([]);
   };
+
+  const stepBack = () => setCurrentStep((curr) => curr - 1);
 
   return (
     <section>
@@ -51,6 +52,8 @@ const ProcessGuider = () => {
       </Fader>
       <Fader displayed={currentStep === 1}>
         <ProcessesDisplay
+          goBack={stepBack}
+          defaultProcesses={processes}
           algorithm={selectedAlgorithm ? selectedAlgorithm : 'fcfs'}
           onSubmit={(v) => {
             setProcesses(v);
@@ -59,11 +62,9 @@ const ProcessGuider = () => {
         />
       </Fader>
       <Fader displayed={currentStep === 2}>
-        <LoadingEmulator onComplete={() => setCurrentStep(3)} />
-      </Fader>
-      <Fader displayed={currentStep === 3}>
         {selectedAlgorithm !== null && processes.length !== 0 && (
           <ResultDisplayer
+            goBack={stepBack}
             data={process({ algorithm: selectedAlgorithm, processes })}
             onReset={reset}
           />
