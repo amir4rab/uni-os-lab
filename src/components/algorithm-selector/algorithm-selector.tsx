@@ -29,7 +29,7 @@ const algorithms: Algorithm[] = [
     name: 'Round Robin',
     shortInfo:
       'The scheduler assigns a fixed time unit per process, and cycles through them. If process completes within that time-slice it gets terminated otherwise it is rescheduled after giving a chance to all other processes.',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'priority',
@@ -73,7 +73,13 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           >
             <div className={classes.header}>
               <h4 className={classes.title}>{name}</h4>
-              <button onClick={() => setExpandedIndex(curr => curr !== i ? i : -1)}>{ expandedIndex === i ? 'Show less' : 'More info'}</button>
+              <button
+                onClick={() =>
+                  setExpandedIndex((curr) => (curr !== i ? i : -1))
+                }
+              >
+                {expandedIndex === i ? 'Show less' : 'More info'}
+              </button>
             </div>
             <p className={classes.about}>{shortInfo}</p>
             <div className={classes.submitWrapper}>

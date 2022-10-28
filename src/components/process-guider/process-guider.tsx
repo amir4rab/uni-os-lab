@@ -13,6 +13,7 @@ const steps = ['Choose algorithm', 'Add processes', 'Results'];
 
 const ProcessGuider = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [timeSlice, setTimeSlice] = useState(1);
   const [selectedAlgorithm, setSelectedAlgorithm] =
     useState<SchedulingAlgorithm | null>(null);
   const [processes, setProcesses] = useState<ProcessArray>([]);
@@ -52,15 +53,18 @@ const ProcessGuider = () => {
         />
       </Fader>
       <Fader displayed={currentStep === 1}>
-        <ProcessesDisplay
-          goBack={stepBack}
-          defaultProcesses={processes}
-          algorithm={selectedAlgorithm ? selectedAlgorithm : 'fcfs'}
-          onSubmit={(v) => {
-            setProcesses(v);
-            setCurrentStep((curr) => curr + 1);
-          }}
-        />
+        {selectedAlgorithm && (
+          <ProcessesDisplay
+            goBack={stepBack}
+            defaultProcesses={processes}
+            algorithm={selectedAlgorithm}
+            onSubmit={(processes, timeSlice) => {
+              setProcesses(processes);
+              setTimeSlice(timeSlice);
+              setCurrentStep((curr) => curr + 1);
+            }}
+          />
+        )}
       </Fader>
       <Fader displayed={currentStep === 2}>
         {selectedAlgorithm !== null &&
@@ -68,11 +72,20 @@ const ProcessGuider = () => {
           (selectedAlgorithm !== 'all' ? (
             <ResultDisplayer
               goBack={stepBack}
-              data={process({ algorithm: selectedAlgorithm, processes })}
+              data={process({
+                algorithm: selectedAlgorithm,
+                processes,
+                timeSlice,
+              })}
               onReset={reset}
             />
           ) : (
-            <ResultGallery goBack={stepBack} data={processes} onReset={reset} />
+            <ResultGallery
+              goBack={stepBack}
+              data={processes}
+              onReset={reset}
+              timeSlice={timeSlice}
+            />
           ))}
       </Fader>
     </section>

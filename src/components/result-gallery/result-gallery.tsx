@@ -8,11 +8,17 @@ interface Props {
   data: ProcessArray;
   goBack: () => void;
   onReset: () => void;
+  timeSlice: number;
 }
 
-const processes: SchedulingAlgorithm[] = ['fcfs', 'priority', 'sjf'];
+const processes: SchedulingAlgorithm[] = [
+  'fcfs',
+  'priority',
+  'sjf',
+  'round-robin',
+];
 
-const ResultGallery = ({ data, goBack, onReset }: Props) => {
+const ResultGallery = ({ data, goBack, onReset, timeSlice }: Props) => {
   const { process } = useAlgorithm();
 
   return (
@@ -22,6 +28,7 @@ const ResultGallery = ({ data, goBack, onReset }: Props) => {
         const { averageResponseTime, averageReturnTime, gantt } = process({
           algorithm,
           processes: [...data],
+          timeSlice,
         });
 
         return (

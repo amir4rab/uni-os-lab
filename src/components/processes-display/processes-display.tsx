@@ -8,7 +8,7 @@ import classes from './processes-display.module.scss';
 interface Props {
   algorithm: SchedulingAlgorithm;
   defaultProcesses?: ProcessesArray;
-  onSubmit: (v: ProcessesArray) => void;
+  onSubmit: (v: ProcessesArray, timeSlice: number) => void;
   goBack: () => void;
 }
 
@@ -98,6 +98,7 @@ const ProcessesDisplay = ({
   goBack,
 }: Props) => {
   const [processes, setProcesses] = useState<ProcessesArray>(defaultProcesses);
+  const [timeSlice, setTimeSlice] = useState(1);
   const [dialogSate, setDialogState] = useState(false);
 
   const moveItem = (action: 'down' | 'up', i: number) => {
@@ -116,6 +117,19 @@ const ProcessesDisplay = ({
   return (
     <div>
       <h3 className={classes.title}>Add Processes</h3>
+      {(algorithm === 'all' || algorithm === 'round-robin') && (
+        <div className={classes.timeSliceInputGroup}>
+          <label>Time Slice</label>
+          <input
+            type="number"
+            defaultValue={timeSlice + ''}
+            onChange={(v) =>
+              v.target &&
+              setTimeSlice(parseInt((v.target as HTMLInputElement).value))
+            }
+          />
+        </div>
+      )}
       <div className={classes.listDisplay}>
         {processes.map((p, i) => (
           <ProcessDisplay
@@ -145,7 +159,7 @@ const ProcessesDisplay = ({
         <button
           style="margin-left: .5rem;"
           className="primary"
-          onClick={() => onSubmit(processes)}
+          onClick={() => onSubmit(processes, timeSlice)}
           disabled={processes.length === 0}
         >
           Submit

@@ -3,9 +3,10 @@ import ProcessArray from '../types/process';
 import ProcessResult from '../types/process-results';
 import SchedulingAlgorithm from '../types/scheduling-algorithm';
 
-interface Props {
+interface ProcessFNProps {
   algorithm: SchedulingAlgorithm;
   processes: ProcessArray;
+  timeSlice?: number;
 }
 
 const defaultResult: ProcessResult = {
@@ -15,14 +16,14 @@ const defaultResult: ProcessResult = {
 };
 
 /** Sorts processes array based on processes insertion time **/
-const sortProcessesByarrivalTime = (processes: ProcessArray) =>
+const sortProcessesByArrivalTime = (processes: ProcessArray) =>
   processes.sort(({ arrivalTime: aIn }, { arrivalTime: bIn }) =>
     aIn < bIn ? -1 : aIn === bIn ? 0 : 1,
   );
 
 /** Processes an array of processes with first come, first serve algorithm */
 const fcfs = (processes: ProcessArray): ProcessResult => {
-  const sortedArray = sortProcessesByarrivalTime(processes);
+  const sortedArray = sortProcessesByArrivalTime(processes);
 
   let startTime = 0;
   let averageReturnTime = 0;
@@ -62,7 +63,7 @@ const fcfs = (processes: ProcessArray): ProcessResult => {
 
 /** Processes an array of processes with Shortest job first algorithm */
 const sjf = (processes: ProcessArray): ProcessResult => {
-  const pArray = sortProcessesByarrivalTime(processes);
+  const pArray = sortProcessesByArrivalTime(processes);
 
   // loop variables
   let currentTime = pArray[0].arrivalTime;
@@ -140,7 +141,86 @@ const sjf = (processes: ProcessArray): ProcessResult => {
   };
 };
 
-// const roundRobin = (processes: ProcessArray): Result => {};
+const roundRobin = (
+  processes: ProcessArray,
+  timeSlice: number,
+): ProcessResult => {
+  // Results variables
+  const gantt: Gantt = [];
+  let averageReturnTime = 0;
+  let averageResponseTime = 0;
+
+  // Processing variables
+  const copiedProcesses = JSON.parse(JSON.stringify({ processes }))
+    .processes as ProcessArray;
+  const sortedProcesses = sortProcessesByArrivalTime(copiedProcesses);
+  let currentTime = sortedProcesses[0].arrivalTime;
+  let seen = ([] as boolean[]).fill(false, 0, sortedProcesses.length - 1);
+
+  let loopCount = 0;
+  while (true && loopCount < 1_000) {
+    loopCount++;
+    let completed = true;
+
+    for (let i = 0; i < sortedProcesses.length; i++) {
+      const { arrivalTime, duration, id, name } = sortedProcesses[i];
+
+      if (duration > 0) {
+        completed = false;
+      } else {
+        continue;
+      }
+
+      // Incase processes isn't arrived yet
+      if (currentTime < arrivalTime) {
+        currentTime = arrivalTime;
+      }
+
+      // Incase it's the first visit to the current item
+      if (!seen[i]) {
+        averageResponseTime += currentTime - arrivalTime;
+        seen[i] = true;
+      }
+
+      const remindedDuration = timeSlice > duration ? 0 : duration - timeSlice;
+
+      // Incase process ended in the current loop
+      if (remindedDuration === 0 && duration !== 0) {
+        averageReturnTime += currentTime - arrivalTime + duration;
+      }
+
+      gantt.push({
+        startTime: currentTime,
+        endTime: currentTime + (timeSlice > duration ? duration : timeSlice),
+        id: id + currentTime,
+        processName: name,
+      });
+      sortedProcesses[i].duration = remindedDuration;
+      currentTime += timeSlice > duration ? duration : timeSlice;
+    }
+
+    if (completed) break;
+  }
+
+  if (loopCount >= 1_000) {
+    console.error('Something went wrong in Calculating Round Robin');
+    return defaultResult;
+  }
+
+  averageReturnTime = parseFloat(
+    (averageReturnTime / sortedProcesses.length).toFixed(2),
+  );
+  averageResponseTime = parseFloat(
+    (averageResponseTime / sortedProcesses.length).toFixed(2),
+  );
+
+  return {
+    gantt,
+    averageResponseTime,
+    averageReturnTime,
+  };
+};
+
 const priority = (processes: ProcessArray): ProcessResult => {
   // Results variables
   const gantt: Gantt = [];
@@ -222,7 +302,7 @@ const useAlgorithm = () => {
   /**
    * Processes an array of processes and return Gantt chart data and other related data
    */
-  const process = ({ algorithm, processes }: Props) => {
+  const process = ({ algorithm, processes, timeSlice = 1 }: ProcessFNProps) => {
     switch (algorithm) {
       case 'fcfs':
         return fcfs([...processes]);
@@ -230,8 +310,8 @@ const useAlgorithm = () => {
         return sjf([...processes]);
       case 'priority':
         return priority(processes);
-      // case 'round-robin':
-      //   return priority(processes);
+      case 'round-robin':
+        return roundRobin(processes, timeSlice);
       default:
         return defaultResult;
     }
