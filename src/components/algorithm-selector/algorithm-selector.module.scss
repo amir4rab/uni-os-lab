@@ -15,7 +15,7 @@
 
 .item{
   &:not(:last-child) {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
   }
   .header {
     display: flex;
@@ -44,7 +44,7 @@
   } 
   .about{
     transition: max-height .3s ease-in-out;
-    margin-bottom: 1rem;
+    margin-bottom: .25rem;
     line-height: 150%;
     max-height: 0rem;
     overflow: hidden;
@@ -52,14 +52,5 @@
   .submitWrapper {
     display: flex;
     justify-content: flex-end;
-  }
-  .submit{
-    background: #0ce7d5;
-    &:hover {
-      background: #19eedc;
-    }
-    &:active {
-      background: #50fff0;
-    }
   }
 } 

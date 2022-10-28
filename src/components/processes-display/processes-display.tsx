@@ -153,7 +153,7 @@ const ProcessesDisplay = ({
       </div>
       <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
         <ProcessInput
-          disablePriorityField={algorithm !== 'priority'}
+          disablePriorityField={algorithm !== 'priority' && algorithm !== 'all'}
           currentCount={processes.length + 1}
           submitProcess={(v) => {
             setProcesses((curr) => [...curr, v]);

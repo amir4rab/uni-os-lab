@@ -59,7 +59,7 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
             Processes your data with every possible algorithm
           </p>
           <div className={classes.submitWrapper}>
-            <button onClick={() => onSubmit('all')} className={classes.submit}>
+            <button onClick={() => onSubmit('all')} className="primary">
               Select
             </button>
           </div>
@@ -73,14 +73,14 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           >
             <div className={classes.header}>
               <h4 className={classes.title}>{name}</h4>
-              <button onClick={() => setExpandedIndex(i)}>More info</button>
+              <button onClick={() => setExpandedIndex(curr => curr !== i ? i : -1)}>{ expandedIndex === i ? 'Show less' : 'More info'}</button>
             </div>
             <p className={classes.about}>{shortInfo}</p>
             <div className={classes.submitWrapper}>
               <button
                 disabled={!implemented}
                 onClick={() => onSubmit(id)}
-                className={classes.submit}
+                className="secondary"
               >
                 {implemented ? 'Select' : 'Coming Soon'}
               </button>
