@@ -13,7 +13,7 @@ const Dialog = ({ children, state, title, setState }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
 
   useEffect(() => {
-    let timeOut: undefined | number;
+    let timeOut: undefined | NodeJS.Timeout | number;
     if (state) {
       elRef.current && elRef.current.showModal();
     } else {

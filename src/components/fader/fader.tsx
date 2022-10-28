@@ -15,7 +15,7 @@ const Fader = ({ children, displayed }: Props) => {
 
   // sets visual state of the element upon displaying or removal
   useEffect(() => {
-    let unmountingTimeout: number;
+    let unmountingTimeout: number | NodeJS.Timeout;
 
     if (displayed) {
       setState(true);

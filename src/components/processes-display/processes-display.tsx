@@ -28,7 +28,7 @@ const ProcessDisplay = ({
   const { name, arrivalTime, duration, id, priority } = p;
   const elRef = useRef<HTMLDivElement | null>(null);
   const [expanded, setExpanded] = useState(false);
-  let timeout: number | undefined;
+  let timeout: number | undefined | NodeJS.Timeout;
 
   useEffect(() => {
     // clearing timeout upon element removal
