@@ -207,11 +207,14 @@ const roundRobin = (
     return defaultResult;
   }
 
-  averageReturnTime = parseFloat(
-    (averageReturnTime / sortedProcesses.length).toFixed(2),
-  );
+  // Shortcut to calculate average response time in Round Robin algorithm
+  averageReturnTime = averageResponseTime - averageReturnTime;
+
   averageResponseTime = parseFloat(
     (averageResponseTime / sortedProcesses.length).toFixed(2),
+  );
+  averageReturnTime = parseFloat(
+    (averageReturnTime / sortedProcesses.length).toFixed(2),
   );
 
   return {
