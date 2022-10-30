@@ -55,6 +55,7 @@ const ProcessGuider = () => {
       <Fader displayed={currentStep === 1}>
         {selectedAlgorithm && (
           <ProcessesDisplay
+            defaultTimeSlice={timeSlice}
             goBack={stepBack}
             defaultProcesses={processes}
             algorithm={selectedAlgorithm}

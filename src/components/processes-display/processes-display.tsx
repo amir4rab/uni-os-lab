@@ -9,6 +9,7 @@ interface Props {
   algorithm: SchedulingAlgorithm;
   defaultProcesses?: ProcessesArray;
   onSubmit: (v: ProcessesArray, timeSlice: number) => void;
+  defaultTimeSlice: number;
   goBack: () => void;
 }
 
@@ -95,10 +96,11 @@ const ProcessesDisplay = ({
   onSubmit,
   algorithm,
   defaultProcesses = [],
+  defaultTimeSlice = 1,
   goBack,
 }: Props) => {
   const [processes, setProcesses] = useState<ProcessesArray>(defaultProcesses);
-  const [timeSlice, setTimeSlice] = useState(1);
+  const [timeSlice, setTimeSlice] = useState(defaultTimeSlice);
   const [dialogSate, setDialogState] = useState(false);
 
   const moveItem = (action: 'down' | 'up', i: number) => {
