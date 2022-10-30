@@ -1,0 +1,28 @@
+.chart {
+  // max-width: 500px;
+  padding: 1rem 0;
+  .name{
+    font-size: .5rem;
+    max-width: 5ch;
+    overflow: hidden;
+    fill: #e0e0e0;
+  } 
+  .value{
+    opacity: .7;
+    font-size: .3rem;
+    fill: #e0e0e0;
+  }
+  .box {
+    fill: #0ce7d5;
+  }
+  .title {
+    font-size: 1.25rem;
+    color: #0ce7d5;
+  }
+  .footer {
+    text-align: center;
+    margin-top: .5rem;
+    font-size: .8rem;
+    opacity: .7;
+  }
+}
