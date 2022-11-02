@@ -1,5 +1,6 @@
 import type { ComponentChildren } from 'preact';
 import { useRef, useEffect, StateUpdater } from 'preact/hooks';
+import { CloseIcon } from '../icons';
 import classes from './dialog.module.scss';
 
 interface Props {
@@ -30,7 +31,7 @@ const Dialog = ({ children, state, title, setState }: Props) => {
       <div className={classes.header}>
         <p className={classes.title}>{title}</p>
         <button className={classes.close} onClick={() => setState(false)}>
-          <img src="/icons/close.svg" />
+          close
         </button>
       </div>
       <div className={classes.content}>{children}</div>
