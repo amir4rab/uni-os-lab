@@ -1,0 +1,20 @@
+.icon {
+  position: relative; 
+  min-height: 1.25rem; 
+  min-width: 1.25rem; 
+  padding: 0;
+  padding-bottom: 100%;
+  [data-size-less=true]{
+    min-height: auto;
+    min-width: auto;
+    height: 100%;
+    width: 100%;
+  }
+  svg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+}

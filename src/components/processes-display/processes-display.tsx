@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import ProcessesArray, { Process } from '../../types/process';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import Dialog from '../dialog';
+import { DeleteIcon, DownArrowIcon, UpArrowIcon } from '../icons';
 import ProcessInput from '../process-input';
 import classes from './processes-display.module.scss';
 
@@ -59,7 +60,7 @@ const ProcessDisplay = ({
       </div>
       <div className={classes.processActions}>
         <button data-type="delete" onClick={() => deleteItem(i)} data-compact>
-          <img loading="lazy" src="/icons/delete.svg" alt="Delete" />
+          <DeleteIcon />
         </button>
         <button
           onClick={() => {
@@ -69,7 +70,7 @@ const ProcessDisplay = ({
           data-compact
           disabled={i === 0}
         >
-          <img loading="lazy" src="/icons/arrow_upward.svg" alt="Move up" />
+          <UpArrowIcon />
         </button>
         <button
           onClick={() => {
@@ -79,7 +80,7 @@ const ProcessDisplay = ({
           data-compact
           disabled={i + 1 >= processesLength}
         >
-          <img loading="lazy" src="/icons/arrow_downward.svg" alt="Move down" />
+          <DownArrowIcon />
         </button>
       </div>
       <div className={classes.subInfo} data-shown={expanded ? true : undefined}>
