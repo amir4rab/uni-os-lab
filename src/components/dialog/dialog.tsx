@@ -1,6 +1,5 @@
 import type { ComponentChildren } from 'preact';
 import { useRef, useEffect, StateUpdater } from 'preact/hooks';
-import { CloseIcon } from '../icons';
 import classes from './dialog.module.scss';
 
 interface Props {
