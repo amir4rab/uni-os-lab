@@ -10,6 +10,21 @@ interface Props {
   }[];
 }
 
+const getShortName = (n: string) => {
+  switch (n) {
+    case 'round-robin':
+      return 'RR';
+    case 'priority':
+      return 'P';
+    case 'sjf':
+      return 'SJF';
+    case 'fcfs':
+      return 'FCFS';
+    default:
+      return n;
+  }
+};
+
 const Chart = ({ data, better, title }: Props) => {
   const [maxHeight, setMaxHeight] = useState<null | number>(null);
   const [itemWidth, setItemWidth] = useState<null | number>(null);
@@ -26,42 +41,37 @@ const Chart = ({ data, better, title }: Props) => {
   return (
     <>
       {maxHeight === null || itemWidth === null ? (
-        <p>loading</p>
+        <p className={classes.alert}>loading</p>
+      ) : maxHeight === 0 ? (
+        <p className={classes.alert}>Failed to draw a chart</p>
       ) : (
         <div className={classes.chart}>
           {title && <h3 className={classes.title}>{title}</h3>}
-          {data.length !== 0 && (
-            <svg viewBox="0 0 50 100" width={'100%'} height={'10rem'}>
-              {data.map(({ v, name }, i) => (
-                <>
-                  <rect
+          <div className={classes.chartWrapper}>
+            {data.length !== 0 && (
+              <div
+                className={classes.barWrapper}
+                style={`width:${data.length * 2 + (data.length + 1) * 1}rem`}
+              >
+                {data.map(({ v, name }, i) => (
+                  <div
                     key={i + i.toString() + 'Rect'}
-                    x={i * itemWidth + (i + 1) * itemWidth - 50}
-                    y={100 - (v * 100) / maxHeight}
-                    height={(v * 100) / maxHeight}
-                    width={itemWidth}
+                    style={`
+                      left:${i * 2 + (i + 1) * 1}rem;
+                      height:${(v * 100) / maxHeight / 10}rem;
+                      top:${100 - (v * 100) / maxHeight}%;
+                    `}
                     className={classes.box}
-                  />
-                  <text
-                    key={i + i.toString() + 'Text'}
-                    x={i * itemWidth + (i + 1) * itemWidth + itemWidth / 4 - 50}
-                    y={100 - (v * 100) / maxHeight - 5}
-                    className={classes.name}
                   >
-                    {name}
-                  </text>
-                  <text
-                    key={i + i.toString() + 'Value'}
-                    x={i * itemWidth + (i + 1) * itemWidth - itemWidth / 2 - 50}
-                    y={100 - (v * 100) / maxHeight + 5}
-                    className={classes.value}
-                  >
-                    {v}
-                  </text>
-                </>
-              ))}
-            </svg>
-          )}
+                    <div className={classes.barInner}>
+                      <p className={classes.name}>{getShortName(name)}</p>
+                      <p className={classes.value}>{`${v} \n ms`}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           {better && <p className={classes.footer}>{`${better} is better.`}</p>}
         </div>
       )}
