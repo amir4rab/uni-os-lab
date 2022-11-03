@@ -145,7 +145,9 @@ const ProcessesDisplay = ({
           />
         ))}
         {processes.length === 0 ? (
-          <p>No process added yet! click on the add button to add one</p>
+          <p className={classes.alert}>
+            No process added yet! click on the add button to add one
+          </p>
         ) : null}
       </div>
       <div className={classes.actions}>
