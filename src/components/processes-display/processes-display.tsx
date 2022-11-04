@@ -84,10 +84,22 @@ const ProcessDisplay = ({
         </button>
       </div>
       <div className={classes.subInfo} data-shown={expanded ? true : undefined}>
-        <p>Arrival time: {arrivalTime}ms</p>
-        <p>Duration: {duration}ms</p>
-        <p>ID: {id}</p>
-        <p>Priority: {priority}</p>
+        <p className={classes.subInfoGroup}>
+          <span className={classes.subInfoName}>Arrival time: </span>
+          <span>{`${arrivalTime}ms`}</span>
+        </p>
+        <p className={classes.subInfoGroup}>
+          <span className={classes.subInfoName}>{`Duration: `}</span>
+          <span>{`${duration}ms`}</span>
+        </p>
+        <p className={classes.subInfoGroup}>
+          <span className={classes.subInfoName}>{`ID: `}</span>
+          <span>{id}</span>
+        </p>
+        <p className={classes.subInfoGroup}>
+          <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
+          <span>{priority}</span>
+        </p>
       </div>
     </div>
   );
