@@ -134,35 +134,19 @@
   from {
     transform: translate(-50%, calc(-100px - 50%));
     opacity: 0;
-    // &::backdrop {
-    //   backdrop-filter: blur(0rem);
-    //   -webkit-backdrop-filter: blur(0rem);
-    // }
   }
 
   to {
     transform: translate(-50%, -50%);
     opacity: 1;
-    // &::backdrop {
-    //   backdrop-filter: blur(.4rem);
-    //   -webkit-backdrop-filter: blur(.4rem);
-    // }
   }
 }
 
 @keyframes animateOutD {
   from {
     opacity: 1;
-    // &::backdrop {
-    //   backdrop-filter: blur(.4rem);
-    //   -webkit-backdrop-filter: blur(.4rem);
-    // }
   }
   to {
     opacity: 0;
-    // &::backdrop {
-    //   backdrop-filter: blur(0rem);
-    //   -webkit-backdrop-filter: blur(0rem);
-    // }
   }
 }

@@ -1,12 +1,19 @@
 .inputWrapper {
-  display: flex;
-  align-items: center;
   input {
     flex-grow: 1;
-    margin-left: .5rem;
+    width: 100%
   }
-  &:not(:last-of-type) {
-    margin-bottom: .75rem;
+  label {
+    font-size: .7rem;
+    margin-bottom: .25rem;
+    opacity: .75;
+    transition: opacity .15s ease-in-out;
+  }
+  margin-bottom: .75rem;
+  &:focus-within, &:hover {
+    label {
+      opacity: 1;
+    }
   }
 }
 .actions {

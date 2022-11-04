@@ -106,7 +106,7 @@ const ProcessInput = ({
           />
         </div>
         <div className={classes.inputWrapper}>
-          <label htmlFor="arrivalTime">Arrival Time</label>
+          <label htmlFor="arrivalTime">Arrival Time in ms</label>
           <input
             required
             min={0}
@@ -118,7 +118,7 @@ const ProcessInput = ({
           />
         </div>
         <div className={classes.inputWrapper}>
-          <label htmlFor="duration">Duration</label>
+          <label htmlFor="duration">Duration in ms</label>
           <input
             required
             min={1}
