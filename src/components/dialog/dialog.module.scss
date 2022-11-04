@@ -5,35 +5,30 @@
     bottom: 2rem;
     top: auto;
   }
+
   @media screen and (min-width: 1100px) {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
 
-    .header {
-      flex-direction: row-reverse;
-      justify-content: flex-end !important;
-      .title {
-        margin-left: .5rem !important;
-      }
-      .close {
-        width: .75rem !important;
-        height: .75rem !important;
-      }
+    .header .close {
+      width: .75rem !important;
+      height: .75rem !important;
     }
+  }
+
+  &::backdrop {
+    transition: backdrop-filter .3s ease-in-out, -webkit-backdrop-filter .3s ease-in-out;
   }
 
   border: .05em solid #b9b9b98a;
   border-radius: .4em;
   color: #e0e0e0;
-  box-shadow: 0 0 0 150vh #000000bd;
   background: transparent;
   
   .header {
     padding: .75rem 2rem;
-    background: #26262680;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(1rem);
+    background: #2e2e2e;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,10 +48,10 @@
       font-size: 0;
       overflow: hidden;
       user-select: none;
-      background-color: #c70505;
-      box-shadow: 0 0 1rem 0 #c7050585;
+      background-color: #525252;
+      box-shadow: 0 0 1rem 0 #c7050500;
       opacity: .5;
-      transition: box-shadow .15s ease-in-out, opacity .15s ease-in-out, transition .15s ease-in-out;
+      transition: box-shadow .15s ease-in-out, opacity .15s ease-in-out, background-color .15s ease-in-out;
 
       &:not(:disabled):hover {
         background-color: #c70505;
@@ -81,18 +76,34 @@
   @media screen and (max-width: 1100px) {    
     &[data-displayed=true] {
       animation: animateInM forwards .15s ease-in-out;
+      &::backdrop {
+        backdrop-filter: blur(.4rem);
+        -webkit-backdrop-filter: blur(.4rem);
+      }
     }
     &[data-displayed=false] {
       animation: animateOutM forwards .15s ease-in-out;
+      &::backdrop {
+        backdrop-filter: blur(0rem);
+        -webkit-backdrop-filter: blur(0rem);
+      }
     }
   }
   @media screen and (min-width: 1100px) {
     &[data-displayed=true] {
       animation: animateInD forwards .15s ease-in-out;
+      &::backdrop {
+        backdrop-filter: blur(.4rem);
+        -webkit-backdrop-filter: blur(.4rem);
+      }
     }
 
     &[data-displayed=false] {
       animation: animateOutD forwards .15s ease-in-out;
+      &::backdrop {
+        backdrop-filter: blur(0rem);
+        -webkit-backdrop-filter: blur(0rem);
+      }
     }
   }
 }
@@ -123,19 +134,35 @@
   from {
     transform: translate(-50%, calc(-100px - 50%));
     opacity: 0;
+    // &::backdrop {
+    //   backdrop-filter: blur(0rem);
+    //   -webkit-backdrop-filter: blur(0rem);
+    // }
   }
 
   to {
     transform: translate(-50%, -50%);
     opacity: 1;
+    // &::backdrop {
+    //   backdrop-filter: blur(.4rem);
+    //   -webkit-backdrop-filter: blur(.4rem);
+    // }
   }
 }
 
 @keyframes animateOutD {
   from {
     opacity: 1;
+    // &::backdrop {
+    //   backdrop-filter: blur(.4rem);
+    //   -webkit-backdrop-filter: blur(.4rem);
+    // }
   }
   to {
     opacity: 0;
+    // &::backdrop {
+    //   backdrop-filter: blur(0rem);
+    //   -webkit-backdrop-filter: blur(0rem);
+    // }
   }
 }
