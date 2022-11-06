@@ -156,6 +156,8 @@ const roundRobin = (
   const sortedProcesses = sortProcessesByArrivalTime(copiedProcesses);
   let currentTime = sortedProcesses[0].arrivalTime;
   let seen = ([] as boolean[]).fill(false, 0, sortedProcesses.length - 1);
+  let totalArrivalTime = 0;
+  let totalProcessTime = 0;
 
   let loopCount = 0;
   while (true && loopCount < 1_000) {
@@ -178,15 +180,16 @@ const roundRobin = (
 
       // Incase it's the first visit to the current item
       if (!seen[i]) {
-        averageResponseTime += currentTime - arrivalTime;
         seen[i] = true;
+        totalArrivalTime += arrivalTime;
+        totalProcessTime += duration;
       }
 
       const remindedDuration = timeSlice > duration ? 0 : duration - timeSlice;
 
       // Incase process ended in the current loop
       if (remindedDuration === 0 && duration !== 0) {
-        averageReturnTime += currentTime - arrivalTime + duration;
+        averageResponseTime += currentTime + duration;
       }
 
       gantt.push({
@@ -208,8 +211,7 @@ const roundRobin = (
   }
 
   // Shortcut to calculate average response time in Round Robin algorithm
-  averageReturnTime =
-    averageReturnTime - averageResponseTime * sortedProcesses.length;
+  averageReturnTime = averageResponseTime - totalProcessTime - totalArrivalTime;
 
   averageResponseTime = parseFloat(
     (averageResponseTime / sortedProcesses.length).toFixed(2),
