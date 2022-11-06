@@ -1,8 +1,11 @@
 import classes from './app.module.scss';
 import Footer from './components/footer';
 import ProcessGuider from './components/process-guider';
+import useVersionLogger from './hooks/use-version-logger';
 
 export function App() {
+  useVersionLogger();
+
   return (
     <main className={classes.main}>
       <div className={classes.hero}>
