@@ -26,6 +26,7 @@
 
     .section {
       justify-content: space-between;
+      flex-wrap: wrap;
       align-items: flex-start;
       &:not(:last-child) {
         margin-bottom: 2rem;
