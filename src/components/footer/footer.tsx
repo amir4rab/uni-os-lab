@@ -41,7 +41,7 @@ const Content = ({ onDialog = false }: { onDialog?: boolean }) => (
 const Footer = () => {
   return (
     <>
-      <MobileFab icon="!" title="Guide">
+      <MobileFab icon="?" title="Guide">
         <Content onDialog={true} />
       </MobileFab>
       <footer className={classes.footer}>

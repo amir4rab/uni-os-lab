@@ -23,6 +23,7 @@ const MobileFab = ({ icon, title, children }: Props) => {
       <Dialog title={title} state={displayed} setState={setDisplayed}>
         {children}
       </Dialog>
+      <div aria-label="hidden" className={classes.fabSpacer} />
     </>
   );
 };
