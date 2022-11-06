@@ -10,32 +10,30 @@ interface Props {
   }[];
 }
 
-const getShortName = (n: string) => {
-  switch (n) {
-    case 'round-robin':
-      return 'RR';
-    case 'priority':
-      return 'P';
-    case 'sjf':
-      return 'SJF';
-    case 'fcfs':
-      return 'FCFS';
-    default:
-      return n;
-  }
-};
-
 const Chart = ({ data, better, title }: Props) => {
   const [maxHeight, setMaxHeight] = useState<null | number>(null);
   const [itemWidth, setItemWidth] = useState<null | number>(null);
+  const [edgeValues, setEdgeValues] = useState<null | {
+    min: number;
+    max: number;
+  }>(null);
 
   useEffect(() => {
-    let biggestItem = 0;
+    let max = 0;
+    let min: number | null = null;
     data.forEach(({ v }) => {
-      if (biggestItem < v) biggestItem = v;
+      if (max < v) max = v;
+      if (min === null) min = v;
+      if (min > v) min = v;
     });
-    setMaxHeight(biggestItem * 1.5);
+
+    setMaxHeight(max * 1.5);
     setItemWidth(100 / (data.length + 1));
+    if (min !== null && max !== null)
+      setEdgeValues({
+        min,
+        max,
+      });
   }, [data.length]);
 
   return (
@@ -47,30 +45,43 @@ const Chart = ({ data, better, title }: Props) => {
       ) : (
         <div className={classes.chart}>
           {title && <h3 className={classes.title}>{title}</h3>}
-          <div className={classes.chartWrapper}>
-            {data.length !== 0 && (
-              <div
-                className={classes.barWrapper}
-                style={`width:${data.length * 2 + (data.length + 1) * 1}rem`}
-              >
-                {data.map(({ v, name }, i) => (
-                  <div
-                    key={i + i.toString() + 'Rect'}
-                    style={`
-                      left:${i * 2 + (i + 1) * 1}rem;
-                      height:${(v * 100) / maxHeight / 10}rem;
-                      top:${100 - (v * 100) / maxHeight}%;
-                    `}
-                    className={classes.box}
-                  >
-                    <div className={classes.barInner}>
-                      <p className={classes.name}>{getShortName(name)}</p>
-                      <p className={classes.value}>{`${v} \n ms`}</p>
+          <div>
+            {data.map(({ v, name }, i) => {
+              const isHighlighted =
+                (better === 'less' && v === edgeValues?.min) ||
+                (better === 'more' && v === edgeValues?.max);
+
+              return (
+                <div
+                  key={`${i}-${v}`}
+                  data-highlighted={isHighlighted}
+                  className={classes.item}
+                >
+                  <div className={classes.progressWrapper}>
+                    <div className={classes.progress}>
+                      <div
+                        className={classes.progressInner}
+                        style={`transform: translate(${
+                          (v * 80) / maxHeight
+                        }%, 0)`}
+                      />
                     </div>
+                    {isHighlighted && (
+                      <div
+                        style={`left: ${(v * 80) / maxHeight}%`}
+                        className={classes.highlightedComparison}
+                      >
+                        Fastest
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-            )}
+                  <p>
+                    <span className={classes.name}>{name}</span>
+                    <span className={classes.value}>{`${v} \n ms`}</span>
+                  </p>
+                </div>
+              );
+            })}
           </div>
           {better && <p className={classes.footer}>{`${better} is better.`}</p>}
         </div>

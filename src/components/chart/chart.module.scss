@@ -5,68 +5,70 @@
 
 .chart {
   padding: 1rem 0;
-  .chartWrapper {
-    margin: 1rem 0;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-  }
-  .barWrapper {
-    height: 10rem;
-    max-width: 100%;
-    border-radius: .4em;
-    overflow-y: hidden;
-    overflow-x: auto;
-    background: #222222;
-    position: relative;
-  }
-  .barInner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  .box {
-    width: 2rem;
-    border-radius: .6em .6em 0 0;
-    position: absolute;
-    background: #0ce7d5;
-    box-shadow: 0 0 .5rem 0rem #0ce7d5c4;
-    transition: box-shadow .15s ease-in-out;
-    &:hover {
-      box-shadow: 0 0 2rem 0rem #0ce7d59d;
-      .name {
-        color: #0ce7d5;
-      }
-    }
-    .name {
-      display: block;
-      position: absolute;
-      transform: translate(-50%, -50%);
-      left: 50%;
-      top: -1rem;
-      font-size: .8rem;
-      color: #e0e0e0;
-      transition: color .15s ease-in-out;
-    }
-    .value {
-      display: block;
-      position: absolute;
-      transform: translate(-50%, -50%);
-      left: 50%;
-      top: 1rem;
-      font-size: .4rem;
-      color: #111111;
-    }
-  }
+
   .title {
     font-size: 1.15rem;
     color: #0ce7d5;
   }
+
   .footer {
     text-align: center;
     margin-top: .5rem;
     font-size: .8rem;
     opacity: .7;
+  }
+
+  .item {
+    margin: 1rem 0;
+    opacity: .75;
+    transition: opacity .3s ease-in-out;
+
+    &[data-highlighted=true] {
+      opacity: 1;
+      .progressWrapper .progress .progressInner {
+        background-color: #0ce7d5 !important;
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .progressWrapper {
+      width: 100%;
+      position: relative;
+      .progress {
+        margin-bottom: .25rem;
+        position: relative;
+        height: .4rem;
+        width: 100%;
+        overflow: hidden;
+        border-radius: .4rem;
+        .progressInner {
+          border-radius: .4rem;
+          position: absolute;
+          background-color: #222222;
+          width: 100%;
+          left: -100%;
+          height: 100%;
+          transition: transform .3s ease-in-out;
+        }
+      } 
+      .highlightedComparison {
+        position: absolute;
+        top: 50%;
+        transform: translate(1rem, -50%);
+      }
+    }
+
+    .name {
+      font-size: 1rem;
+      margin-right: .25rem;
+    }
+    
+    .value {
+      font-size: .8rem;
+      opacity: .75;
+    }
   }
 }
