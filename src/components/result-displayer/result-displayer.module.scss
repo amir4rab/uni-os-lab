@@ -1,8 +1,10 @@
+@import '../../sass/styles';
+
 .resultDisplayer {
   .title {
     margin-bottom: 1rem;
     font-size: 1.75rem;
-    color: #0ce7d5;
+    color: $highlight-color
   }
   .subDetails{
     padding: 1rem 0 2rem 0;

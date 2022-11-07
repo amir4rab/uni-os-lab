@@ -1,3 +1,5 @@
+@import '../../sass/styles';
+
 .alert {
   text-align: center;
   padding: 1rem 0;
@@ -8,7 +10,7 @@
 
   .title {
     font-size: 1.15rem;
-    color: #0ce7d5;
+    color: $highlight-color
   }
 
   .footer {
@@ -23,7 +25,7 @@
     margin: .75rem 0;
     padding: 1rem 2rem;
     border-radius: .4em;
-    background-color: #222222;
+    background-color: $background-sec
   }
 
   .item {
@@ -34,7 +36,7 @@
     &[data-highlighted=true] {
       opacity: 1;
       .progressWrapper .progress .progressInner {
-        background-color: #0ce7d5 !important;
+        background-color: $highlight-color !important;
       }
     }
 
@@ -55,7 +57,7 @@
         .progressInner {
           border-radius: .4rem;
           position: absolute;
-          background-color: #111;
+          background-color: $background-main;
           width: 100%;
           left: -100%;
           height: 100%;

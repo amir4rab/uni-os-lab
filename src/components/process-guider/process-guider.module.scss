@@ -1,3 +1,5 @@
+@import '../../sass/styles';
+
 .header {
   min-height: 3rem;
   margin-bottom: 2rem;
@@ -20,7 +22,7 @@
 
 .algorithm {
   animation: animateIn .3s ease-in-out forwards;
-  color: #0ce7d5;
+  color: $highlight-color;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -49,19 +51,19 @@
     transform: translate(0, -50%);
   }
   .dot {
-    background-color: #0ce7d5;
+    background-color: $highlight-color;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
     opacity: .25;
-    box-shadow: 0 0 1rem 0 #0ce7d500;
+    box-shadow: 0 0 1rem 0 transparentize($highlight-color, 1);
     transition: box-shadow .15s ease-in-out, opacity .15s ease-in-out;
     &:not(:last-child) {
       margin-right: .5rem;
     }
     &[data-active] {
       opacity: 1;
-      box-shadow: 0 0 1rem .25rem #0ce7d5;
+      box-shadow: 0 0 1rem .25rem $highlight-color;
       animation: dance .3s ease-in-out forwards;
     }
   }

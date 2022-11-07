@@ -1,3 +1,5 @@
+@import './sass/styles';
+
 .title {
   text-align: center;
   margin-bottom: 2rem;
@@ -7,7 +9,7 @@
   align-items: flex-start;
   width: 25%;
   margin-right: 6vw;
-  color: #0ce7d5;
+  color: $highlight-color;
 }
 
 @keyframes chip-animation {

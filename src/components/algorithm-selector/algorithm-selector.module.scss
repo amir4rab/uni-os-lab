@@ -1,14 +1,16 @@
+@import '../../sass/styles';
+
 .title {
   margin-bottom: 1rem;
   font-size: 1.75rem;
-  color: #0ce7d5;
+  color: $highlight-color;
 }
 
 .breakLine {
   display: block;
   height: .1rem;
   width: 100%;
-  background: #0ce7d5;
+  background: $highlight-color;
   margin: 2rem 0;
   border-radius: .5rem;
 }

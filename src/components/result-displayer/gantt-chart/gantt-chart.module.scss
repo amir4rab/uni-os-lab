@@ -1,11 +1,13 @@
+@import '../../../sass/styles';
+
 .ganttChart {
   display: flex;
-  background-color: #222222;
+  background-color: $background-sec;
   margin: 1rem .75rem 2rem .75rem;
   .item {
     padding: .75rem;
     position: relative;
-    border: .15rem solid #3f3f3f;
+    border: .15rem solid lighten($background-sec, 15%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,15 +20,15 @@
       color .15s ease-in-out,
       opacity .15s ease-in-out;
     &[data-free-space] {
-      background-color: #3f3f3f;
+      background-color: lighten($background-sec, 15%);
     }
     &:hover, &:focus{
-      background-color: #141414;
+      background-color: darken($background-sec, 15%);
       scale: 1.1;
       z-index: 5;
-      box-shadow: 0 0 1rem 0 #141414;
+      box-shadow: 0 0 1rem 0 darken($background-sec, 15%);
       .title {
-        color: #0ce7d5;
+        color: $highlight-color;
       }
     }
 

@@ -1,3 +1,5 @@
+@import '../../sass/styles';
+
 .loadingEmulator {
   min-height: 40vh;
   display: flex;
@@ -21,11 +23,11 @@
     overflow: hidden;
 
     &::-moz-progress-bar, &::-webkit-progress-bar {
-      background-color: #0ce7d52f;
+      background-color: transparentize($highlight-color, .5);
     }
 
     &::-webkit-progress-value {
-      background-color: #0ce7d5;
+      background-color: $highlight-color;
       transition: inline-size 1s ease-in-out;
     }
   }

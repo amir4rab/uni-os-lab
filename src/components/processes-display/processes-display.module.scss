@@ -1,7 +1,9 @@
+@import '../../sass/styles';
+
 .title {
   margin-bottom: 1rem;
   font-size: 1.75rem;
-  color: #0ce7d5;
+  color: $highlight-color
 }
 
 .actions {
@@ -35,7 +37,7 @@
 .listDisplay {
   padding: 1rem 1rem;
   border-radius: .4em;
-  background-color: #222222;
+  background-color: $background-sec;
 
   .alert {
     text-align: center;
@@ -51,13 +53,13 @@
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
-    box-shadow: 0 0 1rem #0ce7d500;
+    box-shadow: 0 0 1rem transparentize($highlight-color, 1);
     transition: background-color .3s ease-in-out, box-shadow .3s ease-in-out;
     border-radius: .4em;
 
     &[data-recently-moved] {
-      background-color: #0ce7d585;
-      box-shadow: 0 0 1rem #0ce7d585;
+      background-color: transparentize($highlight-color, .25);
+      box-shadow: 0 0 1rem transparentize($highlight-color, .25);
     }
     &:not(:last-child) {
       margin-bottom: 1rem;

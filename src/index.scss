@@ -1,4 +1,4 @@
-@import './styles/button.scss';
+@import './sass/styles';
 
 *,*::after, *::before {
   padding: 0;
@@ -11,21 +11,21 @@
 };
 
 body {
-  background-color: #111111;
-  color: #e0e0e0;
+  background-color: $background-main;
+  color: $text-main;
 }
 
 input {
-  background-color: #303030;
-  color: #e0e0e0;
+  background-color: $background-sec;
+  color: $text-main;
   border: none;
   border-radius: .25rem;
   padding: .5em .75em;
 }
 
 button {
-  background-color: #e0e0e0;
-  color: #303030;
+  background-color: $text-main;
+  color: $background-sec;
   border: none;
   font-weight: 600;
   border-radius: .6rem;
@@ -33,11 +33,11 @@ button {
   transition: background-color .15s ease-in-out, transform .15s ease-in-out;
   &:not(:disabled):hover {
     cursor: pointer;
-    background: #e9e9e9;
+    background: lighten($text-main, 10%);
     transform: translate(0, -.05em);
   }
   &:not(:disabled):active {
-    background: #ffffff;
+    background: lighten($text-main, 15%);
     transform: translate(0, -.15em);
   }
   &:disabled {
@@ -49,17 +49,17 @@ button {
     padding: .4em .75em;
   }
   &[data-primary] {
-    border: #0ce7d5 .1rem solid;
-    background-color: #0ce7d5;
+    border: $highlight-color .1rem solid;
+    background-color: $highlight-color;
 
     &:not(:disabled):hover {
-      border: #0cc9b9 .1rem solid;
-      background-color: #0cc9b9;
+      border: darken($highlight-color, 10%) .1rem solid;
+      background-color: darken($highlight-color, 10%);
     }
 
     &:not(:disabled):active {
-      border: #099e92 .1rem solid;
-      background-color: #099e92;
+      border: darken($highlight-color, 15%) .1rem solid;
+      background-color: darken($highlight-color, 15%);
     }
   }
   &[data-border-less] {
