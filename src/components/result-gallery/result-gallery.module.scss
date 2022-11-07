@@ -6,6 +6,12 @@
   }
   .subDetails{
     padding: 1rem 0 2rem 0;
+    span:first-child {
+      opacity: .75;
+    }
+    span:not(:first-child) {
+      font-weight: bold;
+    }
     p:not(:last-child) {
       margin-bottom: .5rem;
     }

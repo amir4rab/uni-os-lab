@@ -87,24 +87,6 @@ const ResultGallery = ({ data, goBack, onReset, timeSlice }: Props) => {
       />
       {processResults.map(({ algorithm, data }) => {
         const { averageResponseTime, averageReturnTime, gantt } = data;
-        // processes.map((algorithm) => {
-        //   const { averageResponseTime, averageReturnTime, gantt } = process({
-        //     algorithm,
-        //     processes: [...data],
-        //     timeSlice,
-        //   });
-
-        // console.log('Here');
-
-        // setAverageReturnTimes((curr) => [
-        //   ...curr,
-        //   { name: algorithm, v: averageReturnTime },
-        // ]);
-        // setAverageResponseTimes((curr) => [
-        //   ...curr,
-        //   { name: algorithm, v: averageResponseTime },
-        // ]);
-        // submitItem(averageReturnTime, algorithm, 'averageReturn');
 
         return (
           <div id={algorithm} className={classes.item}>
@@ -112,11 +94,11 @@ const ResultGallery = ({ data, goBack, onReset, timeSlice }: Props) => {
             <GanttChart gantt={gantt} />
             <div className={classes.subDetails}>
               <p>
-                <b>Average Response Time: </b>
+                <span>Average Response Time: </span>
                 <span>{`${averageResponseTime}ms`}</span>
               </p>
               <p>
-                <b>Average Return Time: </b>
+                <span>Average Return Time: </span>
                 <span>{`${averageReturnTime}ms`}</span>
               </p>
             </div>

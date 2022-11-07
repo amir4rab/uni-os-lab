@@ -24,12 +24,15 @@ const ResultDisplayer = ({ data, onReset, goBack }: Props) => {
         </p>
       </div>
       <div className={classes.actions}>
-        <button onClick={() => goBack()} style="margin-right:auto;">
+        <button
+          className="secondary"
+          onClick={() => goBack()}
+          style="margin-right:auto;"
+        >
           Go back
         </button>
-        <button onClick={onReset}>Reset</button>
-        <button data-border-less data-primary>
-          Print
+        <button className="primary" onClick={onReset}>
+          Reset
         </button>
       </div>
     </div>

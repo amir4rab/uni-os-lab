@@ -27,7 +27,7 @@ const Chart = ({ data, better, title }: Props) => {
       if (min > v) min = v;
     });
 
-    setMaxHeight(max * 1.5);
+    setMaxHeight(max * 1.25);
     setItemWidth(100 / (data.length + 1));
     if (min !== null && max !== null)
       setEdgeValues({
@@ -45,7 +45,7 @@ const Chart = ({ data, better, title }: Props) => {
       ) : (
         <div className={classes.chart}>
           {title && <h3 className={classes.title}>{title}</h3>}
-          <div>
+          <div className={classes.barsWrapper}>
             {data.map(({ v, name }, i) => {
               const isHighlighted =
                 (better === 'less' && v === edgeValues?.min) ||
@@ -62,13 +62,13 @@ const Chart = ({ data, better, title }: Props) => {
                       <div
                         className={classes.progressInner}
                         style={`transform: translate(${
-                          (v * 80) / maxHeight
+                          (v * 100) / maxHeight
                         }%, 0)`}
                       />
                     </div>
                     {isHighlighted && (
                       <div
-                        style={`left: ${(v * 80) / maxHeight}%`}
+                        style={`left: ${(v * 100) / maxHeight}%`}
                         className={classes.highlightedComparison}
                       >
                         Fastest
