@@ -11,11 +11,13 @@ import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import useAlgorithm from '../../hooks/use-algorithm';
 
 // components
-import AlgorithmSelector from '../algorithm-selector';
 import Fader from '../fader';
-import ProcessesDisplay from '../processes-display';
-import ResultDisplayer from '../result-displayer';
-import ResultGallery from '../result-gallery';
+import AlgorithmSelector from '../algorithm-selector';
+const ResultDisplayer = lazy(() => import('../result-displayer'));
+const ResultGallery = lazy(() => import('../result-gallery'));
+const ProcessesDisplay = lazy(() => import('../processes-display'));
+
+const Loading = () => <p>Loading</p>;
 
 const steps = ['Choose algorithm', 'Add processes', 'Results'];
 
@@ -60,43 +62,47 @@ const ProcessGuider = () => {
           }}
         />
       </Fader>
-      <Fader displayed={currentStep === 1}>
-        {selectedAlgorithm && (
-          <ProcessesDisplay
-            defaultTimeSlice={timeSlice}
-            goBack={stepBack}
-            defaultProcesses={processes}
-            algorithm={selectedAlgorithm}
-            onSubmit={(processes, timeSlice) => {
-              setProcesses(processes);
-              setTimeSlice(timeSlice);
-              setCurrentStep((curr) => curr + 1);
-            }}
-          />
-        )}
-      </Fader>
-      <Fader displayed={currentStep === 2}>
-        {selectedAlgorithm !== null &&
-          processes.length !== 0 &&
-          (selectedAlgorithm !== 'all' ? (
-            <ResultDisplayer
+      <Suspense fallback={<Loading />}>
+        <Fader displayed={currentStep === 1}>
+          {selectedAlgorithm && (
+            <ProcessesDisplay
+              defaultTimeSlice={timeSlice}
               goBack={stepBack}
-              data={process({
-                algorithm: selectedAlgorithm,
-                processes,
-                timeSlice,
-              })}
-              onReset={reset}
+              defaultProcesses={processes}
+              algorithm={selectedAlgorithm}
+              onSubmit={(processes, timeSlice) => {
+                setProcesses(processes);
+                setTimeSlice(timeSlice);
+                setCurrentStep((curr) => curr + 1);
+              }}
             />
-          ) : (
-            <ResultGallery
-              goBack={stepBack}
-              data={processes}
-              onReset={reset}
-              timeSlice={timeSlice}
-            />
-          ))}
-      </Fader>
+          )}
+        </Fader>
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <Fader displayed={currentStep === 2}>
+          {selectedAlgorithm !== null &&
+            processes.length !== 0 &&
+            (selectedAlgorithm !== 'all' ? (
+              <ResultDisplayer
+                goBack={stepBack}
+                data={process({
+                  algorithm: selectedAlgorithm,
+                  processes,
+                  timeSlice,
+                })}
+                onReset={reset}
+              />
+            ) : (
+              <ResultGallery
+                goBack={stepBack}
+                data={processes}
+                onReset={reset}
+                timeSlice={timeSlice}
+              />
+            ))}
+        </Fader>
+      </Suspense>
     </section>
   );
 };
