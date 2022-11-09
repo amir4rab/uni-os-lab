@@ -51,48 +51,51 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     <div>
       <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
       <div>
-        <div data-expanded={true} className={classes.item}>
-          <div className={classes.header}>
-            <h4 className={classes.title}>Expert mode</h4>
-          </div>
-          <p className={classes.about}>
-            Processes your data with every possible algorithm
-          </p>
-          <div className={classes.submitWrapper}>
-            <button onClick={() => onSubmit('all')} className="primary">
-              Select
-            </button>
+        <div className={classes.algorithmWrapper}>
+          <div data-expanded={true} className={classes.item}>
+            <div className={classes.header}>
+              <h4 className={classes.title}>Expert mode</h4>
+            </div>
+            <p className={classes.about}>
+              Processes your data with every possible algorithm
+            </p>
+            <div className={classes.submitWrapper}>
+              <button onClick={() => onSubmit('all')} className="primary">
+                Select
+              </button>
+            </div>
           </div>
         </div>
-        <div className={classes.breakLine} />
-        {algorithms.map(({ id, name, shortInfo, implemented }, i) => (
-          <div
-            key={id}
-            data-expanded={i === expandedIndex ? true : undefined}
-            className={classes.item}
-          >
-            <div className={classes.header}>
-              <h4 className={classes.title}>{name}</h4>
-              <button
-                onClick={() =>
-                  setExpandedIndex((curr) => (curr !== i ? i : -1))
-                }
-              >
-                {expandedIndex === i ? 'Show less' : 'More info'}
-              </button>
+        <div className={classes.algorithmWrapper}>
+          {algorithms.map(({ id, name, shortInfo, implemented }, i) => (
+            <div
+              key={id}
+              data-expanded={i === expandedIndex ? true : undefined}
+              className={classes.item}
+            >
+              <div className={classes.header}>
+                <h4 className={classes.title}>{name}</h4>
+                <button
+                  onClick={() =>
+                    setExpandedIndex((curr) => (curr !== i ? i : -1))
+                  }
+                >
+                  {expandedIndex === i ? 'Show less' : 'More info'}
+                </button>
+              </div>
+              <p className={classes.about}>{shortInfo}</p>
+              <div className={classes.submitWrapper}>
+                <button
+                  disabled={!implemented}
+                  onClick={() => onSubmit(id)}
+                  className="secondary"
+                >
+                  {implemented ? 'Select' : 'Coming Soon'}
+                </button>
+              </div>
             </div>
-            <p className={classes.about}>{shortInfo}</p>
-            <div className={classes.submitWrapper}>
-              <button
-                disabled={!implemented}
-                onClick={() => onSubmit(id)}
-                className="secondary"
-              >
-                {implemented ? 'Select' : 'Coming Soon'}
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

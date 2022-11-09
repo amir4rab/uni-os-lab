@@ -6,13 +6,24 @@
   color: $highlight-color;
 }
 
-.breakLine {
-  display: block;
-  height: .1rem;
-  width: 100%;
-  background: $highlight-color;
-  margin: 2rem 0;
-  border-radius: .5rem;
+.algorithmWrapper {
+  padding: 2rem;
+  border-radius: .4em;
+  background: $background-sec;
+  box-shadow: 0 0 1rem transparent;
+  transition: box-shadow .3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 1rem 0.5rem transparentize($highlight-color, .75);
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  &:first-child {
+    margin-top: 2rem;
+  }
 }
 
 .item{
@@ -29,6 +40,7 @@
       background: transparent;
       color: inherit;
       padding: 0;
+      border-radius: 0;
       margin-left: 0.75rem;
       &:hover, &:active {
         background: transparent;
@@ -37,8 +49,8 @@
   }
   &[data-expanded] {
     .about {
-        max-height: 10rem;
-      }
+      max-height: 10rem;
+    }
   }
   .title{
     font-size: 1.25rem;
