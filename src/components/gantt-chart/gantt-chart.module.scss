@@ -1,0 +1,73 @@
+@import '../../sass/styles';
+
+.ganttChart {
+  background-color: $background-sec;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
+  border-radius: .4em;
+  display: flex;
+  
+  .names {
+    width: 10%;
+    position: relative;
+    .name {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      align-content: center;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      height: 1.75rem;
+    }
+  }
+
+  .inner {
+    position: relative;
+    width: 90%
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    padding: .4rem .6rem;
+    align-items: center;
+    align-content: center;
+    height: 1.75rem;
+    position: absolute;
+    border-radius: .4em;
+    background: $background-main;
+    opacity: .5;
+    transition: opacity .15s ease-in-out, background-color .2s ease-in-out, box-shadow .3s ease-in-out;
+    box-shadow: 0 0 1rem transparent;
+    background: $background-main;
+
+    .leftSec, .rightSec {
+      opacity: 0;
+      user-select: none;
+      pointer-events: none;
+      color: $background-main;
+      transition: opacity .15s ease-in-out;
+      font-size: .7rem;
+    }
+    
+    
+    &:hover {
+      opacity: 1;
+      background-color: $highlight-color;
+      box-shadow: 0 0 1rem $highlight-color;
+
+      .leftSec, .rightSec {
+        opacity: 1;
+      }
+    }
+
+    &[data-first-item=true]{
+      border-radius: 0 .6em .6em 0;
+    }
+
+    &[data-last-item=true]{
+      border-radius: .6em 0 0 .6em;
+    }
+  }
+}

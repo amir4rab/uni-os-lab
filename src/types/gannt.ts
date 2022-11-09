@@ -3,6 +3,7 @@ interface GanntItem {
   endTime: number;
   processName: string;
   id: string;
+  ogId?: string;
 }
 
 type Gantt = GanntItem[];

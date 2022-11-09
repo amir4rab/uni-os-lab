@@ -1,5 +1,5 @@
 import ProcessResult from '../../types/process-results';
-import GanttChart from './gantt-chart';
+import GanttChart from '../gantt-chart';
 import classes from './result-displayer.module.scss';
 
 interface Props {

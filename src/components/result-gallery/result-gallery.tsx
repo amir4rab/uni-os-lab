@@ -4,7 +4,7 @@ import ProcessArray from '../../types/process';
 import ProcessResult from '../../types/process-results';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import Chart from '../chart';
-import GanttChart from '../result-displayer/gantt-chart';
+import GanttChart from '../gantt-chart';
 import classes from './result-gallery.module.scss';
 
 interface Props {

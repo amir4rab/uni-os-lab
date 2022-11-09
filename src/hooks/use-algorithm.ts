@@ -196,6 +196,7 @@ const roundRobin = (
         startTime: currentTime,
         endTime: currentTime + (timeSlice > duration ? duration : timeSlice),
         id: id + currentTime,
+        ogId: id,
         processName: name,
       });
       sortedProcesses[i].duration = remindedDuration;
