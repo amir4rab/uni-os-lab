@@ -8,6 +8,7 @@
 
 :root {
   font-family: apple-system, BlinkMacSystemFont, sans-serif;
+  accent-color: $highlight-color;
 };
 
 body {
@@ -21,6 +22,10 @@ input {
   border: none;
   border-radius: .25rem;
   padding: .5em .75em;
+}
+
+a {
+  color: $highlight-color;
 }
 
 button {

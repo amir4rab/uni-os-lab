@@ -6,7 +6,19 @@
   color: $highlight-color;
 }
 
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: translate(0, -0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0rem);
+  }
+}
+
 .algorithmWrapper {
+  opacity: 0;
   padding: 2rem;
   border-radius: .4em;
   background: $background-sec;
@@ -24,6 +36,8 @@
   &:first-child {
     margin-top: 2rem;
   }
+  
+  animation: animateIn .3s ease-in-out forwards;
 }
 
 .item{

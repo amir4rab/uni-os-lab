@@ -1,6 +1,9 @@
 import { useState } from 'preact/hooks';
+import { lazy, Suspense } from 'preact/compat';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import classes from './algorithm-selector.module.scss';
+
+const LearnMore = lazy(() => import('../learn-more'));
 
 interface Algorithm {
   name: string;
@@ -66,7 +69,10 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
             </div>
           </div>
         </div>
-        <div className={classes.algorithmWrapper}>
+        <div
+          style={`animation-delay: .15s`}
+          className={classes.algorithmWrapper}
+        >
           {algorithms.map(({ id, name, shortInfo, implemented }, i) => (
             <div
               key={id}
@@ -96,6 +102,11 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
             </div>
           ))}
         </div>
+        <Suspense fallback={null}>
+          <div className={classes.algorithmWrapper}>
+            <LearnMore />
+          </div>
+        </Suspense>
       </div>
     </div>
   );

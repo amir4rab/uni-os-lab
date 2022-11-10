@@ -1,0 +1,22 @@
+.learnMore {
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    line-height: 125%;
+  }
+
+  .iframeWrapper {
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  iframe {
+    border-radius: .4em;
+    overflow: hidden;
+  }
+}
