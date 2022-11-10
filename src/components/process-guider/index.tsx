@@ -1,1 +1,1 @@
-export { default } from './process-guider';
+export { default } from './process-guider-splitted';

@@ -13,11 +13,10 @@ import useAlgorithm from '../../hooks/use-algorithm';
 // components
 import Fader from '../fader';
 import AlgorithmSelector from '../algorithm-selector';
+import Loading from '../loading';
 const ResultDisplayer = lazy(() => import('../result-displayer'));
 const ResultGallery = lazy(() => import('../result-gallery'));
 const ProcessesDisplay = lazy(() => import('../processes-display'));
-
-const Loading = () => <p>Loading</p>;
 
 const steps = ['Choose algorithm', 'Add processes', 'Results'];
 
