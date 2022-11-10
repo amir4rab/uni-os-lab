@@ -33,7 +33,7 @@ const ProcessGuider = () => {
     setCurrentStep(0);
     setSelectedAlgorithm(null);
     setProcesses([]);
-    setTimeSlice(0);
+    setTimeSlice(1);
   };
 
   const stepBack = () => setCurrentStep((curr) => curr - 1);
