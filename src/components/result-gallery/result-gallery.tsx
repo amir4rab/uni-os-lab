@@ -18,7 +18,9 @@ const processes: SchedulingAlgorithm[] = [
   'fcfs',
   'priority',
   'sjf',
+  'lottery',
   'round-robin',
+  'multi-level',
 ];
 
 interface AverageTimeItem {
