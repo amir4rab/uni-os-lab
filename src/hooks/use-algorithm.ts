@@ -302,6 +302,196 @@ const priority = (processes: ProcessArray): ProcessResult => {
   };
 };
 
+const lottery = (processes: ProcessArray): ProcessResult => {
+  // Results variables
+  const gantt: Gantt = [];
+  let averageReturnTime = 0;
+  let averageResponseTime = 0;
+
+  // Processing variables
+  const seen = ([] as boolean[]).fill(false, 0, processes.length - 1);
+  let currentTime = 0;
+
+  for (let _ = 0; _ < processes.length; _++) {
+    let selectedItem = -1;
+
+    for (let j = 0; j < processes.length; j++) {
+      // Skipping incase that the item has been processed before
+      if (seen[j]) continue;
+
+      // Setting the first item
+      if (selectedItem === -1) {
+        selectedItem = j;
+        continue;
+      }
+
+      // Changing the item incase we found another item that is more prioritized and has been added in same time or before the current selected item
+      if (
+        processes[j].arrivalTime < processes[selectedItem].arrivalTime &&
+        processes[j].arrivalTime <= currentTime
+      ) {
+        selectedItem = j;
+        continue;
+      } else if (
+        Math.random() < Math.random() &&
+        processes[j].arrivalTime <= processes[selectedItem].arrivalTime
+      ) {
+        selectedItem = j;
+        continue;
+      }
+    }
+
+    if (selectedItem === -1) {
+      break;
+    }
+
+    const { id, duration, name, arrivalTime } = processes[selectedItem];
+
+    currentTime = currentTime > arrivalTime ? currentTime : arrivalTime;
+    gantt.push({
+      startTime: currentTime,
+      endTime: currentTime + duration,
+      id,
+      processName: name,
+    });
+
+    averageReturnTime += currentTime + duration - arrivalTime;
+    averageResponseTime += currentTime - arrivalTime;
+    currentTime += duration;
+
+    seen[selectedItem] = true;
+  }
+
+  averageResponseTime = parseFloat(
+    (averageResponseTime / processes.length).toFixed(2),
+  );
+  averageReturnTime = parseFloat(
+    (averageReturnTime / processes.length).toFixed(2),
+  );
+
+  return {
+    averageResponseTime,
+    averageReturnTime,
+    gantt,
+  };
+};
+
+const multiLevel = (processes: ProcessArray): ProcessResult => {
+  // Results variables
+  const gantt: Gantt = [];
+  let averageReturnTime = 0;
+  let averageResponseTime = 0;
+
+  // Processing variables
+  const seen = new Array(processes.length).fill(false, 0, processes.length - 1);
+  let currentTime = 0;
+
+  for (let _ = 0; _ < processes.length; _++) {
+    let nextItem = -1;
+    let readyToExecuteBackgroundProcess = -1;
+    let noProcessExecuted = true;
+
+    for (let i = 0; i < processes.length; i++) {
+      if (seen[i]) continue;
+
+      if (nextItem === -1) nextItem = i;
+
+      // Executing next item, in case we have a time gap with the next process
+      if (
+        nextItem !== -1 &&
+        processes[i].arrivalTime > currentTime &&
+        readyToExecuteBackgroundProcess === -1
+      ) {
+        console.log('Skipping to next item');
+
+        const { arrivalTime, duration, id, name } = processes[nextItem];
+        currentTime = arrivalTime;
+        seen[nextItem] = true;
+
+        gantt.push({
+          id,
+          endTime: currentTime + duration,
+          startTime: currentTime,
+          processName: name,
+        });
+
+        currentTime += duration;
+        averageReturnTime = currentTime - arrivalTime;
+        averageResponseTime = currentTime - arrivalTime + duration;
+        noProcessExecuted = false;
+
+        break;
+      }
+
+      // Executing ready foreground task
+      if (
+        processes[i].type === 'foreground' &&
+        processes[i].arrivalTime <= currentTime
+      ) {
+        console.log('Executing foreground');
+
+        seen[i] = true;
+        const { arrivalTime, duration, id, name } = processes[i];
+
+        gantt.push({
+          id,
+          endTime: currentTime + duration,
+          startTime: currentTime,
+          processName: name,
+        });
+
+        currentTime += duration;
+        averageReturnTime = currentTime - arrivalTime;
+        averageResponseTime = currentTime - arrivalTime + duration;
+        noProcessExecuted = false;
+
+        break;
+      }
+
+      // Caching next background process for execution
+      if (
+        readyToExecuteBackgroundProcess === -1 &&
+        processes[i].type === 'background' &&
+        processes[i].arrivalTime <= currentTime
+      ) {
+        readyToExecuteBackgroundProcess = i;
+      }
+    }
+
+    // Incase there was a cached background task we will execute it now
+    if (readyToExecuteBackgroundProcess !== -1 && noProcessExecuted) {
+      seen[readyToExecuteBackgroundProcess] = true;
+
+      const { arrivalTime, duration, id, name } =
+        processes[readyToExecuteBackgroundProcess];
+
+      gantt.push({
+        id,
+        endTime: currentTime + duration,
+        startTime: currentTime,
+        processName: name,
+      });
+
+      currentTime += duration;
+      averageReturnTime = currentTime - arrivalTime;
+      averageResponseTime = currentTime - arrivalTime + duration;
+    }
+  }
+
+  averageResponseTime = parseFloat(
+    (averageResponseTime / processes.length).toFixed(2),
+  );
+  averageReturnTime = parseFloat(
+    (averageReturnTime / processes.length).toFixed(2),
+  );
+
+  return {
+    gantt,
+    averageReturnTime,
+    averageResponseTime,
+  };
+};
+
 /**
  * A hook to processes, processes data
  */
@@ -319,6 +509,10 @@ const useAlgorithm = () => {
         return priority(processes);
       case 'round-robin':
         return roundRobin(processes, timeSlice);
+      case 'lottery':
+        return lottery([...processes]);
+      case 'multi-level':
+        return multiLevel([...processes]);
       default:
         return defaultResult;
     }
