@@ -20,14 +20,16 @@ const ProcessDisplay = ({
   moveItem,
   p,
   processesLength,
+  algorithm,
 }: {
   p: Process;
   moveItem: (d: 'up' | 'down', i: number) => void;
   deleteItem: (i: number) => void;
   processesLength: number;
   i: number;
+  algorithm: SchedulingAlgorithm;
 }) => {
-  const { name, arrivalTime, duration, id, priority } = p;
+  const { name, arrivalTime, duration, id, priority, type } = p;
   const elRef = useRef<HTMLDivElement | null>(null);
   const [expanded, setExpanded] = useState(false);
   let timeout: number | undefined | NodeJS.Timeout;
@@ -96,10 +98,18 @@ const ProcessDisplay = ({
           <span className={classes.subInfoName}>{`ID: `}</span>
           <span>{id}</span>
         </p>
-        <p className={classes.subInfoGroup}>
-          <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
-          <span>{priority}</span>
-        </p>
+        {(algorithm === 'all' || algorithm === 'priority') && (
+          <p className={classes.subInfoGroup}>
+            <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
+            <span>{priority}</span>
+          </p>
+        )}
+        {(algorithm === 'all' || algorithm === 'multi-level') && (
+          <p className={classes.subInfoGroup}>
+            <span className={classes.subInfoName}>{`Type: `}</span>{' '}
+            <span>{type}</span>
+          </p>
+        )}
       </div>
     </div>
   );
@@ -148,6 +158,7 @@ const ProcessesDisplay = ({
       <div className={classes.listDisplay}>
         {processes.map((p, i) => (
           <ProcessDisplay
+            algorithm={algorithm}
             p={p}
             deleteItem={deleteItem}
             moveItem={moveItem}
@@ -184,7 +195,8 @@ const ProcessesDisplay = ({
       </div>
       <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
         <ProcessInput
-          disablePriorityField={algorithm !== 'priority' && algorithm !== 'all'}
+          priorityEnabled={algorithm === 'priority' || algorithm === 'all'}
+          typeEnabled={algorithm === 'multi-level' || algorithm === 'all'}
           currentCount={processes.length + 1}
           submitProcess={(v) => {
             setProcesses((curr) => [...curr, v]);

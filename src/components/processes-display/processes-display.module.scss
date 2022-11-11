@@ -58,8 +58,8 @@
     border-radius: .4em;
 
     &[data-recently-moved] {
-      background-color: transparentize($highlight-color, .25);
-      box-shadow: 0 0 1rem transparentize($highlight-color, .25);
+      background-color: transparentize($highlight-color, .5);
+      box-shadow: 0 0 1rem transparentize($highlight-color, .5);
     }
     &:not(:last-child) {
       margin-bottom: 1rem;
@@ -97,6 +97,7 @@
     max-height: 0;
     overflow: hidden;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     transition: max-height .3s ease-in-out, padding .3s ease-in-out;
@@ -107,6 +108,8 @@
 
     .subInfoGroup {
       @media screen and (max-width: 1100px) {
+        width: 20vw;
+        margin-bottom: .5rem;
         display: flex;
         flex-direction: column;
         .subInfoName {
