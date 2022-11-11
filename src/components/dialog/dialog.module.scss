@@ -28,7 +28,7 @@
   color: $text-main;
   background: transparent;
 
-  input {
+  input, select {
     background: lighten($background-sec, 10%);
   }
   

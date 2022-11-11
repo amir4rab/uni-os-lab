@@ -5,13 +5,15 @@ import classes from './process-input.module.scss';
 interface Props {
   submitProcess: (v: Process) => void;
   currentCount: number;
-  disablePriorityField?: boolean;
+  priorityEnabled?: boolean;
+  typeEnabled?: boolean;
 }
 
 const ProcessInput = ({
   submitProcess,
   currentCount = 1,
-  disablePriorityField = false,
+  priorityEnabled = false,
+  typeEnabled = false,
 }: Props) => {
   const [error, setError] = useState<null | string>(null);
 
@@ -19,22 +21,24 @@ const ProcessInput = ({
   const priorityInputRef = useRef<HTMLInputElement | null>(null);
   const arrivalTimeInputRef = useRef<HTMLInputElement | null>(null);
   const durationInputRef = useRef<HTMLInputElement | null>(null);
+  const processTypeSelectRef = useRef<HTMLSelectElement | null>(null);
 
   const resetInput = () => {
-    if (
-      nameInputRef.current === null ||
-      priorityInputRef.current === null ||
-      arrivalTimeInputRef.current === null ||
-      durationInputRef.current === null
-    ) {
-      return;
-    }
+    if (nameInputRef.current !== null)
+      nameInputRef.current.value = 'P' + (currentCount + 1);
 
-    nameInputRef.current.value = 'P' + (currentCount + 1);
-    priorityInputRef.current.value = priorityInputRef.current.defaultValue;
-    arrivalTimeInputRef.current.value =
-      arrivalTimeInputRef.current.defaultValue;
-    durationInputRef.current.value = durationInputRef.current.defaultValue;
+    if (priorityInputRef.current !== null)
+      priorityInputRef.current.value = priorityInputRef.current.defaultValue;
+
+    if (arrivalTimeInputRef.current !== null)
+      arrivalTimeInputRef.current.value =
+        arrivalTimeInputRef.current.defaultValue;
+
+    if (durationInputRef.current !== null)
+      durationInputRef.current.value = durationInputRef.current.defaultValue;
+
+    if (processTypeSelectRef.current !== null)
+      processTypeSelectRef.current.value = 'foreground';
   };
 
   const onSubmit = (e: JSX.TargetedEvent<HTMLFormElement, Event>) => {
@@ -43,7 +47,6 @@ const ProcessInput = ({
 
     if (
       nameInputRef.current === null ||
-      priorityInputRef.current === null ||
       arrivalTimeInputRef.current === null ||
       durationInputRef.current === null
     ) {
@@ -52,7 +55,6 @@ const ProcessInput = ({
 
     if (
       typeof nameInputRef.current.value !== 'string' ||
-      parseInt(priorityInputRef.current.value) === NaN ||
       parseInt(arrivalTimeInputRef.current.value) === NaN ||
       parseInt(durationInputRef.current.value) === NaN
     ) {
@@ -64,7 +66,14 @@ const ProcessInput = ({
     }
 
     const name = nameInputRef.current.value;
-    const priority = parseInt(priorityInputRef.current.value);
+    const type =
+      processTypeSelectRef.current === null
+        ? 'foreground'
+        : (processTypeSelectRef.current.value as 'foreground' | 'background');
+    const priority =
+      priorityInputRef.current === null
+        ? 0
+        : parseInt(priorityInputRef.current.value);
     const arrivalTime = parseInt(arrivalTimeInputRef.current.value);
     const duration = parseInt(durationInputRef.current.value);
 
@@ -74,9 +83,11 @@ const ProcessInput = ({
       arrivalTime,
       name,
       priority,
+      type,
     });
     resetInput();
   };
+
   return (
     <form onSubmit={(e) => onSubmit(e)}>
       <div>
@@ -91,22 +102,38 @@ const ProcessInput = ({
             ref={nameInputRef}
           />
         </div>
+        {priorityEnabled && (
+          <div className={classes.inputWrapper}>
+            <label htmlFor="priority">Priority</label>
+            <input
+              required
+              type="number"
+              id="priority"
+              name="priority"
+              min={0}
+              max={127}
+              defaultValue={'0'}
+              ref={priorityInputRef}
+            />
+          </div>
+        )}
+        {typeEnabled && (
+          <div className={classes.inputWrapper}>
+            <label htmlFor="processType">Process type</label>
+            <select
+              required
+              id="processType"
+              name="processType"
+              defaultValue={'foreground'}
+              ref={processTypeSelectRef}
+            >
+              <option value="foreground">Foreground</option>
+              <option value="background">Background</option>
+            </select>
+          </div>
+        )}
         <div className={classes.inputWrapper}>
-          <label htmlFor="priority">Priority</label>
-          <input
-            required
-            type="number"
-            id="priority"
-            name="priority"
-            disabled={disablePriorityField}
-            min={0}
-            max={127}
-            defaultValue={'0'}
-            ref={priorityInputRef}
-          />
-        </div>
-        <div className={classes.inputWrapper}>
-          <label htmlFor="arrivalTime">Arrival Time in ms</label>
+          <label htmlFor="arrivalTime">Arrival time in ms</label>
           <input
             required
             min={0}
@@ -118,7 +145,7 @@ const ProcessInput = ({
           />
         </div>
         <div className={classes.inputWrapper}>
-          <label htmlFor="duration">Duration in ms</label>
+          <label htmlFor="duration">Execution time in ms</label>
           <input
             required
             min={1}

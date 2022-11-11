@@ -16,7 +16,8 @@ body {
   color: $text-main;
 }
 
-input {
+input, select {
+  appearance: none;
   background-color: $background-sec;
   color: $text-main;
   border: none;
