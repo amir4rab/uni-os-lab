@@ -12,23 +12,21 @@ interface Props {
   goBack: () => void;
   onReset: () => void;
   timeSlice: number;
+  algorithms: SchedulingAlgorithm[];
 }
-
-const processes: SchedulingAlgorithm[] = [
-  'fcfs',
-  'priority',
-  'sjf',
-  'lottery',
-  'round-robin',
-  'multi-level',
-];
 
 interface AverageTimeItem {
   v: number;
   name: string;
 }
 
-const ResultGallery = ({ data, goBack, onReset, timeSlice }: Props) => {
+const ResultGallery = ({
+  data,
+  goBack,
+  onReset,
+  timeSlice,
+  algorithms,
+}: Props) => {
   const { process } = useAlgorithm();
   const [averageReturnTimes, setAverageReturnTimes] = useState<
     AverageTimeItem[]
@@ -45,7 +43,7 @@ const ResultGallery = ({ data, goBack, onReset, timeSlice }: Props) => {
     setAverageReturnTimes([]);
     setAverageResponseTimes([]);
 
-    processes.map((algorithm) => {
+    algorithms.map((algorithm) => {
       const { averageResponseTime, averageReturnTime, gantt } = process({
         algorithm,
         processes: [...data],

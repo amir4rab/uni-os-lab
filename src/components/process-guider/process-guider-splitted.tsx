@@ -18,7 +18,6 @@ import Loading from '../loading';
 // Dynamic components
 const AlgorithmSelector = lazy(() => import('../algorithm-selector'));
 const Fader = lazy(() => import('../fader'));
-const ResultDisplayer = lazy(() => import('../result-displayer'));
 const ResultGallery = lazy(() => import('../result-gallery'));
 const ProcessesDisplay = lazy(() => import('../processes-display'));
 
@@ -27,8 +26,9 @@ const steps = ['Choose algorithm', 'Add processes', 'Results'];
 const ProcessGuider = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [timeSlice, setTimeSlice] = useState(1);
-  const [selectedAlgorithm, setSelectedAlgorithm] =
-    useState<SchedulingAlgorithm | null>(null);
+  const [selectedAlgorithms, setSelectedAlgorithms] = useState<
+    SchedulingAlgorithm[]
+  >([]);
   const [processes, setProcesses] = useState<ProcessArray>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,7 +37,7 @@ const ProcessGuider = () => {
   /** Resets inputs */
   const reset = () => {
     setCurrentStep(0);
-    setSelectedAlgorithm(null);
+    setSelectedAlgorithms([]);
     setProcesses([]);
     setTimeSlice(1);
   };
@@ -63,9 +63,9 @@ const ProcessGuider = () => {
   return (
     <section>
       <header className={classes.header}>
-        <p className={classes.algorithm}>{selectedAlgorithm}</p>
+        <p className={classes.algorithm}>{selectedAlgorithms}</p>
         <div
-          data-to-right={selectedAlgorithm !== null && true}
+          data-to-right={selectedAlgorithms !== null && true}
           className={classes.progressWrapper}
         >
           {steps.map((_, i) => (
@@ -84,47 +84,32 @@ const ProcessGuider = () => {
           <Fader displayed={currentStep === 0}>
             <AlgorithmSelector
               onSubmit={(v) => {
-                setSelectedAlgorithm(v);
+                setSelectedAlgorithms(v);
                 setCurrentStep((curr) => curr + 1);
               }}
             />
           </Fader>
           <Fader displayed={currentStep === 1}>
-            {selectedAlgorithm && (
-              <ProcessesDisplay
-                defaultTimeSlice={timeSlice}
-                goBack={stepBack}
-                defaultProcesses={processes}
-                algorithm={selectedAlgorithm}
-                onSubmit={(processes, timeSlice) => {
-                  setProcesses(processes);
-                  setTimeSlice(timeSlice);
-                  setCurrentStep((curr) => curr + 1);
-                }}
-              />
-            )}
+            <ProcessesDisplay
+              defaultTimeSlice={timeSlice}
+              goBack={stepBack}
+              defaultProcesses={processes}
+              algorithms={selectedAlgorithms}
+              onSubmit={(processes, timeSlice) => {
+                setProcesses(processes);
+                setTimeSlice(timeSlice);
+                setCurrentStep((curr) => curr + 1);
+              }}
+            />
           </Fader>
           <Fader displayed={currentStep === 2}>
-            {selectedAlgorithm !== null &&
-              processes.length !== 0 &&
-              (selectedAlgorithm !== 'all' ? (
-                <ResultDisplayer
-                  goBack={stepBack}
-                  data={process({
-                    algorithm: selectedAlgorithm,
-                    processes,
-                    timeSlice,
-                  })}
-                  onReset={reset}
-                />
-              ) : (
-                <ResultGallery
-                  goBack={stepBack}
-                  data={processes}
-                  onReset={reset}
-                  timeSlice={timeSlice}
-                />
-              ))}
+            <ResultGallery
+              goBack={stepBack}
+              data={processes}
+              onReset={reset}
+              timeSlice={timeSlice}
+              algorithms={selectedAlgorithms}
+            />
           </Fader>
         </Suspense>
       )}

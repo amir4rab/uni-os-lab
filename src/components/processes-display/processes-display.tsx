@@ -7,7 +7,7 @@ import ProcessInput from '../process-input';
 import classes from './processes-display.module.scss';
 
 interface Props {
-  algorithm: SchedulingAlgorithm;
+  algorithms: SchedulingAlgorithm[];
   defaultProcesses?: ProcessesArray;
   onSubmit: (v: ProcessesArray, timeSlice: number) => void;
   defaultTimeSlice: number;
@@ -20,14 +20,14 @@ const ProcessDisplay = ({
   moveItem,
   p,
   processesLength,
-  algorithm,
+  algorithms,
 }: {
   p: Process;
   moveItem: (d: 'up' | 'down', i: number) => void;
   deleteItem: (i: number) => void;
   processesLength: number;
   i: number;
-  algorithm: SchedulingAlgorithm;
+  algorithms: SchedulingAlgorithm[];
 }) => {
   const { name, arrivalTime, duration, id, priority, type } = p;
   const elRef = useRef<HTMLDivElement | null>(null);
@@ -98,13 +98,13 @@ const ProcessDisplay = ({
           <span className={classes.subInfoName}>{`ID: `}</span>
           <span>{id}</span>
         </p>
-        {(algorithm === 'all' || algorithm === 'priority') && (
+        {algorithms.includes('priority') && (
           <p className={classes.subInfoGroup}>
             <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
             <span>{priority}</span>
           </p>
         )}
-        {(algorithm === 'all' || algorithm === 'multi-level') && (
+        {algorithms.includes('multi-level') && (
           <p className={classes.subInfoGroup}>
             <span className={classes.subInfoName}>{`Type: `}</span>{' '}
             <span>{type}</span>
@@ -117,7 +117,7 @@ const ProcessDisplay = ({
 
 const ProcessesDisplay = ({
   onSubmit,
-  algorithm,
+  algorithms,
   defaultProcesses = [],
   defaultTimeSlice = 1,
   goBack,
@@ -142,7 +142,7 @@ const ProcessesDisplay = ({
   return (
     <div>
       <h3 className={classes.title}>Add Processes</h3>
-      {(algorithm === 'all' || algorithm === 'round-robin') && (
+      {algorithms.includes('round-robin') && (
         <div className={classes.timeSliceInputGroup}>
           <label>Time Slice</label>
           <input
@@ -158,7 +158,7 @@ const ProcessesDisplay = ({
       <div className={classes.listDisplay}>
         {processes.map((p, i) => (
           <ProcessDisplay
-            algorithm={algorithm}
+            algorithms={algorithms}
             p={p}
             deleteItem={deleteItem}
             moveItem={moveItem}
@@ -195,8 +195,8 @@ const ProcessesDisplay = ({
       </div>
       <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
         <ProcessInput
-          priorityEnabled={algorithm === 'priority' || algorithm === 'all'}
-          typeEnabled={algorithm === 'multi-level' || algorithm === 'all'}
+          priorityEnabled={algorithms.includes('priority')}
+          typeEnabled={algorithms.includes('multi-level')}
           currentCount={processes.length + 1}
           submitProcess={(v) => {
             setProcesses((curr) => [...curr, v]);
