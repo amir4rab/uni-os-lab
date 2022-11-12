@@ -1,3 +1,5 @@
+@import '../../sass/styles';
+
 .learnMore {
   h3 {
     margin-bottom: 1rem;
@@ -13,6 +15,17 @@
     display: flex;
     justify-content: center;
     align-content: center;
+  }
+
+  .iframeLoader {
+    width: 100%;
+    background: lighten($background-sec, 10%);
+    border-radius: .4em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 2rem 4rem;
   }
 
   iframe {
