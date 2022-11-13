@@ -55,19 +55,20 @@ interface Props {
 
 const AlgorithmSelector = ({ onSubmit }: Props) => {
   const [selectedAlgorithms, setSelectedAlgorithms] = useState<
-    SchedulingAlgorithm[]
-  >([]);
+    (SchedulingAlgorithm | null)[]
+  >(new Array(algorithms.length).fill(null, 0, algorithms.length));
   const [expandedIndex, setExpandedIndex] = useState(-1);
 
   const toggleAlgorithm = (
     algorithm: SchedulingAlgorithm,
     toggleV: boolean,
+    index: number,
   ) => {
-    if (toggleV) {
-      setSelectedAlgorithms((curr) => [...curr, algorithm]);
-    } else {
-      setSelectedAlgorithms((curr) => curr.filter((v) => v !== algorithm));
-    }
+    setSelectedAlgorithms((curr) => {
+      const nArray = [...curr];
+      nArray[index] = toggleV ? algorithm : null;
+      return nArray;
+    });
   };
 
   return (
@@ -106,10 +107,18 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
                 <Checkbox
                   id={id + '-checkbox'}
                   onChange={(v) => {
-                    toggleAlgorithm(id, v);
+                    toggleAlgorithm(id, v, i);
                   }}
+                  outerState={selectedAlgorithms[i] !== null}
                 />
-                <h4 className={classes.title} style="margin-left: .5rem;">
+                <h4
+                  onClick={() => {
+                    toggleAlgorithm(id, selectedAlgorithms[i] === null, i);
+                  }}
+                  className={classes.title}
+                  style="margin-left: .5rem;"
+                  data-clickable
+                >
                   {name}
                 </h4>
                 <button
@@ -125,10 +134,17 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           ))}
           <div className={classes.algorithmsFooter}>
             <button
-              disabled={selectedAlgorithms.length === 0}
+              disabled={
+                selectedAlgorithms.filter((i) => i !== null).length === 0
+              }
               className="secondary"
               onClick={() =>
-                selectedAlgorithms.length !== 0 && onSubmit(selectedAlgorithms)
+                selectedAlgorithms.length !== 0 &&
+                onSubmit(
+                  selectedAlgorithms.filter(
+                    (i) => i !== null,
+                  ) as SchedulingAlgorithm[],
+                )
               }
             >
               Continue with selected

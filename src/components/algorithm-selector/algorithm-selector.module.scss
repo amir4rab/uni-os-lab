@@ -65,6 +65,10 @@
     .title {
       font-size: 1rem;
       margin: 0;
+      &[data-clickable] {
+        cursor: pointer;
+        user-select: none;
+      }
     }
 
     button {
