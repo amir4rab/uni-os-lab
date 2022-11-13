@@ -2,8 +2,8 @@
 
 .checkbox {
   display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
 
   input { 
     display: none;
@@ -14,11 +14,10 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: transparentize($highlight-color, .75);
-    border: .1rem solid $highlight-color;
+    background: transparentize($text-main, .75);
+    border: .1rem solid $text-main;
     border-radius: .4em;
   }
-
   .iconWrapper {
     position: absolute;
     transform: translate(-50%, -50%) scale(1);
@@ -28,15 +27,23 @@
     width: 100%;
     height: 100%;
     transition: transform .15s ease-in-out, opacity .15s ease-in-out;
-
-    &[data-checked=false] {
-      transform: translate(-50%, 100%) scale(.75);
-      opacity: 0;
-    }
-
   }
   .icon {
     transform: scale(.75);
     stroke: $highlight-color;
+  }  
+  
+  &[data-checked=false] {
+    .iconWrapper {
+      transform: translate(-50%, 100%) scale(.75);
+      opacity: 0;
+    }
+  }
+
+  &[data-checked=true] {
+    label {
+      background: transparentize($highlight-color, .75);
+      border: .1rem solid $highlight-color;
+    }
   }
 }

@@ -3,17 +3,31 @@ import classes from './checkbox.module.scss';
 
 interface Props {
   onChange?: (checked: boolean) => any;
+  outerState?: boolean;
   id: string;
+  fontsize?: string;
   checkedByDefault?: boolean;
+  className?: string;
 }
 
-const Checkbox = ({ id, onChange, checkedByDefault = false }: Props) => {
+const Checkbox = ({
+  id,
+  onChange,
+  outerState,
+  checkedByDefault = false,
+  fontsize = '1.25rem',
+  className,
+}: Props) => {
   const [state, setState] = useState(checkedByDefault);
 
   return (
-    <div className={classes.checkbox}>
+    <div
+      className={[classes.checkbox, className].join(' ')}
+      data-checked={outerState !== undefined ? outerState : state}
+      style={`width: ${fontsize}; height: ${fontsize};`}
+    >
       <label for={id}>
-        <div className={classes.iconWrapper} data-checked={state}>
+        <div className={classes.iconWrapper}>
           <svg
             className={classes.icon}
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +50,7 @@ const Checkbox = ({ id, onChange, checkedByDefault = false }: Props) => {
         onChange={(e) => {
           const { checked } = e.target as HTMLInputElement;
           if (typeof checked !== 'boolean') return;
-          setState(checked);
+          outerState === undefined && setState(checked);
           onChange && onChange(checked);
         }}
       />
