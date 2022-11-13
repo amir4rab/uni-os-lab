@@ -63,9 +63,14 @@ const ProcessGuider = () => {
   return (
     <section>
       <header className={classes.header}>
-        <p className={classes.algorithm}>{selectedAlgorithms}</p>
+        <p className={classes.algorithm}>
+          {selectedAlgorithms.length !== 0 &&
+            (selectedAlgorithms.length === 1
+              ? selectedAlgorithms
+              : `${selectedAlgorithms.length} algorithms`)}
+        </p>
         <div
-          data-to-right={selectedAlgorithms !== null && true}
+          data-to-right={selectedAlgorithms.length !== 0 && true}
           className={classes.progressWrapper}
         >
           {steps.map((_, i) => (
