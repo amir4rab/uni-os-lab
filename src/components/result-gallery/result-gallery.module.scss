@@ -36,4 +36,51 @@
   .item {
     margin-bottom: 2rem;
   }
+
+  .filters {
+    padding: 2rem 0;
+
+    .filtersTitle {
+      font-size: 1rem;  
+    }
+
+    .chipsWrapper {
+      width: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-wrap: nowrap;
+      padding: .75rem 0;
+    }
+
+    .chip {
+      font-size: .8rem;
+      border-radius: 1em;
+      white-space: nowrap;
+      background: $background-sec;
+      color: $text-main;
+      border: .1rem solid transparent;
+      transition: background .15s ease-in-out, color .15s ease-in-out, border .15s ease-in-out, transform .15s ease-in-out,;
+
+      &:not(:disabled):active {
+        background: lighten( $background-sec, 20% );
+      }
+
+      &:not(:disabled):hover {
+        background: lighten( $background-sec, 10% );
+      }
+
+      &[data-active=true] {
+        color: $highlight-color;
+        border: .1rem solid $highlight-color;
+      }
+
+      &[data-active=false] {
+        opacity: .75;
+      }
+
+      &:not(:last-child) {
+        margin-right: .25rem;
+      }
+    }
+  }
 }

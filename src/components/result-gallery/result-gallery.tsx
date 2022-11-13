@@ -28,6 +28,9 @@ const ResultGallery = ({
   algorithms,
 }: Props) => {
   const { process } = useAlgorithm();
+  const [activeAlgorithms, setActiveAlgorithms] = useState(
+    new Array(algorithms.length).fill(true, 0, algorithms.length)
+  );
   const [averageReturnTimes, setAverageReturnTimes] = useState<
     AverageTimeItem[]
   >([]);
@@ -58,8 +61,6 @@ const ResultGallery = ({
         },
       ]);
 
-      console.log(averageReturnTime, averageResponseTime);
-
       setAverageReturnTimes((curr) => [
         ...curr,
         { name: algorithm, v: averageReturnTime },
@@ -71,7 +72,6 @@ const ResultGallery = ({
     });
   }, [data, timeSlice]);
 
-  // infinite loops
   return (
     <div className={classes.resultGallery}>
       <h1 className={classes.title}>Processes result</h1>
@@ -85,24 +85,53 @@ const ResultGallery = ({
         better="less"
         title="Average Response Time per algorithm"
       />
-      {processResults.map(({ algorithm, data }) => {
+      {
+        algorithms.length !== 0 && (
+          <div className={classes.filters}>
+            <p className={classes.filtersTitle}>Displayed algorithms</p>
+            <div className={classes.chipsWrapper}>
+              {
+                activeAlgorithms.map((v, i) => (
+                  <button
+                    className={classes.chip}
+                    data-active={v}
+                    onClick={() => setActiveAlgorithms(curr => {
+                      const newArr = [...curr];
+                      newArr[i] = !curr[i];
+                      return newArr;
+                    })}
+                  >
+                    {algorithms[i] + ` ${v}`}
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+        )
+      }
+      {processResults.map(({ algorithm, data }, i) => {
         const { averageResponseTime, averageReturnTime, gantt } = data;
 
         return (
-          <div id={algorithm} className={classes.item}>
-            <h2 className={classes.subtitle}>{algorithm}</h2>
-            <GanttChart gantt={gantt} />
-            <div className={classes.subDetails}>
-              <p>
-                <span>Average Response Time: </span>
-                <span>{`${averageResponseTime}ms`}</span>
-              </p>
-              <p>
-                <span>Average Return Time: </span>
-                <span>{`${averageReturnTime}ms`}</span>
-              </p>
-            </div>
-          </div>
+          <>
+            {
+              activeAlgorithms[i] ?
+              <div id={algorithm} className={classes.item}>
+                <h2 className={classes.subtitle}>{algorithm}</h2>
+                <GanttChart gantt={gantt} />
+                <div className={classes.subDetails}>
+                  <p>
+                    <span>Average Response Time: </span>
+                    <span>{`${averageResponseTime}ms`}</span>
+                  </p>
+                  <p>
+                    <span>Average Return Time: </span>
+                    <span>{`${averageReturnTime}ms`}</span>
+                  </p>
+                </div>
+              </div> : null
+            }
+          </>
         );
       })}
       <div className={classes.actions}>
