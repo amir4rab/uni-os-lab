@@ -377,21 +377,23 @@ const lottery = (processes: ProcessArray): ProcessResult => {
 };
 
 const multiLevel = (processes: ProcessArray): ProcessResult => {
+  const sortedProcesses = sortProcessesByArrivalTime(processes);
+
   // Results variables
   const gantt: Gantt = [];
   let averageReturnTime = 0;
   let averageResponseTime = 0;
 
   // Processing variables
-  const seen = new Array(processes.length).fill(false, 0, processes.length - 1);
+  const seen = new Array(sortedProcesses.length).fill(false, 0, sortedProcesses.length - 1);
   let currentTime = 0;
 
-  for (let _ = 0; _ < processes.length; _++) {
+  for (let _ = 0; _ < sortedProcesses.length; _++) {
     let nextItem = -1;
     let readyToExecuteBackgroundProcess = -1;
     let noProcessExecuted = true;
 
-    for (let i = 0; i < processes.length; i++) {
+    for (let i = 0; i < sortedProcesses.length; i++) {
       if (seen[i]) continue;
 
       if (nextItem === -1) nextItem = i;
@@ -399,12 +401,10 @@ const multiLevel = (processes: ProcessArray): ProcessResult => {
       // Executing next item, in case we have a time gap with the next process
       if (
         nextItem !== -1 &&
-        processes[i].arrivalTime > currentTime &&
+        sortedProcesses[i].arrivalTime > currentTime &&
         readyToExecuteBackgroundProcess === -1
       ) {
-        console.log('Skipping to next item');
-
-        const { arrivalTime, duration, id, name } = processes[nextItem];
+        const { arrivalTime, duration, id, name } = sortedProcesses[nextItem];
         currentTime = arrivalTime;
         seen[nextItem] = true;
 
@@ -425,13 +425,11 @@ const multiLevel = (processes: ProcessArray): ProcessResult => {
 
       // Executing ready foreground task
       if (
-        processes[i].type === 'foreground' &&
-        processes[i].arrivalTime <= currentTime
+        sortedProcesses[i].type === 'foreground' &&
+        sortedProcesses[i].arrivalTime <= currentTime
       ) {
-        console.log('Executing foreground');
-
         seen[i] = true;
-        const { arrivalTime, duration, id, name } = processes[i];
+        const { arrivalTime, duration, id, name } = sortedProcesses[i];
 
         gantt.push({
           id,
@@ -451,8 +449,8 @@ const multiLevel = (processes: ProcessArray): ProcessResult => {
       // Caching next background process for execution
       if (
         readyToExecuteBackgroundProcess === -1 &&
-        processes[i].type === 'background' &&
-        processes[i].arrivalTime <= currentTime
+        sortedProcesses[i].type === 'background' &&
+        sortedProcesses[i].arrivalTime <= currentTime
       ) {
         readyToExecuteBackgroundProcess = i;
       }
@@ -463,7 +461,7 @@ const multiLevel = (processes: ProcessArray): ProcessResult => {
       seen[readyToExecuteBackgroundProcess] = true;
 
       const { arrivalTime, duration, id, name } =
-        processes[readyToExecuteBackgroundProcess];
+        sortedProcesses[readyToExecuteBackgroundProcess];
 
       gantt.push({
         id,
@@ -479,10 +477,10 @@ const multiLevel = (processes: ProcessArray): ProcessResult => {
   }
 
   averageResponseTime = parseFloat(
-    (averageResponseTime / processes.length).toFixed(2),
+    (averageResponseTime / sortedProcesses.length).toFixed(2),
   );
   averageReturnTime = parseFloat(
-    (averageReturnTime / processes.length).toFixed(2),
+    (averageReturnTime / sortedProcesses.length).toFixed(2),
   );
 
   return {
