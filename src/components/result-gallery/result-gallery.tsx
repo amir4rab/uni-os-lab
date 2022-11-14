@@ -75,18 +75,19 @@ const ResultGallery = ({
   return (
     <div className={classes.resultGallery}>
       <h1 className={classes.title}>Processes result</h1>
-      <Chart
-        data={averageReturnTimes}
-        better="less"
-        title="Average Return Time per algorithm"
-      />
-      <Chart
-        data={averageResponseTimes}
-        better="less"
-        title="Average Response Time per algorithm"
-      />
       {
-        algorithms.length > 1 && (
+        algorithms.length > 1 &&
+        <>
+          <Chart
+            data={averageReturnTimes}
+            better="less"
+            title="Average Return Time per algorithm"
+          />
+          <Chart
+            data={averageResponseTimes}
+            better="less"
+            title="Average Response Time per algorithm"
+          />
           <div className={classes.filters}>
             <p className={classes.filtersTitle}>Displayed algorithms</p>
             <div className={classes.chipsWrapper}>
@@ -107,7 +108,7 @@ const ResultGallery = ({
               }
             </div>
           </div>
-        )
+        </>
       }
       {processResults.map(({ algorithm, data }, i) => {
         const { averageResponseTime, averageReturnTime, gantt } = data;

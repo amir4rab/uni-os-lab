@@ -27,7 +27,7 @@ const Chart = ({ data, better, title }: Props) => {
       if (min > v) min = v;
     });
 
-    setMaxHeight(max * 1.25);
+    setMaxHeight(max * 1);
     setItemWidth(100 / (data.length + 1));
     if (min !== null && max !== null)
       setEdgeValues({
@@ -66,14 +66,6 @@ const Chart = ({ data, better, title }: Props) => {
                         }%, 0)`}
                       />
                     </div>
-                    {isHighlighted && (
-                      <div
-                        style={`left: ${(v * 100) / maxHeight}%`}
-                        className={classes.highlightedComparison}
-                      >
-                        Fastest
-                      </div>
-                    )}
                   </div>
                   <p>
                     <span className={classes.name}>{name}</span>
