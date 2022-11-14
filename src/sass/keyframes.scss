@@ -2,7 +2,7 @@
   @keyframes animateIn {
     from {
       opacity: 0;
-      transform: translate(0, -0.5rem);
+      transform: translate(0, -1rem);
     }
   
     to {
@@ -24,7 +24,7 @@
   
     to {
       opacity: 0;
-      transform: translate(0, -0.5rem);
+      transform: translate(0, 1rem);
     }
   }
 

@@ -36,7 +36,6 @@
 
   &[data-displayed=true] {
     @include animate-contents();
-    animation-delay: .3s;
   }
   
   .header {
