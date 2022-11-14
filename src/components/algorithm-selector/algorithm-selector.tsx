@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import classes from './algorithm-selector.module.scss';
 import Checkbox from '../checkbox';
@@ -55,7 +55,11 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     (SchedulingAlgorithm | null)[]
   >(new Array(algorithms.length).fill(null, 0, algorithms.length));
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  const [customMode, setCustomMode] = useState(false);
+  const [customMode, setCustomMode] = useState<boolean | null>(null);
+  const [elHeight, setElHeight] = useState(0);
+
+  const expertModeElRef = useRef<null | HTMLDivElement>(null);
+  const customModeElRef = useRef<null | HTMLDivElement>(null);
 
   const toggleAlgorithm = (
     algorithm: SchedulingAlgorithm,
@@ -69,13 +73,25 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     });
   };
 
+  useEffect(() => {
+    console.log(customModeElRef.current?.getBoundingClientRect());
+
+    const height = 
+      customMode === true ?
+      customModeElRef.current?.getBoundingClientRect().height:
+      expertModeElRef.current?.getBoundingClientRect().height;
+    height && setElHeight(height);
+    console.log(height)
+  }, [customMode])
+
   return (
     <div>
       <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
-      <div className={classes.contentWrapper}>
+      <div className={classes.contentWrapper} style={`height:${elHeight}px`}>
         <div 
-          data-displayed={!customMode} 
+          data-displayed={customMode === null ? true : !customMode} 
           className={classes.algorithmWrapper}
+          ref={expertModeElRef}
         >
           <div className={classes.header}>
             <h4 className={classes.title}>Expert mode</h4>
@@ -92,7 +108,7 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
             </button>
           </div>
           <div className={classes.divider}/>
-          <p className={classes.about}>Or mix and match your favoraite algorithms with custom mode</p>
+          <p className={classes.about}>Or mix and match your favorite algorithms with custom mode</p>
           <div className={classes.submitWrapper}>
             <button
               onClick={() => setCustomMode(true)}
@@ -103,8 +119,9 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           </div>
         </div>
         <div
-          data-displayed={customMode}
+          data-displayed={customMode === null ? undefined : customMode}
           className={classes.algorithmWrapper}
+          ref={customModeElRef}
         >
           <div className={classes.header}>
             <button onClick={() => setCustomMode(false)} className={classes.backButton}>
