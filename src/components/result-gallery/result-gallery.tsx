@@ -86,7 +86,7 @@ const ResultGallery = ({
         title="Average Response Time per algorithm"
       />
       {
-        algorithms.length !== 0 && (
+        algorithms.length > 1 && (
           <div className={classes.filters}>
             <p className={classes.filtersTitle}>Displayed algorithms</p>
             <div className={classes.chipsWrapper}>
@@ -101,7 +101,7 @@ const ResultGallery = ({
                       return newArr;
                     })}
                   >
-                    {algorithms[i] + ` ${v}`}
+                    {algorithms[i]}
                   </button>
                 ))
               }
