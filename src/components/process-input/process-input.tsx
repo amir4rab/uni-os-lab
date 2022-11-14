@@ -88,6 +88,20 @@ const ProcessInput = ({
     resetInput();
   };
 
+  const submitRandomData = () => {
+    const name = nameInputRef.current ? nameInputRef.current.value : 'p';
+
+    submitProcess({
+      duration: parseInt((Math.random() * 30).toFixed(0)),
+      id: 'p' + (Math.random() * 10000).toFixed(0),
+      arrivalTime: parseInt((Math.random() * 30).toFixed(0)),
+      name,
+      priority: parseInt((Math.random() * 127).toFixed(0)),
+      type: (Math.random() * 10) > 5 ? 'background' : 'foreground',
+    });
+    resetInput();
+  }
+
   return (
     <form onSubmit={(e) => onSubmit(e)}>
       <div>
@@ -158,7 +172,10 @@ const ProcessInput = ({
         </div>
       </div>
       <div className={classes.actions}>
-        <button data-primary type="submit">
+        <button className='secondary' style='margin-right: .5rem' type="button" onClick={submitRandomData}>
+          Use Random data
+        </button>
+        <button className='primary' type="submit">
           Submit
         </button>
       </div>
