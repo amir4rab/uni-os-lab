@@ -1,10 +1,7 @@
 import { useState } from 'preact/hooks';
-import { lazy, Suspense } from 'preact/compat';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import classes from './algorithm-selector.module.scss';
 import Checkbox from '../checkbox';
-
-const LearnMore = lazy(() => import('../learn-more'));
 
 interface Algorithm {
   name: string;
@@ -58,6 +55,7 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     (SchedulingAlgorithm | null)[]
   >(new Array(algorithms.length).fill(null, 0, algorithms.length));
   const [expandedIndex, setExpandedIndex] = useState(-1);
+  const [customMode, setCustomMode] = useState(false);
 
   const toggleAlgorithm = (
     algorithm: SchedulingAlgorithm,
@@ -74,29 +72,55 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
   return (
     <div>
       <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
-      <div>
-        <div className={classes.algorithmWrapper}>
-          <div data-expanded={true} className={classes.item}>
-            <div className={classes.header}>
-              <h4 className={classes.title}>Expert mode</h4>
-            </div>
-            <p className={classes.about}>
-              Processes your data with every possible algorithm
-            </p>
-            <div className={classes.submitWrapper}>
-              <button
-                onClick={() => onSubmit(algorithms.map(({ id }) => id))}
-                className="primary"
-              >
-                Select
-              </button>
-            </div>
+      <div className={classes.contentWrapper}>
+        <div 
+          data-displayed={!customMode} 
+          className={classes.algorithmWrapper}
+        >
+          <div className={classes.header}>
+            <h4 className={classes.title}>Expert mode</h4>
+          </div>
+          <p className={classes.about}>
+            Processes your data with every possible algorithm
+          </p>
+          <div className={classes.submitWrapper}>
+            <button
+              onClick={() => onSubmit(algorithms.map(({ id }) => id))}
+              className="primary"
+            >
+              Select
+            </button>
+          </div>
+          <div className={classes.divider}/>
+          <p className={classes.about}>Or mix and match your favoraite algorithms with custom mode</p>
+          <div className={classes.submitWrapper}>
+            <button
+              onClick={() => setCustomMode(true)}
+              className="secondary"
+            >
+              Custom Mode
+            </button>
           </div>
         </div>
         <div
-          style={`animation-delay: .15s`}
+          data-displayed={customMode}
           className={classes.algorithmWrapper}
         >
+          <div className={classes.header}>
+            <button onClick={() => setCustomMode(false)} className={classes.backButton}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <title>Chevron Back</title>
+                <path 
+                  fill="none"
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth="48" 
+                  d="M328 112L184 256l144 144"
+                />
+              </svg>
+            </button>
+            <h4 className={classes.title}>Custom mode</h4>
+          </div>
           {algorithms.map(({ id, name, shortInfo }, i) => (
             <div
               key={id}
@@ -151,11 +175,6 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
             </button>
           </div>
         </div>
-        <Suspense fallback={null}>
-          <div className={classes.algorithmWrapper}>
-            <LearnMore />
-          </div>
-        </Suspense>
       </div>
     </div>
   );

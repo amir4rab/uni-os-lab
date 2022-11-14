@@ -14,3 +14,20 @@
   opacity: 0;
   animation: animateIn .3s ease-in-out forwards;
 } 
+
+@mixin animate-contents-out() {
+  @keyframes animateOut {
+    from {
+      opacity: 1;
+      transform: translate(0, 0rem);
+    }
+  
+    to {
+      opacity: 0;
+      transform: translate(0, -0.5rem);
+    }
+  }
+
+  opacity: 0;
+  animation: animateOut .3s ease-in-out forwards;
+} 
