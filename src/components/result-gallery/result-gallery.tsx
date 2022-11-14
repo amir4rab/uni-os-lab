@@ -114,25 +114,20 @@ const ResultGallery = ({
         const { averageResponseTime, averageReturnTime, gantt } = data;
 
         return (
-          <>
-            {
-              activeAlgorithms[i] ?
-              <div id={algorithm} className={classes.item}>
-                <h2 className={classes.subtitle}>{algorithm}</h2>
-                <GanttChart gantt={gantt} />
-                <div className={classes.subDetails}>
-                  <p>
-                    <span>Average Response Time: </span>
-                    <span>{`${averageResponseTime}ms`}</span>
-                  </p>
-                  <p>
-                    <span>Average Return Time: </span>
-                    <span>{`${averageReturnTime}ms`}</span>
-                  </p>
-                </div>
-              </div> : null
-            }
-          </>
+          <div id={algorithm} className={classes.item} data-displayed={activeAlgorithms[i]}>
+            <h2 className={classes.subtitle}>{algorithm}</h2>
+            <GanttChart gantt={gantt} />
+            <div className={classes.subDetails}>
+              <p>
+                <span>Average Response Time: </span>
+                <span>{`${averageResponseTime}ms`}</span>
+              </p>
+              <p>
+                <span>Average Return Time: </span>
+                <span>{`${averageReturnTime}ms`}</span>
+              </p>
+            </div>
+          </div>
         );
       })}
       <div className={classes.actions}>
