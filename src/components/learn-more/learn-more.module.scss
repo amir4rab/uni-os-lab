@@ -19,7 +19,7 @@
 
   .iframeLoader {
     width: 100%;
-    background: lighten($background-sec, 10%);
+    background: lighten(var(--background-1), 10%);
     border-radius: .4em;
     display: flex;
     flex-direction: column;

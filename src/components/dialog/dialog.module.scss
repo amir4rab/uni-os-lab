@@ -25,16 +25,16 @@
 
   border: .05em solid #b9b9b98a;
   border-radius: .4em;
-  color: $text-main;
+  color: var(--text-main);
   background: transparent;
 
   input, select {
-    background: lighten($background-sec, 10%);
+    background: var(--background-2);
   }
   
   .header {
     padding: .75rem 2rem;
-    background: lighten($background-sec, 15%);
+    background: var(--background-2);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -54,8 +54,8 @@
       font-size: 0;
       overflow: hidden;
       user-select: none;
-      background-color: $background-sec;
-      box-shadow: 0 0 1rem 0 $background-sec;
+      background-color: var(--background-1);
+      box-shadow: 0 0 1rem 0 var(--background-1);
       opacity: .5;
       transition: box-shadow .15s ease-in-out, opacity .15s ease-in-out, background-color .15s ease-in-out;
 
@@ -75,7 +75,7 @@
 
   .content {
     padding: 1rem 2rem;
-    background: $background-sec;
+    background: var(--background-1);
   }
 
   opacity: 0;

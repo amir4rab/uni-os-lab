@@ -23,11 +23,11 @@
     overflow: hidden;
 
     &::-moz-progress-bar, &::-webkit-progress-bar {
-      background-color: transparentize($highlight-color, .5);
+      background-color: var(--accent-color-1-50);
     }
 
     &::-webkit-progress-value {
-      background-color: $highlight-color;
+      background-color: var(--accent-color-1);
       transition: inline-size 1s ease-in-out;
     }
   }

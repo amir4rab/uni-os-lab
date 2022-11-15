@@ -14,8 +14,9 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: transparentize($text-main, .75);
-    border: .1rem solid $text-main;
+    background: --text-main; 
+    opacity: .75;
+    border: .1rem solid var(--text-main);
     border-radius: .4em;
   }
   .iconWrapper {
@@ -30,7 +31,7 @@
   }
   .icon {
     transform: scale(.75);
-    stroke: $highlight-color;
+    stroke: var(--accent-color-1);
   }  
   
   &[data-checked=false] {
@@ -42,8 +43,8 @@
 
   &[data-checked=true] {
     label {
-      background: transparentize($highlight-color, .75);
-      border: .1rem solid $highlight-color;
+      background:--accent-color-1-75;
+      border: .1rem solid var(--accent-color-1);
     }
   }
 }

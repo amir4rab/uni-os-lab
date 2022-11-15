@@ -6,32 +6,36 @@
   box-sizing: border-box;
 }
 
+html {
+  @include setup-color-schemes();
+}
+
 :root {
   font-family: apple-system, BlinkMacSystemFont, sans-serif;
-  accent-color: $highlight-color;
+  accent-color: var(--accent-color-1);
 };
 
 body {
-  background-color: $background-main;
-  color: $text-main;
+  background-color: var(--background-0);
+  color: var(--text-main);
 }
 
 input, select {
   appearance: none;
-  background-color: $background-sec;
-  color: $text-main;
+  background-color: var(--background-1);
+  color: var(--text-main);
   border: none;
   border-radius: .25rem;
   padding: .5em .75em;
 }
 
 a {
-  color: $highlight-color;
+  color: var(--accent-color-1);
 }
 
 button {
-  background-color: $text-main;
-  color: $background-sec;
+  background-color: var(--text-main);
+  color: var(--background-1);
   border: none;
   font-weight: 600;
   border-radius: .6rem;
@@ -39,11 +43,11 @@ button {
   transition: background-color .15s ease-in-out, transform .15s ease-in-out;
   &:not(:disabled):hover {
     cursor: pointer;
-    background: lighten($text-main, 10%);
+    background: --background-1;
     transform: translate(0, -.05em);
   }
   &:not(:disabled):active {
-    background: lighten($text-main, 15%);
+    background: --background-1;
     transform: translate(0, -.15em);
   }
   &:disabled {
@@ -55,17 +59,17 @@ button {
     padding: .4em .75em;
   }
   &[data-primary] {
-    border: $highlight-color .1rem solid;
-    background-color: $highlight-color;
+    border: var(--accent-color-1) .1rem solid;
+    background-color: var(--accent-color-1);
 
     &:not(:disabled):hover {
-      border: darken($highlight-color, 10%) .1rem solid;
-      background-color: darken($highlight-color, 10%);
+      border: var(--accent-color-2) .1rem solid;
+      background-color: var(--accent-color-2);
     }
 
     &:not(:disabled):active {
-      border: darken($highlight-color, 15%) .1rem solid;
-      background-color: darken($highlight-color, 15%);
+      border: var(--accent-color-3) .1rem solid;
+      background-color: var(--accent-color-3);
     }
   }
   &[data-border-less] {

@@ -1,4 +1,45 @@
 $highlight-color: #0ce7d5;
-$text-main: #e0e0e0;
-$background-main: #111;
-$background-sec: #222;
+
+$white-0: #e0e0e0;
+$white-1: #d8d8d8;
+$white-2: #cccccc;
+$black-0: #111;
+$black-1: #222;
+$black-2: #333;
+
+$cyan: #0ce7d5;
+
+@mixin setup-color-schemes {
+  &[data-theme=dark]{
+    --text-main: #{$white-0};
+    --background-0: #{$black-0};
+    --background-1: #{$black-1};
+    --background-1-75: #{transparentize($black-1, .25)};
+    --background-2: #{lighten($black-0, 20%)};
+    --background-3: #{lighten($black-0, 30%)};
+  }
+  &[data-theme=light]{
+    --text-main: #{$black-0};
+    --background-0: #{$white-0};
+    --background-1: #{$white-1};
+    --background-1-75: #{transparentize($white-1, .25)};
+    --background-2: #{darken($white-0, 20%)};
+    --background-3: #{darken($black-0, 30%)};
+  }
+  &[data-accent-color=cyan] {
+    &[data-theme=dark]{
+      --accent-color-0: #{$cyan};
+      --accent-color-1: #{lighten($cyan, 10%)};
+      --accent-color-1-25: #{transparentize(lighten($cyan, 10%), .75)};
+      --accent-color-1-50: #{transparentize(lighten($cyan, 10%), .5)};
+      --accent-color-2: #{lighten($cyan, 20%)};
+    }
+    &[data-theme=light]{
+      --accent-color-0: #{darken($cyan, 10%)};
+      --accent-color-1: #{darken($cyan, 20%)};
+      --accent-color-1-25: #{transparentize(darken($cyan, 20%), .75)};
+      --accent-color-1-50: #{transparentize(darken($cyan, 20%), .5)};
+      --accent-color-2: #{darken($cyan, 30%)};
+    }    
+  }
+}

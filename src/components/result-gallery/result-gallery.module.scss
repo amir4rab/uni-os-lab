@@ -4,7 +4,7 @@
   .title {
     margin-bottom: 2rem;
     font-size: 1.75rem;
-    color: $highlight-color
+    color: var(--accent-color-1)
   }
   .subDetails{
     padding: 1rem 0 2rem 0;
@@ -68,22 +68,22 @@
       font-size: .8rem;
       border-radius: 1em;
       white-space: nowrap;
-      background: $background-sec;
-      color: $text-main;
+      background: var(--background-1);
+      color: var(--text-main);
       border: .1rem solid transparent;
       transition: background .15s ease-in-out, color .15s ease-in-out, border .15s ease-in-out, transform .15s ease-in-out,;
 
       &:not(:disabled):active {
-        background: lighten( $background-sec, 20% );
+        background: var(--background-2);
       }
 
       &:not(:disabled):hover {
-        background: lighten( $background-sec, 10% );
+        background: var(--background-2);
       }
 
       &[data-active=true] {
-        color: $highlight-color;
-        border: .1rem solid $highlight-color;
+        color: var(--accent-color-1);
+        border: .1rem solid var(--accent-color-1);
       }
 
       &[data-active=false] {

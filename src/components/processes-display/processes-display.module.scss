@@ -3,7 +3,7 @@
 .title {
   margin-bottom: 1rem;
   font-size: 1.75rem;
-  color: $highlight-color
+  color: var(--accent-color-1)
 }
 
 .actions {
@@ -37,7 +37,7 @@
 .listDisplay {
   padding: 1rem 1rem;
   border-radius: .4em;
-  background-color: $background-sec;
+  background-color: var(--background-1);
 
   .alert {
     text-align: center;
@@ -53,13 +53,13 @@
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
-    box-shadow: 0 0 1rem transparentize($highlight-color, 1);
+    box-shadow: 0 0 1rem transparent;
     transition: background-color .3s ease-in-out, box-shadow .3s ease-in-out;
     border-radius: .4em;
 
     &[data-recently-moved] {
-      background-color: transparentize($highlight-color, .5);
-      box-shadow: 0 0 1rem transparentize($highlight-color, .5);
+      background-color: var(--accent-color-1-50);
+      box-shadow: 0 0 1rem var(--accent-color-1-50);
     }
     &:not(:last-child) {
       margin-bottom: 1rem;

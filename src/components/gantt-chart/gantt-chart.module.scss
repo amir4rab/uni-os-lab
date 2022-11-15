@@ -1,7 +1,7 @@
 @import '../../sass/styles';
 
 .ganttChart {
-  background-color: $background-sec;
+  background-color: var(--background-1);
   padding: 1rem 2rem;
   margin: 1rem 0;
   border-radius: .4em;
@@ -36,17 +36,17 @@
     height: 1.75rem;
     position: absolute;
     border-radius: .4em;
-    background: $background-main;
+    background: var(--background-0);
     opacity: .5;
     transition: opacity .15s ease-in-out, background-color .2s ease-in-out, box-shadow .3s ease-in-out;
     box-shadow: 0 0 1rem transparent;
-    background: $background-main;
+    background: var(--background-0);
 
     .leftSec, .rightSec {
       opacity: 0;
       user-select: none;
       pointer-events: none;
-      color: $background-main;
+      color: var(--background-0);
       transition: opacity .15s ease-in-out;
       font-size: .7rem;
     }
@@ -54,8 +54,8 @@
     
     &:hover {
       opacity: 1;
-      background-color: $highlight-color;
-      box-shadow: 0 0 1rem $highlight-color;
+      background-color: var(--accent-color-1);
+      box-shadow: 0 0 1rem var(--accent-color-1);
 
       .leftSec, .rightSec {
         opacity: 1;

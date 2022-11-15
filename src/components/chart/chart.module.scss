@@ -10,7 +10,7 @@
 
   .title {
     font-size: 1.15rem;
-    color: $highlight-color
+    color: var(--accent-color-1)
   }
 
   .footer {
@@ -25,7 +25,7 @@
     margin: .75rem 0;
     padding: 1rem 2rem;
     border-radius: .4em;
-    background-color: $background-sec
+    background-color: var(--background-1)
   }
 
   .item {
@@ -36,7 +36,7 @@
     &[data-highlighted=true] {
       opacity: 1;
       .progressWrapper .progress .progressInner {
-        background-color: $highlight-color !important;
+        background-color: var(--accent-color-1) !important;
       }
     }
 
@@ -57,7 +57,7 @@
         .progressInner {
           border-radius: .4rem;
           position: absolute;
-          background-color: $background-main;
+          background-color: var(--background-0);
           width: 100%;
           left: -100%;
           height: 100%;

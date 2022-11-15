@@ -9,7 +9,7 @@
   align-items: flex-start;
   width: 25%;
   margin-right: 6vw;
-  color: $highlight-color;
+  color: var(--accent-color-1);
 }
 
 @keyframes chip-animation {
