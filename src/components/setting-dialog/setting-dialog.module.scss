@@ -121,6 +121,14 @@
     align-content: center;
   }
 
+  .beta {
+    padding: .4em .6em;
+    border-radius: .6rem;
+    border: .1rem solid var(--text-main);
+    color: var(--text-main);
+    font-size: .6rem;
+  }
+
   .title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;

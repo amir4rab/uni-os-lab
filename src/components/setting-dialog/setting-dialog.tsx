@@ -56,6 +56,7 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
               <h4 className={classes.groupTitle}>
                 Accent colour
               </h4>
+              <div className={classes.beta}>Beta</div>
             </div>
             <p className={classes.groupDescription}>
               Change accent colour to your liking.
@@ -73,6 +74,7 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
               <h4 className={classes.groupTitle}>
                 Colour scheme
               </h4>
+              <div className={classes.beta}>Beta</div>
             </div>
             <p className={classes.groupDescription}>
               We are on the dark side, you too?
