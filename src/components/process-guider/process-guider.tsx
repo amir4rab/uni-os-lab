@@ -1,16 +1,11 @@
 // preact
-import { useEffect, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 import { Suspense, lazy } from 'preact/compat';
 
 // Sass classes
 import classes from './process-guider.module.scss';
 
-// Types
-import ProcessArray from '../../types/process';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
-
-// Hooks
-import useAlgorithm from '../../hooks/use-algorithm';
 
 // Components
 import Loading from '../loading';
