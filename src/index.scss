@@ -8,11 +8,13 @@
 
 html {
   @include setup-color-schemes();
+  @include setup-blur();
 }
 
 :root {
   font-family: apple-system, BlinkMacSystemFont, sans-serif;
   accent-color: var(--accent-color-1);
+  --background-blur: blur(2rem);
 };
 
 body {

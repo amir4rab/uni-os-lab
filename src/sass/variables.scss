@@ -1,0 +1,39 @@
+@mixin setup-blur() {
+  &[data-disable-blur=false] {
+    transition: 
+      backdrop-filter .3s ease-in-out, 
+      -webkit-backdrop-filter .3s ease-in-out, 
+      background .3s ease-in-out;
+    dialog {
+      &[data-displayed=true] {
+        &::backdrop {
+          backdrop-filter: blur(.4rem);
+          -webkit-backdrop-filter: blur(.4rem);
+          background: #2c2c2c99;
+        }
+      }
+      &[data-displayed=false] {
+        &::backdrop {
+          backdrop-filter: blur(0rem);
+          -webkit-backdrop-filter: blur(0rem);
+          background: transparent;
+        }
+      }
+    }
+  }
+  &[data-disable-blur=true] {
+    dialog {
+      transition: background .3s ease-in-out;
+      &[data-displayed=true] {
+        &::backdrop {
+          background: #2c2c2cc0;
+        }
+      }
+      &[data-displayed=false] {
+        &::backdrop {
+          background: transparent;
+        }
+      }
+    }
+  }
+}
