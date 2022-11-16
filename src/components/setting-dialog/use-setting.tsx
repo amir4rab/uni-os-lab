@@ -15,17 +15,25 @@ const accentColorsList: AccentColor[] = [
     name: 'pink'
   },
   {
-    hexCode:'8efa46',
+    hexCode:'60fd00',
     name: 'green'
   },
   {
-    hexCode:'f55656',
+    hexCode:'ff3232',
     name: 'red'
   },
   {
     hexCode:'bb56f5',
     name: 'purple'
   },
+  {
+    hexCode:'bb56f5',
+    name: 'purple'
+  },
+  {
+    hexCode: 'fafd86',
+    name: 'yellow'
+  }
 ];
 
 type ColorScheme = 'dark' | 'light';
