@@ -10,6 +10,14 @@
   color: var(--background-1);
 }
 
+.settingsIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  object-position: center;
+  aspect-ratio: 1 / 1;
+}
+
 .inner {
   height: 100%;
   display: flex;

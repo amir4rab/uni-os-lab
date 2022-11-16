@@ -5,12 +5,11 @@
   right: 2rem;
   bottom: 2rem;
   border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
+  padding: .75em;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  align-content: center;
   box-shadow: 0 0 1rem var(--accent-color-1-50);
   z-index: 5;
 

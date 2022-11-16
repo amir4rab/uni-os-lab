@@ -1,8 +1,13 @@
-import MobileFab from '../mobile-fab/mobile-fab';
+import { useState } from 'preact/hooks';
 import classes from './footer.module.scss';
 
-const Content = ({ onDialog = false }: { onDialog?: boolean }) => (
-  <div className={classes.inner} data-on-dialog={onDialog}>
+import { Suspense, lazy } from 'preact/compat';
+
+const MobileFab = lazy(() => import('../mobile-fab'));
+const SettingDialog = lazy(() => import('../setting-dialog'));
+
+const Content = ({ onClick }: { onClick: () => void }) => (
+  <div className={classes.inner}>
     <div className={classes.section}>
       <div className={classes.sectionItem}>
         <p className={classes.title}>0</p>
@@ -24,28 +29,40 @@ const Content = ({ onDialog = false }: { onDialog?: boolean }) => (
       </div>
     </div>
     <div className={classes.section}>
-      <p>
-        <span>Visit Websites's code on</span>
-        <a
-          href="https://github.com/amir4rab/uni-os-lab"
-          target="_"
-          rel="noreferrer"
-        >
-          Github
-        </a>
-      </p>
+      <button onClick={onClick} className='primary'>
+        Settings
+      </button>
     </div>
   </div>
 );
 
 const Footer = () => {
+  const [ settingsState, setSettingsState ] = useState(false);
+
+  const toggleState = () => setSettingsState(curr => !curr);
+
   return (
     <>
-      <MobileFab icon="?" title="Guide">
-        <Content onDialog={true} />
-      </MobileFab>
+      <Suspense fallback={null}>
+        <MobileFab 
+          icon={
+            <img 
+              src='./icons/settings-outline.svg'
+              alt='mobile settings icon'
+              className={classes.settingsIcon}
+            />
+          }
+          onClick={toggleState}
+        />
+      </Suspense>
+      <Suspense fallback={null}>
+        <SettingDialog 
+          state={settingsState}
+          setState={setSettingsState}
+        />
+      </Suspense>
       <footer className={classes.footer}>
-        <Content />
+        <Content onClick={toggleState} />
       </footer>
     </>
   );
