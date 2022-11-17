@@ -8,6 +8,7 @@ import Dialog from '../dialog';
 
 // data
 import { version } from '../../../package.json';
+import { useEffect, useState } from 'preact/hooks';
 version as string;
 
 function ReloadPrompt() {
@@ -29,21 +30,24 @@ function ReloadPrompt() {
   }
 
   return (
-    <Dialog state={needRefresh} setState={close} title='New update available'>
+    <Dialog 
+      state={needRefresh} 
+      setState={close} 
+      title='New update'
+      disableAnimations={true}
+      className={classes.dialog}
+    >
       <div className={classes.pwaUpdate}>
         <p className={classes.title}>
-          <span>{`New version of web application is available. `}</span>
-          <span>{`click on update to upgrade to version `}</span>
-          <code>{`"${version}"`}</code>
-          <span>{`.`}</span>
+          <span>{`New version of web application is available.`}</span>
         </p>
         <div className={classes.actions}>
           <button 
             className="secondary"
             style="margin-right:.5rem;"
-            onClick={() => close()}
+            onClick={close}
           >
-            Close
+            Ignore
           </button>
           <button 
             className="primary" 
