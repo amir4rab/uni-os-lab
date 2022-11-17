@@ -78,65 +78,69 @@
     background: var(--background-1);
   }
 
-  opacity: 0;
-  @media screen and (max-width: 1100px) {    
-    &[data-displayed=true] {
-      animation: animateInM forwards .15s ease-in-out;
-    }
-    &[data-displayed=false] {
-      animation: animateOutM forwards .15s ease-in-out;
-    }
-  }
-  @media screen and (min-width: 1100px) {
-    &[data-displayed=true] {
-      animation: animateInD forwards .15s ease-in-out;
-    }
-
-    &[data-displayed=false] {
-      animation: animateOutD forwards .15s ease-in-out;
-    }
-  }
-}
-
-@keyframes animateInM {
-  from {
-    transform: translate(0, 100%);
+  
+  &[data-disabled-animation=false] {
     opacity: 0;
-  }
-  to {
-    transform: translate(0, 0);
-    opacity: 1;
+    @media screen and (max-width: 1100px) {    
+      &[data-displayed=true] {
+        animation: animateInM forwards .15s ease-in-out;
+      }
+      &[data-displayed=false] {
+        animation: animateOutM forwards .15s ease-in-out;
+      }
+    }
+    @media screen and (min-width: 1100px) {
+      &[data-displayed=true] {
+        animation: animateInD forwards .15s ease-in-out;
+      }
+  
+      &[data-displayed=false] {
+        animation: animateOutD forwards .15s ease-in-out;
+      }
+    }
+
+    @keyframes animateInM {
+      from {
+        transform: translate(0, 100%);
+        opacity: 0;
+      }
+      to {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes animateOutM {
+      from {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+      to {
+        opacity: 0;
+        transform: translate(0, 100%);
+      }
+    }
+    
+    @keyframes animateInD {
+      from {
+        transform: translate(-50%, calc(-100px - 50%));
+        opacity: 0;
+      }
+    
+      to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes animateOutD {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
   }
 }
 
-@keyframes animateOutM {
-  from {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate(0, 100%);
-  }
-}
-
-@keyframes animateInD {
-  from {
-    transform: translate(-50%, calc(-100px - 50%));
-    opacity: 0;
-  }
-
-  to {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-  }
-}
-
-@keyframes animateOutD {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}

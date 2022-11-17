@@ -15,9 +15,20 @@ interface Props {
   children: ComponentChildren;
   title: string;
   setState: StateUpdater<boolean>;
+  disableAnimations?: boolean;
+  closeImmediately?: boolean;
+  className?: string;
 }
 
-const Dialog = ({ children, state, title, setState }: Props) => {
+const Dialog = ({ 
+  children, 
+  state, 
+  title, 
+  setState, 
+  disableAnimations= false,
+  closeImmediately= false,
+  className
+}: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
@@ -28,7 +39,11 @@ const Dialog = ({ children, state, title, setState }: Props) => {
       elRef.current && elRef.current.showModal();
       !dialogIsSupported && setPolyfillState(true);
     } else {
-      timeOut = setTimeout(() => elRef.current && elRef.current.close(), 500);
+      if ( closeImmediately ) {
+        elRef.current && elRef.current.close()
+      } else {
+        timeOut = setTimeout(() => elRef.current && elRef.current.close(), 150);
+      }
       !dialogIsSupported && setPolyfillState(false);
     }
     () => {
@@ -39,7 +54,12 @@ const Dialog = ({ children, state, title, setState }: Props) => {
   return (
     <>
       {dialogIsSupported === true && (
-        <dialog data-displayed={state} className={classes.dialog} ref={elRef}>
+        <dialog 
+          data-displayed={state}
+          data-disabled-animation={disableAnimations}
+          className={[classes.dialog, className].join(' ')} 
+          ref={elRef}
+        >
           <div className={classes.header}>
             <p className={classes.title}>{title}</p>
             <button className={classes.close} onClick={() => setState(false)}>
