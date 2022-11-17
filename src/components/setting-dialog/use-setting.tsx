@@ -96,6 +96,7 @@ const useSettings: () => UseSettings = () => {
     const { name } = accentColor;
 
     updateHTMLAttributes('data-accent-color',name);
+    updateHTMLAttributes('theme-color', hexCode);
   };
 
   const accentColors: ExportedAccentColor[] = useMemo(() =>(
