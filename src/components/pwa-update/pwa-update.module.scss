@@ -1,0 +1,14 @@
+.pwaUpdate {
+  .title {
+    margin-bottom: 1rem;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+    button {
+      font-size: .8rem !important;
+    }
+  }
+}
