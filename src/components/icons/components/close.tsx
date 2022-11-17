@@ -69,7 +69,7 @@ const CloseIcon = () => {
                       transform="matrix(0.707107,-0.707107,0.707107,0.707107,-4.970563,12)"
                       width="4.242640687119092"
                       height="29.69848480983569"
-                      style="fill: rgb(224, 224, 224); fill-opacity: 1;"
+                      style="fill-opacity: 1;"
                     />
                   </g>
                 </g>
@@ -83,7 +83,7 @@ const CloseIcon = () => {
                       transform="matrix(0.707107,0.707107,-0.707107,0.707107,12,-4.970563)"
                       width="4.242640687119548"
                       height="29.698484809833648"
-                      style="fill: rgb(224, 224, 224); fill-opacity: 1;"
+                      style="fill-opacity: 1;"
                     />
                   </g>
                 </g>
