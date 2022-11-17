@@ -1,17 +1,22 @@
-// import type { ComponentChildren } from 'preact';
 import { useRef, useEffect, StateUpdater, useState } from 'preact/hooks';
-import Checkbox from '../checkbox';
-// import { lazy, Suspense } from 'preact/compat';
+import { lazy, Suspense } from 'preact/compat';
 import classes from './setting-dialog.module.scss';
 
-
+// data
 import { version } from '../../../package.json';
 version as string;
 
+// components
+import Checkbox from '../checkbox';
 import useSettings from './use-setting';
 import ColorSelector from '../color-selector';
 
-// const DialogPolyfill = lazy(() => import('./dialog-polyfill'));
+// dynamic components
+const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
+
+// hooks
+import useDialogSupported from '../../hooks/use-dialog-supported';
+
 
 interface Props {
   state: boolean;
@@ -111,9 +116,7 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
 
 const SettingDialog = ({ state, setState }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
-  const [dialogIsSupported, setDialogIsSupported] = useState<null | boolean>(
-    null,
-  );
+  const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
 
   useEffect(() => {
@@ -130,12 +133,6 @@ const SettingDialog = ({ state, setState }: Props) => {
     };
   }, [state]);
 
-  // Checks if dialog component is supported
-  useEffect(() => {
-    if (window !== undefined)
-      setDialogIsSupported(typeof HTMLDialogElement === 'function');
-  }, []);
-
   return (
     <>
       {dialogIsSupported === true && (
@@ -146,24 +143,13 @@ const SettingDialog = ({ state, setState }: Props) => {
         </dialog>
       )}
       {dialogIsSupported === false && polyfillState && (
-        // <Suspense fallback={null}>
-        //   <DialogPolyfill displayed={polyfillState} className={classes.dialog}>
-        //     <div className={classes.header}>
-        //       <p className={classes.title}>{title}</p>
-        //       <button
-        //         className={classes.close}
-        //         onClick={() => {
-        //           setPolyfillState(false);
-        //           setState(false);
-        //         }}
-        //       >
-        //         close
-        //       </button>
-        //     </div>
-        //     <div className={classes.content}>{children}</div>
-        //   </DialogPolyfill>
-        // </Suspense>
-        <></>
+        <Suspense fallback={null}>
+          <DialogPolyfill displayed={polyfillState} className={classes.settingDialog}>
+            <div className={classes.inner}>
+              <SettingInner onClose={() => setState(false)} />
+            </div>
+          </DialogPolyfill>
+        </Suspense>
       )}
     </>
   );

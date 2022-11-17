@@ -1,9 +1,14 @@
 import type { ComponentChildren } from 'preact';
 import { useRef, useEffect, StateUpdater, useState } from 'preact/hooks';
 import { lazy, Suspense } from 'preact/compat';
+
 import classes from './dialog.module.scss';
 
-const DialogPolyfill = lazy(() => import('./dialog-polyfill'));
+// dynamic components
+const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
+
+// hooks
+import useDialogSupported from '../../hooks/use-dialog-supported';
 
 interface Props {
   state: boolean;
@@ -14,9 +19,7 @@ interface Props {
 
 const Dialog = ({ children, state, title, setState }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
-  const [dialogIsSupported, setDialogIsSupported] = useState<null | boolean>(
-    null,
-  );
+  const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
 
   useEffect(() => {
@@ -32,12 +35,6 @@ const Dialog = ({ children, state, title, setState }: Props) => {
       timeOut && clearTimeout(timeOut);
     };
   }, [state]);
-
-  // Checks if dialog component is supported
-  useEffect(() => {
-    if (window !== undefined)
-      setDialogIsSupported(typeof HTMLDialogElement === 'function');
-  }, []);
 
   return (
     <>
