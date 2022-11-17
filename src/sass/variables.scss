@@ -1,5 +1,6 @@
 @mixin setup-blur() {
   &[data-disable-blur=false] {
+    --blur-amount: .4rem;
     transition: 
       backdrop-filter .3s ease-in-out, 
       -webkit-backdrop-filter .3s ease-in-out, 
@@ -22,6 +23,7 @@
     }
   }
   &[data-disable-blur=true] {
+    --blur-amount: 0rem;
     dialog {
       transition: background .3s ease-in-out;
       &[data-displayed=true] {

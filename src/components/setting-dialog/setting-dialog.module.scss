@@ -142,7 +142,8 @@
       align-content: center;
       justify-content: flex-start;
       background: var(--background-1-75);
-      backdrop-filter: blur(.4rem);
+      -webkit-backdrop-filter: blur(var(--blur-amount));
+      backdrop-filter: blur(var(--blur-amount));
       padding: 1rem 2rem;
       z-index: 100;
     }
