@@ -10,7 +10,6 @@ $black-2: #333;
 $cyan: #0ce7d5;
 $pink: #f556e8;
 $green: #60fd00;
-$yellow: #fafd86;
 $red: #ff3232;
 $purple: #bb56f5;
 
@@ -64,8 +63,5 @@ $purple: #bb56f5;
   }
   &[data-accent-color=red] {
     @include accent-color-gen($red);
-  }
-  &[data-accent-color=yellow] {
-    @include accent-color-gen($yellow);
   }
 }

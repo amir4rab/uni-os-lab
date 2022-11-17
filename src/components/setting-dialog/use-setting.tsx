@@ -25,14 +25,6 @@ const accentColorsList: AccentColor[] = [
   {
     hexCode:'bb56f5',
     name: 'purple'
-  },
-  {
-    hexCode:'bb56f5',
-    name: 'purple'
-  },
-  {
-    hexCode: 'fafd86',
-    name: 'yellow'
   }
 ];
 
