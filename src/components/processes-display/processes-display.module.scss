@@ -85,7 +85,7 @@
       align-content: center;
       background: transparent;
       color: inherit;
-      border: .1rem solid #e0e0e0;
+      border: .1rem solid var(--text-main);
       &:hover, &:active {
         background: transparent;
       }
