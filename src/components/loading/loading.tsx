@@ -11,8 +11,6 @@ const createBar = (count: number, className: string) =>
       ></div>
     ));
 
-console.log(new Array(12).fill(null, 0, 12));
-
 const Loading = () => {
   return (
     <div className={classes.loadingWrapper}>

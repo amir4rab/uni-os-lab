@@ -74,14 +74,11 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
   };
 
   useEffect(() => {
-    console.log(customModeElRef.current?.getBoundingClientRect());
-
     const height = 
       customMode === true ?
       customModeElRef.current?.getBoundingClientRect().height:
       expertModeElRef.current?.getBoundingClientRect().height;
     height && setElHeight(height);
-    console.log(height)
   }, [customMode])
 
   return (
