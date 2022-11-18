@@ -36,27 +36,27 @@ const ChartItem = ({
   </div>
 );
 
-const GanttChart = ({ gantt }: { gantt: Gantt }) => {
+const GanttChart = ({ gantt, debugLogging = false }: { gantt: Gantt, debugLogging?: boolean }) => {
   const [processEndTime] = useState(gantt[gantt.length - 1].endTime);
   const [itemCount, setItemCount] = useState(0);
   const [names, setNames] = useState<{ name: string; key: string }[]>([]);
 
   const items = useMemo(() => {
     setNames([]);
-    const itemIndexing: { [a: string]: { index: number } } = {};
+    const itemIndexing = new Map<string, number>();
 
     const items = gantt.map(
       ({ endTime, id, startTime, ogId, processName }, i) => {
         const key = ogId ? ogId : id;
         let verticalIndexing: number;
 
-        if (itemIndexing[key] === undefined) {
-          verticalIndexing = i;
-          itemIndexing[key] = { index: i };
+        if (itemIndexing.get(key) === undefined) {
+          verticalIndexing = itemIndexing.size;
+          itemIndexing.set(key, itemIndexing.size);
           setNames((curr) => [...curr, { name: processName, key }]);
         } else {
-          const { index } = itemIndexing[key];
-          verticalIndexing = index;
+          const index = itemIndexing.get(key);
+          verticalIndexing = index!;
         }
 
         const start = (startTime * 100) / processEndTime;
@@ -77,7 +77,9 @@ const GanttChart = ({ gantt }: { gantt: Gantt }) => {
       },
     );
 
-    setItemCount(Object.keys(itemIndexing).length);
+    debugLogging && console.debug(itemIndexing);
+
+    setItemCount(itemIndexing.size);
 
     return items;
   }, []);
