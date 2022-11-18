@@ -18,6 +18,12 @@
   aspect-ratio: 1 / 1;
 }
 
+.settingsButton {
+  background: transparentize($white-0, .75);
+  padding: .5rem;
+  border-radius: 50%;
+}
+
 .inner {
   height: 100%;
   display: flex;

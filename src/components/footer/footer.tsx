@@ -29,8 +29,12 @@ const Content = ({ onClick }: { onClick: () => void }) => (
       </div>
     </div>
     <div className={classes.section}>
-      <button onClick={onClick} className='primary'>
-        Settings
+      <button onClick={onClick} className={classes.settingsButton}>
+        <img 
+          src='./icons/settings-outline.svg'
+          alt='mobile settings icon'
+          className={classes.settingsIcon}
+        />
       </button>
     </div>
   </div>
