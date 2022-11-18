@@ -16,6 +16,7 @@ const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
 
 // hooks
 import useDialogSupported from '../../hooks/use-dialog-supported';
+import useMinimizeBody from '../../hooks/use-minimize-body';
 
 
 interface Props {
@@ -41,7 +42,15 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
         </button>
       </div>
       <div className={classes.main}>
-        <h3 className={classes.title}>Settings</h3>
+        <div className={classes.header}>
+          <button 
+            className={classes.mobileClose}
+            onClick={onClose}
+          >
+            Done
+          </button>
+          <h3 className={classes.title}>Settings</h3>
+        </div>
         <div className={classes.inner}>
           {/* Disable blur */}
           <div className={classes.group}>
@@ -118,6 +127,7 @@ const SettingDialog = ({ state, setState }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
+  const _ = useMinimizeBody({ minimized: state, mobileOnly: true })
 
   useEffect(() => {
     let timeOut: undefined | NodeJS.Timeout | number;
