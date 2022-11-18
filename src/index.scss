@@ -9,6 +9,7 @@
 html {
   @include setup-color-schemes();
   @include setup-blur();
+  transition: none;
 }
 
 :root {
@@ -20,6 +21,9 @@ html {
 body {
   background-color: var(--background-0);
   color: var(--text-main);
+  @media screen and (max-width:1100px) {
+    min-height: 100vh;
+  }
 }
 
 input, select {
