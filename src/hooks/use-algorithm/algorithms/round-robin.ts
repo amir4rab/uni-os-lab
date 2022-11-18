@@ -1,0 +1,100 @@
+import Gantt from '../../../types/gannt';
+import ProcessArray from '../../../types/process';
+import ProcessResult from '../../../types/process-results';
+
+import { sortProcessesByArrivalTime } from '../helpers';
+
+const defaultResult: ProcessResult = {
+  averageResponseTime: 0,
+  averageReturnTime: 0,
+  gantt: [],
+};
+
+const roundRobin = (
+  processes: ProcessArray,
+  timeSlice: number,
+): ProcessResult => {
+  // Results variables
+  const gantt: Gantt = [];
+  let averageReturnTime = 0;
+  let averageResponseTime = 0;
+
+  // Processing variables
+  const copiedProcesses = JSON.parse(JSON.stringify({ processes }))
+    .processes as ProcessArray;
+  const sortedProcesses = sortProcessesByArrivalTime(copiedProcesses);
+  let currentTime = sortedProcesses[0].arrivalTime;
+  let seen = ([] as boolean[]).fill(false, 0, sortedProcesses.length - 1);
+  let totalArrivalTime = 0;
+  let totalProcessTime = 0;
+
+  let loopCount = 0;
+  while (true && loopCount < 1_000) {
+    loopCount++;
+    let completed = true;
+
+    for (let i = 0; i < sortedProcesses.length; i++) {
+      const { arrivalTime, duration, id, name } = sortedProcesses[i];
+
+      if (duration > 0) {
+        completed = false;
+      } else {
+        continue;
+      }
+
+      // Incase processes isn't arrived yet
+      if (currentTime < arrivalTime) {
+        currentTime = arrivalTime;
+      }
+
+      // Incase it's the first visit to the current item
+      if (!seen[i]) {
+        seen[i] = true;
+        totalArrivalTime += arrivalTime;
+        totalProcessTime += duration;
+      }
+
+      const remindedDuration = timeSlice > duration ? 0 : duration - timeSlice;
+
+      // Incase process ended in the current loop
+      if (remindedDuration === 0 && duration !== 0) {
+        averageResponseTime += currentTime + duration;
+      }
+
+      gantt.push({
+        startTime: currentTime,
+        endTime: currentTime + (timeSlice > duration ? duration : timeSlice),
+        id: id + currentTime,
+        ogId: id,
+        processName: name,
+      });
+      sortedProcesses[i].duration = remindedDuration;
+      currentTime += timeSlice > duration ? duration : timeSlice;
+    }
+
+    if (completed) break;
+  }
+
+  if (loopCount >= 1_000) {
+    console.error('Something went wrong in Calculating Round Robin');
+    return defaultResult;
+  }
+
+  // Shortcut to calculate average response time in Round Robin algorithm
+  averageReturnTime = averageResponseTime - totalProcessTime - totalArrivalTime;
+
+  averageResponseTime = parseFloat(
+    (averageResponseTime / sortedProcesses.length).toFixed(2),
+  );
+  averageReturnTime = parseFloat(
+    (averageReturnTime / sortedProcesses.length).toFixed(2),
+  );
+
+  return {
+    gantt,
+    averageResponseTime,
+    averageReturnTime,
+  };
+};
+
+export default roundRobin;
