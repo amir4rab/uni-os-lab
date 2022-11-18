@@ -10,5 +10,5 @@ Todo list:
 - [x] Add thumbnail image
 - [x] Add settings icon to footer of the website
 - [ ] Algorithm bug fixes:
-  - [ ] Multi level averages need to be fixed
+  - [x] Multi level averages need to be fixed
   - [ ] Round Robin algorithm waits for every Process to arrive, this isn't expected

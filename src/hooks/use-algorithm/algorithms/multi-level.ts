@@ -44,8 +44,8 @@ const multiLevel = (processes: ProcessArray): ProcessResult => {
         });
 
         currentTime += duration;
-        averageReturnTime = currentTime - arrivalTime;
-        averageResponseTime = currentTime - arrivalTime + duration;
+        averageReturnTime += currentTime - arrivalTime;
+        averageResponseTime += currentTime - arrivalTime + duration;
         noProcessExecuted = false;
 
         break;
