@@ -33,19 +33,26 @@ const roundRobin = (
     loopCount++;
     let completed = true;
 
+    let timeGap = true;
+    let timeGapIndex = -1; 
+
     for (let i = 0; i < sortedProcesses.length; i++) {
       const { arrivalTime, duration, id, name } = sortedProcesses[i];
 
+      // Skipping current item incase it's completed
       if (duration > 0) {
         completed = false;
       } else {
         continue;
       }
 
-      // Incase processes isn't arrived yet
-      if (currentTime < arrivalTime) {
-        currentTime = arrivalTime;
-      }
+      // Incase processes isn't arrived yet, and we got a time gap
+      if ( currentTime < arrivalTime ) {
+        if ( timeGap ) timeGapIndex = i;
+        break;
+      } else {
+        timeGap = false;
+      };
 
       // Incase it's the first visit to the current item
       if (!seen[i]) {
@@ -70,6 +77,10 @@ const roundRobin = (
       });
       sortedProcesses[i].duration = remindedDuration;
       currentTime += timeSlice > duration ? duration : timeSlice;
+    }
+
+    if (timeGap && timeGapIndex !== -1){
+      currentTime = sortedProcesses[timeGapIndex].arrivalTime;
     }
 
     if (completed) break;
