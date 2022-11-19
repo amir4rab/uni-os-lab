@@ -16,22 +16,21 @@ const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
 
 // hooks
 import useDialogSupported from '../../hooks/use-dialog-supported';
-import useMinimizeBody from '../../hooks/use-minimize-body';
-
+// import useMinimizeBody from '../../hooks/use-minimize-body';
 
 interface Props {
   state: boolean;
   setState: StateUpdater<boolean>;
 }
 
-const SettingInner = ({ onClose }:{onClose: () => void}) => {
+const SettingInner = ({ onClose }: { onClose: () => void }) => {
   const {
     accentColors,
-    colorScheme, 
-    disableBlur, 
-    setAccentColor, 
-    setColorScheme, 
-    setDisableBlur
+    colorScheme,
+    disableBlur,
+    setAccentColor,
+    setColorScheme,
+    setDisableBlur,
   } = useSettings();
 
   return (
@@ -43,10 +42,7 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
       </div>
       <div className={classes.main}>
         <div className={classes.header}>
-          <button 
-            className={classes.mobileClose}
-            onClick={onClose}
-          >
+          <button className={classes.mobileClose} onClick={onClose}>
             Done
           </button>
           <h3 className={classes.title}>Settings</h3>
@@ -55,53 +51,59 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
           {/* Disable blur */}
           <div className={classes.group}>
             <div className={classes.groupHeader}>
-              <h4 className={classes.groupTitle}>
-                Disable blur
-              </h4>
-              <Checkbox id='disable-blur' outerState={disableBlur} onChange={setDisableBlur} />
+              <h4 className={classes.groupTitle}>Disable blur</h4>
+              <Checkbox
+                id="disable-blur"
+                outerState={disableBlur}
+                onChange={setDisableBlur}
+              />
             </div>
             <p className={classes.groupDescription}>
               Disable blur incase of performance problems in older devices.
             </p>
-          </div> 
+          </div>
           {/* Accent colour */}
           <div className={classes.group}>
             <div className={classes.groupHeader}>
-              <h4 className={classes.groupTitle}>
-                Accent colour
-              </h4>
+              <h4 className={classes.groupTitle}>Accent colour</h4>
               <div className={classes.beta}>Beta</div>
             </div>
             <p className={classes.groupDescription}>
               Change accent colour to your liking.
             </p>
             <div className={classes.groupActions}>
-              <ColorSelector 
-                onSelect={setAccentColor}
-                colors={accentColors}
-              />
+              <ColorSelector onSelect={setAccentColor} colors={accentColors} />
             </div>
           </div>
           {/* Colour scheme */}
           <div className={classes.group}>
             <div className={classes.groupHeader}>
-              <h4 className={classes.groupTitle}>
-                Colour scheme
-              </h4>
+              <h4 className={classes.groupTitle}>Colour scheme</h4>
               <div className={classes.beta}>Beta</div>
             </div>
             <p className={classes.groupDescription}>
               We are on the dark side, you too?
             </p>
             <div className={classes.groupActions}>
-              <ColorSelector 
+              <ColorSelector
                 onSelect={(v: string) => {
-                  if ( v === 'fff' ) { setColorScheme('light') } 
-                  else if ( v === '000') { setColorScheme('dark') }
+                  if (v === 'fff') {
+                    setColorScheme('light');
+                  } else if (v === '000') {
+                    setColorScheme('dark');
+                  }
                 }}
                 colors={[
-                  { hexCode: '000', name: 'dark', selected: colorScheme === 'dark' },
-                  { hexCode: 'fff', name: 'light', selected: colorScheme === 'light' },
+                  {
+                    hexCode: '000',
+                    name: 'dark',
+                    selected: colorScheme === 'dark',
+                  },
+                  {
+                    hexCode: 'fff',
+                    name: 'light',
+                    selected: colorScheme === 'light',
+                  },
                 ]}
               />
             </div>
@@ -109,9 +111,7 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
           {/* About */}
           <div className={classes.group}>
             <div className={classes.groupHeader}>
-              <h4 className={classes.groupTitle}>
-                Version
-              </h4>
+              <h4 className={classes.groupTitle}>Version</h4>
             </div>
             <p className={classes.groupDescription}>
               {`You are running version ${version}.`}
@@ -120,14 +120,14 @@ const SettingInner = ({ onClose }:{onClose: () => void}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SettingDialog = ({ state, setState }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
-  const _ = useMinimizeBody({ minimized: state, mobileOnly: true })
+  // const _ = useMinimizeBody({ minimized: state, mobileOnly: true })
 
   useEffect(() => {
     let timeOut: undefined | NodeJS.Timeout | number;
@@ -146,7 +146,11 @@ const SettingDialog = ({ state, setState }: Props) => {
   return (
     <>
       {dialogIsSupported === true && (
-        <dialog data-displayed={state} className={classes.settingDialog} ref={elRef}>
+        <dialog
+          data-displayed={state}
+          className={classes.settingDialog}
+          ref={elRef}
+        >
           <div className={classes.inner}>
             <SettingInner onClose={() => setState(false)} />
           </div>
@@ -154,7 +158,10 @@ const SettingDialog = ({ state, setState }: Props) => {
       )}
       {dialogIsSupported === false && polyfillState && (
         <Suspense fallback={null}>
-          <DialogPolyfill displayed={polyfillState} className={classes.settingDialog}>
+          <DialogPolyfill
+            displayed={polyfillState}
+            className={classes.settingDialog}
+          >
             <div className={classes.inner}>
               <SettingInner onClose={() => setState(false)} />
             </div>
