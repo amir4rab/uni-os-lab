@@ -98,12 +98,17 @@ const ProcessDisplay = ({
           <span className={classes.subInfoName}>{`ID: `}</span>
           <span>{id}</span>
         </p>
-        {algorithms.includes('priority') && (
-          <p className={classes.subInfoGroup}>
-            <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
-            <span>{priority}</span>
-          </p>
-        )}
+        {
+          (
+            algorithms.includes('priority') || 
+            algorithms.includes('priority-preemptive')
+          ) && (
+            <p className={classes.subInfoGroup}>
+              <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
+              <span>{priority}</span>
+            </p>
+          )
+        }
         {algorithms.includes('multi-level') && (
           <p className={classes.subInfoGroup}>
             <span className={classes.subInfoName}>{`Type: `}</span>{' '}
@@ -195,7 +200,10 @@ const ProcessesDisplay = ({
       </div>
       <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
         <ProcessInput
-          priorityEnabled={algorithms.includes('priority')}
+          priorityEnabled={
+            algorithms.includes('priority') || 
+            algorithms.includes('priority-preemptive')
+          }
           typeEnabled={algorithms.includes('multi-level')}
           currentCount={processes.length + 1}
           submitProcess={(v) => {
