@@ -1,7 +1,9 @@
 import Gantt from '../../../types/gannt';
 import ProcessArray from '../../../types/process';
 import ProcessResult from '../../../types/process-results';
-import { findNextPrioritizedItem } from '../helpers/priority';
+import { 
+  findNextPrioritizedItemPreemptive as findNextPrioritizedItem
+} from '../helpers/priority';
 
 const priorityPreemptive = (processes: ProcessArray): ProcessResult => {
   // Results variables
@@ -29,7 +31,7 @@ const priorityPreemptive = (processes: ProcessArray): ProcessResult => {
 
 
   const timeSliceUntilNextArrival = (index: number, currentTime: number) => {
-    for (let i = index; i < arrivalTimes.length; i++ ) {
+    for (let i = index + 1; i < arrivalTimes.length; i++ ) {
       if ( currentTime < arrivalTimes[i] ) {
         return arrivalTimes[i] - currentTime;
       }
@@ -62,7 +64,6 @@ const priorityPreemptive = (processes: ProcessArray): ProcessResult => {
       processName: name,
     });
 
-    
     reminders[selectedItem] = reminders[selectedItem] - executedChunk;
 
     if ( reminders[selectedItem] === 0 ) averageResponseTime += currentTime + executedChunk;

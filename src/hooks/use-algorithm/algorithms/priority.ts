@@ -1,6 +1,9 @@
 import Gantt from '../../../types/gannt';
 import ProcessArray from '../../../types/process';
 import ProcessResult from '../../../types/process-results';
+import { 
+  findNextPrioritizedItemNonPreemptive as findNextPrioritizedItem
+} from '../helpers/priority';
 
 const priority = (processes: ProcessArray): ProcessResult => {
   // Results variables
@@ -9,37 +12,11 @@ const priority = (processes: ProcessArray): ProcessResult => {
   let averageResponseTime = 0;
 
   // Processing variables
-  const seen = ([] as boolean[]).fill(false, 0, processes.length - 1);
+  const seen = (new Array(processes.length) as boolean[]).fill(false, 0, processes.length);
   let currentTime = 0;
 
   for (let _ = 0; _ < processes.length; _++) {
-    let selectedItem = -1;
-
-    for (let j = 0; j < processes.length; j++) {
-      // Skipping incase that the item has been processed before
-      if (seen[j]) continue;
-
-      // Setting the first item
-      if (selectedItem === -1) {
-        selectedItem = j;
-        continue;
-      }
-
-      // Changing the item incase we found another item that is more prioritized and has been added in same time or before the current selected item
-      if (
-        processes[j].arrivalTime < processes[selectedItem].arrivalTime &&
-        processes[j].arrivalTime <= currentTime
-      ) {
-        selectedItem = j;
-        continue;
-      } else if (
-        processes[j].priority < processes[selectedItem].priority &&
-        processes[j].arrivalTime <= processes[selectedItem].arrivalTime
-      ) {
-        selectedItem = j;
-        continue;
-      }
-    }
+    let selectedItem = findNextPrioritizedItem(processes, seen, currentTime);
 
     if (selectedItem === -1) {
       break;

@@ -9,7 +9,7 @@ const lottery = (processes: ProcessArray): ProcessResult => {
   let averageResponseTime = 0;
 
   // Processing variables
-  const seen = ([] as boolean[]).fill(false, 0, processes.length - 1);
+  const seen = (new Array(processes.length) as boolean[]).fill(false, 0, processes.length);
   let currentTime = 0;
 
   for (let _ = 0; _ < processes.length; _++) {
