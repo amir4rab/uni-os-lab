@@ -1,12 +1,15 @@
 @import '../../sass/styles';
 
+$thin-border: .05em solid var(--background-2);
+$thin-border-main: .05em solid var(--background-3);
+
 .settingDialog {
   @media screen and (max-width: 1100px) {    
     width: 100vw;
     height: calc(100vh - 2rem);
     max-width: 100%;
     max-height: 100%;
-    border-radius: .4em .4em 0 0;
+    border-radius: 1em 1em 0 0;
 
     &[data-displayed=true] {
       animation: animateInM forwards .15s ease-in-out;
@@ -19,7 +22,7 @@
   @media screen and (min-width: 1100px) {
     width: 60vw;
     height: 60vh;
-    border: .05em solid var(--background-2);
+    border: $thin-border-main;
     border-radius: .4em;
 
     &[data-displayed=true] {
@@ -84,6 +87,10 @@
       display: none;
     }
 
+    .main {
+      width: 100%;
+    }
+
     .mobileClose {
       position: absolute;
       left: 2rem;
@@ -102,6 +109,7 @@
       width: 20%;
       padding: 2rem;
       background: var(--background-1-75);
+      border-right: $thin-border;
       position: relative;
       .close {
         position: absolute;
@@ -141,12 +149,6 @@
     }
   }
 
-  .header {
-    display: flex;
-    align-items: center;
-    align-content: center;
-  }
-
   .beta {
     padding: .4em .6em;
     border-radius: .6rem;
@@ -160,6 +162,7 @@
   }
 
   .header {
+    border-bottom: $thin-border;
     position: sticky;
     top: 0;
     width: 100%;
@@ -178,13 +181,13 @@
     @media screen and (max-width: 1100px) {
       padding: 1rem 0;
       &:not(:last-child){
-        border-bottom: .05em solid var(--background-2);
+        border-bottom: $thin-border;
       }
     }
     
     @media screen and (min-width: 1100px) {
       border-radius: .4rem;
-      border: .05em solid var(--background-2);
+      border: $thin-border;
       padding: 1rem;
       &:not(:last-child){
         margin-bottom: 1rem;
