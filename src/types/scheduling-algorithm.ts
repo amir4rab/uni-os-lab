@@ -5,6 +5,6 @@ type SchedulingAlgorithm =
   | 'priority'
   | 'lottery'
   | 'multi-level'
-  | 'all';
+  | 'priority-preemptive';
 
 export default SchedulingAlgorithm;

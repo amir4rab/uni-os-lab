@@ -4,7 +4,15 @@ import ProcessResult from '../../types/process-results';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
 // algorithms
-import { fcfs, lottery, multiLevel, priority, roundRobin, sjf } from './algorithms';
+import { 
+  fcfs, 
+  lottery, 
+  multiLevel, 
+  priority, 
+  priorityPreemptive, 
+  roundRobin, 
+  sjf 
+} from './algorithms';
 
 interface ProcessFNProps {
   algorithm: SchedulingAlgorithm;
@@ -32,7 +40,9 @@ const useAlgorithm = () => {
       case 'sjf':
         return sjf([...processes]);
       case 'priority':
-        return priority(processes);
+        return priority([...processes]);
+      case 'priority-preemptive':
+        return priorityPreemptive([...processes])
       case 'round-robin':
         return roundRobin(processes, timeSlice);
       case 'lottery':
