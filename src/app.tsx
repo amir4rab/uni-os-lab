@@ -4,6 +4,7 @@ import classes from './app.module.scss';
 
 // components
 import Footer from './components/footer';
+import Header from './components/header';
 import ProcessGuider from './components/process-guider';
 import useVersionLogger from './hooks/use-version-logger';
 
@@ -15,13 +16,7 @@ export function App() {
 
   return (
     <main className={classes.main}>
-      <div className={classes.hero}>
-        <h1 className={classes.title}>
-          <span>CPU</span>
-          <span>Scheduler</span>
-          <span>Emulator</span>
-        </h1>
-      </div>
+      <Header />
       <div className={classes.contentBox}>
         <ProcessGuider />
       </div>
