@@ -9,7 +9,7 @@ const MobileFab = ({ icon, onClick }: Props) => (
   <>
     <button
       onClick={onClick}
-      className={[classes.fabButton, 'primary'].join(' ')}
+      className={classes.fabButton}
     >
       {icon}
     </button>

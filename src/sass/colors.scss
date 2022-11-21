@@ -16,6 +16,7 @@ $purple: #bb56f5;
 @mixin accent-color-gen($color) {
   &[data-theme=dark]{
     --accent-color-0: #{$color};
+    --accent-color-0-25: #{transparentize($color, .75)};
     --accent-color-1: #{lighten($color, 10%)};
     --accent-color-1-25: #{transparentize(lighten($color, 10%), .75)};
     --accent-color-1-50: #{transparentize(lighten($color, 10%), .5)};
@@ -23,6 +24,7 @@ $purple: #bb56f5;
   }
   &[data-theme=light]{
     --accent-color-0: #{darken($color, 10%)};
+    --accent-color-0-25: #{transparentize(darken($color, 10%), .75)};
     --accent-color-1: #{darken($color, 20%)};
     --accent-color-1-25: #{transparentize(darken($color, 20%), .75)};
     --accent-color-1-50: #{transparentize(darken($color, 20%), .5)};
@@ -34,6 +36,8 @@ $purple: #bb56f5;
   &[data-theme=dark]{
     --text-main: #{$white-0};
     --background-0: #{$black-0};
+    --background-0-75: #{transparentize($black-0, .25)};
+    --background-0-50: #{transparentize($black-0, .50)};
     --background-1: #{$black-1};
     --background-1-75: #{transparentize($black-1, .25)};
     --background-1-50: #{transparentize($black-1, .50)};
@@ -43,11 +47,13 @@ $purple: #bb56f5;
   &[data-theme=light]{
     --text-main: #{$black-0};
     --background-0: #{$white-0};
+    --background-0-75: #{transparentize($white-0, .25)};
+    --background-0-50: #{transparentize($white-0, .50)};
     --background-1: #{$white-1};
     --background-1-75: #{transparentize($white-1, .25)};
     --background-1-50: #{transparentize($white-1, .50)};
     --background-2: #{darken($white-0, 20%)};
-    --background-3: #{darken($black-0, 30%)};
+    --background-3: #{darken($white-0, 30%)};
   }
   &[data-accent-color=cyan] {
     @include accent-color-gen($cyan);
