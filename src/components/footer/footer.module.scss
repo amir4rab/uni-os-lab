@@ -10,18 +10,16 @@
   color: var(--background-1);
 }
 
-.settingsIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-  display: flex;
-  object-position: center;
-  aspect-ratio: 1 / 1;
+.footerIcon {
+  fill: var(--background-1);
+}
+
+.fabIcon {
+  fill: var(--white-0);
 }
 
 .settingsButton {
-  background: transparentize($white-0, .75);
-  padding: .5rem;
-  border-radius: 50%;
+  background: transparent;
 }
 
 .inner {

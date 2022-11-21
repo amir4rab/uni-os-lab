@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks';
 import classes from './footer.module.scss';
 
 import { Suspense, lazy } from 'preact/compat';
+import { SettingsIcon } from '../icons';
 
 const MobileFab = lazy(() => import('../mobile-fab'));
 const SettingDialog = lazy(() => import('../setting-dialog'));
@@ -30,11 +31,7 @@ const Content = ({ onClick }: { onClick: () => void }) => (
     </div>
     <div className={classes.section}>
       <button onClick={onClick} className={classes.settingsButton}>
-        <img 
-          src='./icons/settings-outline.svg'
-          alt='mobile settings icon'
-          className={classes.settingsIcon}
-        />
+        <SettingsIcon className={classes.footerIcon} />
       </button>
     </div>
   </div>
@@ -50,11 +47,7 @@ const Footer = () => {
       <Suspense fallback={null}>
         <MobileFab 
           icon={
-            <img 
-              src='./icons/settings-outline.svg'
-              alt='mobile settings icon'
-              className={classes.settingsIcon}
-            />
+            <SettingsIcon className={classes.fabIcon} />
           }
           onClick={toggleState}
         />
