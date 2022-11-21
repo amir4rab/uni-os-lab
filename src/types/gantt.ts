@@ -1,4 +1,4 @@
-interface GanntItem {
+interface GanttItem {
   startTime: number;
   endTime: number;
   processName: string;
@@ -6,6 +6,6 @@ interface GanntItem {
   ogId?: string;
 }
 
-type Gantt = GanntItem[];
+type Gantt = GanttItem[];
 
 export default Gantt;

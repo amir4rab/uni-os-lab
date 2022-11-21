@@ -1,4 +1,4 @@
-import Gantt from '../../../types/gannt';
+import Gantt from '../../../types/gantt';
 import ProcessArray from '../../../types/process';
 import ProcessResult from '../../../types/process-results';
 

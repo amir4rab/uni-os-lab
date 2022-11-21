@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'preact/hooks';
-import Gantt from '../../types/gannt';
+import Gantt from '../../types/gantt';
 import classes from './gantt-chart.module.scss';
 
 const lineHeight = 1.75;

@@ -1,4 +1,4 @@
-import Gantt from './gannt';
+import Gantt from './gantt';
 
 interface ProcessResult {
   gantt: Gantt;
