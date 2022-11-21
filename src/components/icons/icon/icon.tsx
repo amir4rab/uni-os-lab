@@ -4,11 +4,16 @@ import classes from './icon.module.scss';
 interface Props {
   children: ComponentChildren;
   sizeLess?: boolean;
+  className?: string;
 }
 
-const Icon = ({ children, sizeLess = false }: Props) => {
+export interface PassableProps {
+  className?: string;
+}
+
+const Icon = ({ children, sizeLess = false, className }: Props) => {
   return (
-    <div className={classes.icon} data-size-less={sizeLess}>
+    <div className={[classes.icon, className].join(' ')} data-size-less={sizeLess}>
       {children}
     </div>
   );
