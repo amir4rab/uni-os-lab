@@ -61,7 +61,11 @@ const ProcessDisplay = ({
         <button onClick={() => setExpanded((curr) => !curr)}>i</button>
       </div>
       <div className={classes.processActions}>
-        <button data-type="delete" onClick={() => deleteItem(i)} data-compact>
+        <button  
+          data-type="delete" 
+          onClick={() => deleteItem(i)} 
+          data-compact
+        >
           <DeleteIcon />
         </button>
         <button
