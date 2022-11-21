@@ -1,0 +1,18 @@
+.inputWrapper {
+  input {
+    flex-grow: 1;
+    width: 100%
+  }
+  label {
+    font-size: .7rem;
+    margin-bottom: .25rem;
+    opacity: .75;
+    transition: opacity .15s ease-in-out;
+  }
+  margin-bottom: .75rem;
+  &:focus-within, &:hover {
+    label {
+      opacity: 1;
+    }
+  }
+}

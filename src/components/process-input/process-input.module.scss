@@ -1,19 +1,24 @@
-.inputWrapper {
-  input, select {
-    flex-grow: 1;
-    width: 100%
-  }
-  label {
-    font-size: .7rem;
-    margin-bottom: .25rem;
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: .5rem 0 .25rem 0;
+  
+  p {
     opacity: .75;
-    transition: opacity .15s ease-in-out;
+    font-size: .8rem;
+    width: min-content;
+    white-space: nowrap;
+    padding: 0 .25rem;
   }
-  margin-bottom: .75rem;
-  &:focus-within, &:hover {
-    label {
-      opacity: 1;
-    }
+
+  .br {
+    height: .04rem;
+    background: var(--text-main);
+    opacity: .5;
+    width: 100%;
+    flex-grow: 1;
   }
 }
 .actions {

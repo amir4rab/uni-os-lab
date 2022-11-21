@@ -1,6 +1,37 @@
-import { Process } from '../../types/process';
-import { useRef, useState } from 'preact/hooks';
+import { MutableRef, useRef, useState } from 'preact/hooks';
+
+// classes
 import classes from './process-input.module.scss';
+
+// types
+import { Process } from '../../types/process';
+import { ComponentChildren } from 'preact';
+
+// components
+import Input from '../input';
+import Select from '../select';
+
+const ConditionallyDisplayed = (
+  { children, displayed, title }:
+  { children: ComponentChildren, displayed: boolean, title?: string }
+) => (
+  <>
+    { 
+      !displayed ? null :
+      <>
+        {
+          title &&  
+          <div className={ classes.divider }>
+            <div className={classes.br}/>
+            <p>{ title }</p>
+            <div className={classes.br}/>
+          </div>
+        }
+        { children } 
+      </>
+    } 
+  </>
+)
 
 interface Props {
   submitProcess: (v: Process) => void;
@@ -83,6 +114,8 @@ const ProcessInput = ({
       arrivalTime,
       name,
       priority,
+      cpuBursts: 'long',
+      ioBursts: 'high',
       type,
     });
     resetInput();
@@ -98,6 +131,8 @@ const ProcessInput = ({
       name,
       priority: parseInt((Math.random() * 127).toFixed(0)),
       type: (Math.random() * 10) > 5 ? 'background' : 'foreground',
+      cpuBursts: 'long',
+      ioBursts: 'high'
     });
     resetInput();
   }
@@ -106,70 +141,58 @@ const ProcessInput = ({
     <form onSubmit={(e) => onSubmit(e)}>
       <div>
         <div className={classes.inputWrapper}>
-          <label htmlFor="processName">Name</label>
-          <input
-            required
+          <Input 
+            required={true}
             type="text"
             id="processName"
-            name="processName"
+            name="Name"
             defaultValue={'P1'}
-            ref={nameInputRef}
+            passedRef={nameInputRef}
           />
         </div>
-        {priorityEnabled && (
-          <div className={classes.inputWrapper}>
-            <label htmlFor="priority">Priority</label>
-            <input
-              required
-              type="number"
-              id="priority"
-              name="priority"
-              min={0}
-              max={127}
-              defaultValue={'0'}
-              ref={priorityInputRef}
-            />
-          </div>
-        )}
-        {typeEnabled && (
-          <div className={classes.inputWrapper}>
-            <label htmlFor="processType">Process type</label>
-            <select
-              required
-              id="processType"
-              name="processType"
-              defaultValue={'foreground'}
-              ref={processTypeSelectRef}
-            >
-              <option value="foreground">Foreground</option>
-              <option value="background">Background</option>
-            </select>
-          </div>
-        )}
-        <div className={classes.inputWrapper}>
-          <label htmlFor="arrivalTime">Arrival time in ms</label>
-          <input
-            required
+        <Input 
+          name="Arrival time in ms"
+          required={true}
+          min={0}
+          type="number"
+          id="arrivalTime"
+          defaultValue={'0'}
+          passedRef={arrivalTimeInputRef}
+        />
+        <Input 
+          name="Execution time in ms"
+          required={true}
+          min={1}
+          type="number"
+          id="duration"
+          defaultValue={'1'}
+          passedRef={durationInputRef}
+        />
+        <ConditionallyDisplayed displayed={priorityEnabled} title="Priority algorithm only">
+          <Input 
+            name="Priority"
+            required={true}
+            type="number"
+            id="priority"
             min={0}
-            type="number"
-            id="arrivalTime"
-            name="arrivalTime"
+            max={127}
             defaultValue={'0'}
-            ref={arrivalTimeInputRef}
-          />
-        </div>
-        <div className={classes.inputWrapper}>
-          <label htmlFor="duration">Execution time in ms</label>
-          <input
-            required
-            min={1}
-            type="number"
-            id="duration"
-            name="duration"
-            defaultValue={'1'}
-            ref={durationInputRef}
-          />
-        </div>
+            passedRef={priorityInputRef}
+          />  
+        </ConditionallyDisplayed>
+        <ConditionallyDisplayed displayed={typeEnabled} title="Multilevel algorithm only">
+            <Select 
+              required={true}
+              id="processType"
+              name="Process Type"
+              defaultValue={'foreground'}
+              passedRef={processTypeSelectRef}
+              options={[
+                {value: "foreground", name: "Foreground"},
+                {value: "background", name: "Background"}
+              ]}
+            />
+        </ConditionallyDisplayed>
       </div>
       <div className={classes.actions}>
         <button className='secondary' style='margin-right: .5rem' type="button" onClick={submitRandomData}>
