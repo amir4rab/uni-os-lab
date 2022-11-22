@@ -31,6 +31,11 @@ export const algorithms: Algorithm[] = [
     shortInfo: '',
   },
   {
+    id: 'multi-level-feedback-queue',
+    name: 'Multi Level Feedback Queue',
+    shortInfo: '',
+  },
+  {
     id: 'lottery',
     name: 'Lottery',
     shortInfo: '',

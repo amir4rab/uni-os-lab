@@ -38,6 +38,7 @@ interface Props {
   currentCount: number;
   priorityEnabled?: boolean;
   typeEnabled?: boolean;
+  feedbackQueueEnabled?: boolean;
 }
 
 const ProcessInput = ({
@@ -45,6 +46,7 @@ const ProcessInput = ({
   currentCount = 1,
   priorityEnabled = false,
   typeEnabled = false,
+  feedbackQueueEnabled= false
 }: Props) => {
   const [error, setError] = useState<null | string>(null);
 
@@ -53,6 +55,8 @@ const ProcessInput = ({
   const arrivalTimeInputRef = useRef<HTMLInputElement | null>(null);
   const durationInputRef = useRef<HTMLInputElement | null>(null);
   const processTypeSelectRef = useRef<HTMLSelectElement | null>(null);
+  const processIoBurstsSelectRef = useRef<HTMLSelectElement | null>(null);
+  const processCpuBurstsSelectRef = useRef<HTMLSelectElement | null>(null);
 
   const resetInput = () => {
     if (nameInputRef.current !== null)
@@ -69,7 +73,13 @@ const ProcessInput = ({
       durationInputRef.current.value = durationInputRef.current.defaultValue;
 
     if (processTypeSelectRef.current !== null)
-      processTypeSelectRef.current.value = 'foreground';
+      processTypeSelectRef.current.selectedIndex = 0;
+
+    if (processIoBurstsSelectRef.current !== null)
+      processIoBurstsSelectRef.current.value = 'high';
+
+    if (processCpuBurstsSelectRef.current !== null)
+      processCpuBurstsSelectRef.current.value = 'short';
   };
 
   const onSubmit = (e: JSX.TargetedEvent<HTMLFormElement, Event>) => {
@@ -101,6 +111,14 @@ const ProcessInput = ({
       processTypeSelectRef.current === null
         ? 'foreground'
         : (processTypeSelectRef.current.value as 'foreground' | 'background');
+    const cpuBursts =
+        processCpuBurstsSelectRef.current === null
+          ? 'short'
+          : (processCpuBurstsSelectRef.current.value as 'short' | 'long');
+    const ioBursts =
+          processIoBurstsSelectRef.current === null
+            ? 'high'
+            : (processIoBurstsSelectRef.current.value as 'high' | 'low');
     const priority =
       priorityInputRef.current === null
         ? 0
@@ -114,8 +132,8 @@ const ProcessInput = ({
       arrivalTime,
       name,
       priority,
-      cpuBursts: 'long',
-      ioBursts: 'high',
+      cpuBursts,
+      ioBursts,
       type,
     });
     resetInput();
@@ -190,6 +208,33 @@ const ProcessInput = ({
               options={[
                 {value: "foreground", name: "Foreground"},
                 {value: "background", name: "Background"}
+              ]}
+            />
+        </ConditionallyDisplayed>
+        <ConditionallyDisplayed 
+          displayed={feedbackQueueEnabled} 
+          title="Feedback Queue algorithm only"
+        >
+            <Select 
+              required={true}
+              id="cpuBurtType"
+              name="Cpu bursts"
+              defaultValue={'short'}
+              passedRef={processCpuBurstsSelectRef}
+              options={[
+                {value: "short", name: "Short"},
+                {value: "long", name: "Long"}
+              ]}
+            />
+            <Select 
+              required={true}
+              id="ioBurtType"
+              name="Io bursts"
+              defaultValue={'high'}
+              passedRef={processIoBurstsSelectRef}
+              options={[
+                {value: "high", name: "High"},
+                {value: "low", name: "Low"}
               ]}
             />
         </ConditionallyDisplayed>

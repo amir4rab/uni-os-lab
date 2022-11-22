@@ -6,6 +6,19 @@ import { DeleteIcon, DownArrowIcon, UpArrowIcon } from '../icons';
 import ProcessInput from '../process-input';
 import classes from './processes-display.module.scss';
 
+const isPriority = (algorithms: SchedulingAlgorithm[]) => 
+  algorithms.includes('priority') ||
+  algorithms.includes('priority-preemptive');
+
+const isFeedBackQueue = (algorithms: SchedulingAlgorithm[]) =>
+  algorithms.includes('multi-level-feedback-queue');
+
+const isRoundRobin = (algorithms: SchedulingAlgorithm[]) => 
+  algorithms.includes('round-robin');
+
+const isMultiLevel = (algorithms: SchedulingAlgorithm[]) => 
+  algorithms.includes('multi-level');
+
 interface Props {
   algorithms: SchedulingAlgorithm[];
   defaultProcesses?: ProcessesArray;
@@ -29,7 +42,7 @@ const ProcessDisplay = ({
   i: number;
   algorithms: SchedulingAlgorithm[];
 }) => {
-  const { name, arrivalTime, duration, id, priority, type } = p;
+  const { name, arrivalTime, duration, id, priority, type, cpuBursts, ioBursts } = p;
   const elRef = useRef<HTMLDivElement | null>(null);
   const [expanded, setExpanded] = useState(false);
   let timeout: number | undefined | NodeJS.Timeout;
@@ -103,21 +116,30 @@ const ProcessDisplay = ({
           <span>{id}</span>
         </p>
         {
-          (
-            algorithms.includes('priority') || 
-            algorithms.includes('priority-preemptive')
-          ) && (
+          isPriority(algorithms) && (
             <p className={classes.subInfoGroup}>
               <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
               <span>{priority}</span>
             </p>
           )
         }
-        {algorithms.includes('multi-level') && (
+        { isMultiLevel(algorithms) && (
           <p className={classes.subInfoGroup}>
             <span className={classes.subInfoName}>{`Type: `}</span>{' '}
             <span>{type}</span>
           </p>
+        )}
+        { isFeedBackQueue(algorithms) && (
+          <>
+            <p className={classes.subInfoGroup}>
+              <span className={classes.subInfoName}>{`IO Bursts: `}</span>{' '}
+              <span>{ioBursts}</span>
+            </p>
+            <p className={classes.subInfoGroup}>
+              <span className={classes.subInfoName}>{`Cpu Bursts: `}</span>{' '}
+              <span>{cpuBursts}</span>
+            </p>
+          </>
         )}
       </div>
     </div>
@@ -151,19 +173,21 @@ const ProcessesDisplay = ({
   return (
     <div>
       <h3 className={classes.title}>Add Processes</h3>
-      {algorithms.includes('round-robin') && (
-        <div className={classes.timeSliceInputGroup}>
-          <label>Time Slice</label>
-          <input
-            type="number"
-            defaultValue={timeSlice + ''}
-            onChange={(v) =>
-              v.target &&
-              setTimeSlice(parseInt((v.target as HTMLInputElement).value))
-            }
-          />
-        </div>
-      )}
+      { 
+        isRoundRobin(algorithms) && (
+          <div className={classes.timeSliceInputGroup}>
+            <label>Time Slice</label>
+            <input
+              type="number"
+              defaultValue={timeSlice + ''}
+              onChange={(v) =>
+                v.target &&
+                setTimeSlice(parseInt((v.target as HTMLInputElement).value))
+              }
+            />
+          </div>
+        )
+      }
       <div className={classes.listDisplay}>
         {processes.map((p, i) => (
           <ProcessDisplay
@@ -204,11 +228,9 @@ const ProcessesDisplay = ({
       </div>
       <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
         <ProcessInput
-          priorityEnabled={
-            algorithms.includes('priority') || 
-            algorithms.includes('priority-preemptive')
-          }
-          typeEnabled={algorithms.includes('multi-level')}
+          priorityEnabled={isPriority(algorithms)}
+          typeEnabled={isMultiLevel(algorithms)}
+          feedbackQueueEnabled={isFeedBackQueue(algorithms)}
           currentCount={processes.length + 1}
           submitProcess={(v) => {
             setProcesses((curr) => [...curr, v]);
