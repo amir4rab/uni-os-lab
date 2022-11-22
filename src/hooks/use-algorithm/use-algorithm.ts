@@ -8,6 +8,7 @@ import {
   fcfs, 
   lottery, 
   multiLevel, 
+  multiLevelFeedbackQueue, 
   priority, 
   priorityPreemptive, 
   roundRobin, 
@@ -44,11 +45,13 @@ const useAlgorithm = () => {
       case 'priority-preemptive':
         return priorityPreemptive([...processes])
       case 'round-robin':
-        return roundRobin(processes, timeSlice);
+        return roundRobin([...processes], timeSlice);
       case 'lottery':
         return lottery([...processes]);
       case 'multi-level':
         return multiLevel([...processes]);
+      case 'multi-level-feedback-queue':
+        return multiLevelFeedbackQueue([...processes]);
       default:
         return defaultResult;
     }
