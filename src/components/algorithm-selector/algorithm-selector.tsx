@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useMemo, useState } from 'preact/hooks';
+import { lazy, Suspense } from 'preact/compat';
 
 // styles
 import classes from './algorithm-selector.module.scss';
@@ -6,11 +7,16 @@ import classes from './algorithm-selector.module.scss';
 // types
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
-// components
-import Checkbox from '../checkbox';
-
 // data
 import { algorithms } from './algorithms-data';
+
+// components
+import AlgorithmSelectorDialogInner from './dialog-inner';
+import AlgorithmSelectorSubmitButtons from './submit-buttons';
+
+// lazy components
+const DialogExpanded = lazy(() => import('../dialog-expanded'));
+const DeleteIcon = lazy(() => import('../icons/components/delete'));
 
 interface Props {
   onSubmit: (v: SchedulingAlgorithm[]) => void;
@@ -20,14 +26,9 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
   const [selectedAlgorithms, setSelectedAlgorithms] = useState<
     (SchedulingAlgorithm | null)[]
   >(new Array(algorithms.length).fill(null, 0, algorithms.length));
-  const [expandedIndex, setExpandedIndex] = useState(-1);
-  const [customMode, setCustomMode] = useState<boolean | null>(null);
-  const [elHeight, setElHeight] = useState(0);
+  const [customMode, setCustomMode] = useState<boolean>(false);
 
-  const expertModeElRef = useRef<null | HTMLDivElement>(null);
-  const customModeElRef = useRef<null | HTMLDivElement>(null);
-
-  const toggleAlgorithm = (
+  const toggle = (
     algorithm: SchedulingAlgorithm,
     toggleV: boolean,
     index: number,
@@ -39,124 +40,119 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     });
   };
 
-  useEffect(() => {
-    const height = 
-      customMode === true ?
-      customModeElRef.current?.getBoundingClientRect().height:
-      expertModeElRef.current?.getBoundingClientRect().height;
-    height && setElHeight(height);
-  }, [customMode])
+  const clearAll = () => 
+    setSelectedAlgorithms(new Array(algorithms.length).fill(null, 0, algorithms.length));
+
+  const submitAll = () => onSubmit(algorithms.map(({ id }) => id));
+
+  const submitSelected = useCallback(() => 
+    onSubmit(
+      selectedAlgorithms.filter(
+        (i) => i !== null,
+      ) as SchedulingAlgorithm[],
+    )
+  ,[selectedAlgorithms]);
+
+  const selectedAlgorithmExist = useMemo(() => 
+    selectedAlgorithms.filter(i => i !== null).length !== 0
+  ,[selectedAlgorithms]);
 
   return (
-    <div>
-      <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
-      <div className={classes.contentWrapper} style={`height:${elHeight}px`}>
-        <div 
-          data-displayed={customMode === null ? true : !customMode} 
-          className={classes.algorithmWrapper}
-          ref={expertModeElRef}
-        >
-          <div className={classes.header}>
-            <h4 className={classes.title}>Expert mode</h4>
-          </div>
-          <p className={classes.about}>
-            Processes your data with every possible algorithm
-          </p>
-          <div className={classes.submitWrapper}>
-            <button
-              onClick={() => onSubmit(algorithms.map(({ id }) => id))}
-              className="primary"
-            >
-              Select
-            </button>
-          </div>
-          <div className={classes.divider}/>
-          <p className={classes.about}>Or mix and match your favorite algorithms with custom mode</p>
-          <div className={classes.submitWrapper}>
-            <button
-              onClick={() => setCustomMode(true)}
-              className="secondary"
-            >
-              Custom Mode
-            </button>
-          </div>
-        </div>
-        <div
-          data-displayed={customMode === null ? undefined : customMode}
-          className={classes.algorithmWrapper}
-          ref={customModeElRef}
-        >
-          <div className={classes.header}>
-            <button onClick={() => setCustomMode(false)} className={classes.backButton}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <title>Chevron Back</title>
-                <path 
-                  fill="none"
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="48" 
-                  d="M328 112L184 256l144 144"
-                />
-              </svg>
-            </button>
-            <h4 className={classes.title}>Custom mode</h4>
-          </div>
-          {algorithms.map(({ id, name, shortInfo }, i) => (
-            <div
-              key={id}
-              data-expanded={i === expandedIndex ? true : undefined}
-              className={classes.item}
-            >
-              <div className={classes.header}>
-                <Checkbox
-                  id={id + '-checkbox'}
-                  onChange={(v) => {
-                    toggleAlgorithm(id, v, i);
-                  }}
-                  outerState={selectedAlgorithms[i] !== null}
-                />
-                <h4
-                  onClick={() => {
-                    toggleAlgorithm(id, selectedAlgorithms[i] === null, i);
-                  }}
-                  className={classes.title}
-                  style="margin-left: .5rem;"
-                  data-clickable
-                >
-                  {name}
-                </h4>
-                <button
-                  onClick={() =>
-                    setExpandedIndex((curr) => (curr !== i ? i : -1))
-                  }
-                >
-                  {expandedIndex === i ? 'Show less' : 'More info'}
-                </button>
-              </div>
-              <p className={classes.about}>{shortInfo}</p>
+    <>
+      <div>
+        <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
+        <div className={classes.content}>
+          <div className={classes.algorithm}>
+            <div className={classes.header}>
+              <h4 className={classes.title}>Expert mode</h4>
+              <button 
+                className={classes.desktopButton} 
+                onClick={submitAll}
+                data-main 
+              >
+                Continue with Expert mode
+              </button>
             </div>
-          ))}
-          <div className={classes.algorithmsFooter}>
-            <button
-              disabled={
-                selectedAlgorithms.filter((i) => i !== null).length === 0
-              }
-              className="secondary"
-              onClick={() =>
-                selectedAlgorithms.length !== 0 &&
-                onSubmit(
-                  selectedAlgorithms.filter(
-                    (i) => i !== null,
-                  ) as SchedulingAlgorithm[],
-                )
-              }
-            >
-              Continue with selected
-            </button>
+            <p className={classes.about}>
+              Processes your data with every possible algorithm
+            </p>
           </div>
+          <div className={classes.algorithm}>
+            <div className={classes.header}>
+              <h4 className={classes.title}>Custom mode</h4>
+              <button 
+                className={classes.desktopButton}
+                onClick={() => setCustomMode(true)}
+              >
+                {selectedAlgorithmExist ? `Modify selected algorithms` : `Select algorithms`}
+              </button>
+            </div>
+            <p className={classes.about}>
+              Mix and match algorithms to your liking
+            </p>
+            {
+              selectedAlgorithmExist &&
+              <div className={classes.selectedOverView}>
+                <div className={classes.header}>
+                  <p>
+                    Selected algorithms
+                  </p>
+                  <button onClick={clearAll}>
+                    clear all
+                  </button>
+                </div>
+                <div>
+                  {
+                    algorithms.map(({ name, id }, i) => {
+                      if ( selectedAlgorithms[i] === null ) return null;
+
+                      return (
+                        <div className={['dialog-item', classes.item].join(' ')} key={id}>
+                          <div className='item-header'>
+                          <p className='item-title'>
+                            { name }
+                          </p>
+                          <button onClick={() => toggle(id, false, i)}>
+                            <Suspense fallback={null}>
+                              <DeleteIcon />
+                            </Suspense>
+                          </button>
+                        </div>
+                        </div>
+                      );
+                    })
+                  }
+                </div>
+                <div className={classes.actions}>
+                  <button className='secondary' onClick={ submitSelected }>
+                    Continue with selected
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+          <AlgorithmSelectorSubmitButtons
+            {...(
+              !selectedAlgorithmExist ?
+              { title: 'Expert', submit: submitAll , customMode: () => setCustomMode(true) } : 
+              { title: 'Continue with selected', submit: submitSelected }
+            )}
+          />
         </div>
       </div>
-    </div>
+      <Suspense fallback={null}>
+        <DialogExpanded 
+          title='Custom Mode'
+          setState={setCustomMode}
+          state={customMode}
+        >
+          <AlgorithmSelectorDialogInner
+            toggle={toggle}
+            selectedAlgorithms={selectedAlgorithms}
+          />
+        </DialogExpanded>
+      </Suspense>
+    </>
   );
 };
 
