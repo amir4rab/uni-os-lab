@@ -35,33 +35,6 @@ const SettingDialog = (props: Props) => {
       { ...props }
     >
       <>
-        {/* Disable blur */}
-        <div className='dialog-item'>
-          <div className='item-header'>
-            <h4 className='item-title'>Disable blur</h4>
-            <Checkbox
-              id="disable-blur"
-              outerState={disableBlur}
-              onChange={setDisableBlur}
-            />
-          </div>
-          <p className='item-description'>
-            Disable blur incase of performance problems in older devices.
-          </p>
-        </div>
-        {/* Accent colour */}
-        <div className='dialog-item'>
-          <div className='item-header'>
-            <h4 className='item-title'>Accent colour</h4>
-            <div className={classes.beta}>Beta</div>
-          </div>
-          <p className='item-description'>
-            Change accent colour to your liking.
-          </p>
-          <div className={classes.groupActions}>
-            <ColorSelector onSelect={setAccentColor} colors={accentColors} />
-          </div>
-        </div>
         {/* Colour scheme */}
         <div className='dialog-item'>
           <div className='item-header'>
@@ -94,6 +67,33 @@ const SettingDialog = (props: Props) => {
               ]}
             />
           </div>
+        </div>
+        {/* Accent colour */}
+        <div className='dialog-item'>
+          <div className='item-header'>
+            <h4 className='item-title'>Accent colour</h4>
+            <div className={classes.beta}>Beta</div>
+          </div>
+          <p className='item-description'>
+            Change accent colour to your liking.
+          </p>
+          <div className={classes.groupActions}>
+            <ColorSelector onSelect={setAccentColor} colors={accentColors} />
+          </div>
+        </div>
+        {/* Disable blur */}
+        <div className='dialog-item'>
+          <div className='item-header'>
+            <h4 className='item-title'>Disable blur</h4>
+            <Checkbox
+              id="disable-blur"
+              outerState={disableBlur}
+              onChange={setDisableBlur}
+            />
+          </div>
+          <p className='item-description'>
+            Disable blur incase of performance problems in older devices.
+          </p>
         </div>
         {/* About */}
         <div className='dialog-item'>
