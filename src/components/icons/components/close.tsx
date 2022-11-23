@@ -3,7 +3,7 @@ import { PassableProps } from '../icon/icon';
 
 const CloseIcon = ( props: PassableProps ) => (
   <Icon { ...props } sizeLess={true}>
-      <svg
+    <svg
       width="24"
       xmlns="http://www.w3.org/2000/svg"
       height="24"

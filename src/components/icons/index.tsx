@@ -3,3 +3,7 @@ export { default as UpArrowIcon } from './components/up-arrow';
 export { default as DeleteIcon } from './components/delete';
 export { default as CloseIcon } from './components/close';
 export { default as SettingsIcon } from './components/settings';
+export { default as SearchIcon } from './components/search';
+export { default as BackspaceIcon } from './components/backspace';
+export { default as SchoolIcon } from './components/school';
+export { default as XCircle } from './components/x-circle';
