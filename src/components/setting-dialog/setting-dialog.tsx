@@ -36,26 +36,26 @@ const SettingDialog = (props: Props) => {
     >
       <>
         {/* Disable blur */}
-        <div className={classes.group}>
-          <div className={classes.groupHeader}>
-            <h4 className={classes.groupTitle}>Disable blur</h4>
+        <div className='dialog-item'>
+          <div className='item-header'>
+            <h4 className='item-title'>Disable blur</h4>
             <Checkbox
               id="disable-blur"
               outerState={disableBlur}
               onChange={setDisableBlur}
             />
           </div>
-          <p className={classes.groupDescription}>
+          <p className='item-description'>
             Disable blur incase of performance problems in older devices.
           </p>
         </div>
         {/* Accent colour */}
-        <div className={classes.group}>
-          <div className={classes.groupHeader}>
-            <h4 className={classes.groupTitle}>Accent colour</h4>
+        <div className='dialog-item'>
+          <div className='item-header'>
+            <h4 className='item-title'>Accent colour</h4>
             <div className={classes.beta}>Beta</div>
           </div>
-          <p className={classes.groupDescription}>
+          <p className='item-description'>
             Change accent colour to your liking.
           </p>
           <div className={classes.groupActions}>
@@ -63,15 +63,15 @@ const SettingDialog = (props: Props) => {
           </div>
         </div>
         {/* Colour scheme */}
-        <div className={classes.group}>
-          <div className={classes.groupHeader}>
-            <h4 className={classes.groupTitle}>Colour scheme</h4>
+        <div className='dialog-item'>
+          <div className='item-header'>
+            <h4 className='item-title'>Colour scheme</h4>
             <div className={classes.beta}>Beta</div>
           </div>
-          <p className={classes.groupDescription}>
+          <p className='item-description'>
             We are on the dark side, you too?
           </p>
-          <div className={classes.groupActions}>
+          <div className='item-actions'>
             <ColorSelector
               onSelect={(v: string) => {
                 if (v === 'fff') {
@@ -96,11 +96,11 @@ const SettingDialog = (props: Props) => {
           </div>
         </div>
         {/* About */}
-        <div className={classes.group}>
-          <div className={classes.groupHeader}>
-            <h4 className={classes.groupTitle}>Version</h4>
+        <div className='dialog-item'>
+          <div className='item-header'>
+            <h4 className='item-title'>Version</h4>
           </div>
-          <p className={classes.groupDescription}>
+          <p className='item-description'>
             {`You are running version ${version}.`}
           </p>
         </div>
