@@ -1,0 +1,66 @@
+.loading-indicator {
+  display: inline-block;
+
+  &[data-animate=true] {
+    @keyframes animate {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    animation: animate 1s linear infinite;
+    transform-origin: center;
+  }
+
+  svg path {
+    stroke: var(--text-main);
+
+    &:nth-child(1) {
+      opacity: 1;
+    }
+
+    &:nth-child(2) {
+      opacity: .9;
+    }
+
+    &:nth-child(3) {
+      opacity: .8;
+    }
+
+    &:nth-child(4) {
+      opacity: .7;
+    }
+
+    &:nth-child(5) {
+      opacity: .6;
+    }
+
+    &:nth-child(6) {
+      opacity: .5;
+    }
+
+    &:nth-child(7) {
+      opacity: .4;
+    }
+
+    &:nth-child(8) {
+      opacity: .3;
+    }
+
+    &:nth-child(9) {
+      opacity: .2;
+    }
+
+    &:nth-child(10) {
+      opacity: .1;
+    }
+
+    &:nth-child(11) {
+      opacity: 0;
+    }
+  }
+}

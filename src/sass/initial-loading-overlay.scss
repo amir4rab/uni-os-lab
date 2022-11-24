@@ -1,0 +1,41 @@
+.initial-loading-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--background-0);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;  
+  }
+
+  &[data-loaded=true] {
+    @keyframes animate-out {
+      0% {
+        opacity: 1;
+      }
+
+      99% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+
+    user-select: none;
+    pointer-events: none;
+    animation: animate-out .15s ease-in-out forwards;
+  }
+}
