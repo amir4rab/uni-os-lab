@@ -83,7 +83,10 @@
     <div id="app"></div>
     <div class="initial-loading-overlay" id="initial-loading-overlay">
       <div style="transform: scale(.05)">
-        <div class="loading-indicator" data-animate="true">
+        <div 
+          class="loading-indicator" 
+          data-animate="true"
+        >
           <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M85.2163 157.921L171.819 207.921" stroke-width="32" stroke-linecap="round" />
             <path d="M157.764 84.4801L207.764 171.083" stroke-width="32" stroke-linecap="round" />
@@ -100,6 +103,15 @@
           </svg>
         </div>
       </div>
+      <noscript class="error">
+        <h1 class="title">
+          Error
+        </h1>
+        <p>
+          This website uses javascript, please enable javascript runtime from your browser settings. Incase you're worried about privacy, we don't use any tracker or ads, and this project is fully open source, you can
+          check the code on <a href="http://github.com/amir4rab/uni-os-lab">Github</a>.
+        </p>
+      </noscript>
     </div>
     <div id="bottom-buttons-portal"></div>
     <div id="dialog-polyfill"></div>

@@ -1,5 +1,6 @@
 .loading-indicator {
   display: inline-block;
+  opacity: .5;
 
   &[data-animate=true] {
     @keyframes animate {
@@ -12,7 +13,7 @@
       }
     }
 
-    animation: animate 1s linear infinite;
+    animation: animate 1s steps(12) infinite;
     transform-origin: center;
   }
 

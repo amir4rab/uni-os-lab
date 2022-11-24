@@ -1,5 +1,6 @@
 .initial-loading-overlay {
   position: fixed;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
@@ -7,15 +8,28 @@
   background: var(--background-0);
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   align-content: center;
 
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;  
+  noscript, .error {
+    margin: 0 2rem;
+
+    .title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem
+    }
+
+    padding: 2rem 4rem;
+    border: var(--background-2) .04em solid;
+    background: var(--background-1);
+    border-radius: .6em;
+
+    p {
+      opacity: .75;
+      line-height: 150%;
+    }
   }
 
   &[data-loaded=true] {
