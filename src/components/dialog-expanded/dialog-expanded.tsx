@@ -1,4 +1,10 @@
-import { useRef, useEffect, StateUpdater, useState } from 'preact/hooks';
+import {
+  useRef,
+  useEffect,
+  StateUpdater,
+  useState,
+  useCallback,
+} from 'preact/hooks';
 import { lazy, Suspense } from 'preact/compat';
 
 // classes
@@ -9,14 +15,16 @@ const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
 
 // hooks
 import useDialogSupported from '../../hooks/use-dialog-supported';
-import { ComponentChildren } from 'preact';
+
+// types
+import type { ComponentChildren } from 'preact';
 
 interface InnerProps {
   onClose: () => void;
-  children: ComponentChildren; 
+  children: ComponentChildren;
   title: string;
 }
-const SettingInner = ({ onClose, children, title }:InnerProps) => {
+const SettingInner = ({ onClose, children, title }: InnerProps) => {
   return (
     <div className={classes.content}>
       <div className={classes.side}>
@@ -29,11 +37,9 @@ const SettingInner = ({ onClose, children, title }:InnerProps) => {
           <button className={classes.mobileClose} onClick={onClose}>
             Done
           </button>
-          <h3 className={classes.title}>{ title }</h3>
+          <h3 className={classes.title}>{title}</h3>
         </div>
-        <div className={classes.inner}>
-          { children }
-        </div>
+        <div className={classes.inner}>{children}</div>
       </div>
     </div>
   );
@@ -42,14 +48,13 @@ const SettingInner = ({ onClose, children, title }:InnerProps) => {
 interface Props {
   state: boolean;
   setState: StateUpdater<boolean>;
-  children: ComponentChildren; 
+  children: ComponentChildren;
   title: string;
 }
 const SettingDialog = ({ state, setState, children, title }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
-  // const _ = useMinimizeBody({ minimized: state, mobileOnly: true })
 
   useEffect(() => {
     let timeOut: undefined | NodeJS.Timeout | number;
@@ -65,6 +70,16 @@ const SettingDialog = ({ state, setState, children, title }: Props) => {
     };
   }, [state]);
 
+  const onClose = useCallback(() => setState(false), []);
+
+  useEffect(() => {
+    elRef.current?.addEventListener('close', onClose);
+
+    return () => {
+      elRef.current?.removeEventListener('close', onClose);
+    };
+  }, [elRef.current]);
+
   return (
     <>
       {dialogIsSupported === true && (
@@ -74,11 +89,8 @@ const SettingDialog = ({ state, setState, children, title }: Props) => {
           ref={elRef}
         >
           <div className={classes.inner}>
-            <SettingInner
-              title={title}
-              onClose={() => setState(false)}
-            >
-              { children }
+            <SettingInner title={title} onClose={() => setState(false)}>
+              {children}
             </SettingInner>
           </div>
         </dialog>
@@ -90,11 +102,8 @@ const SettingDialog = ({ state, setState, children, title }: Props) => {
             className={classes.settingDialog}
           >
             <div className={classes.inner}>
-              <SettingInner
-                title={title}
-                onClose={() => setState(false)}
-              >
-                { children }
+              <SettingInner title={title} onClose={() => setState(false)}>
+                {children}
               </SettingInner>
             </div>
           </DialogPolyfill>

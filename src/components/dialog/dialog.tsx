@@ -1,5 +1,11 @@
 import type { ComponentChildren } from 'preact';
-import { useRef, useEffect, StateUpdater, useState } from 'preact/hooks';
+import {
+  useRef,
+  useEffect,
+  StateUpdater,
+  useState,
+  useCallback,
+} from 'preact/hooks';
 import { lazy, Suspense } from 'preact/compat';
 
 import classes from './dialog.module.scss';
@@ -20,14 +26,14 @@ interface Props {
   className?: string;
 }
 
-const Dialog = ({ 
-  children, 
-  state, 
-  title, 
-  setState, 
-  disableAnimations= false,
-  closeImmediately= false,
-  className
+const Dialog = ({
+  children,
+  state,
+  title,
+  setState,
+  disableAnimations = false,
+  closeImmediately = false,
+  className,
 }: Props) => {
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
@@ -39,8 +45,8 @@ const Dialog = ({
       elRef.current && elRef.current.showModal();
       !dialogIsSupported && setPolyfillState(true);
     } else {
-      if ( closeImmediately ) {
-        elRef.current && elRef.current.close()
+      if (closeImmediately) {
+        elRef.current && elRef.current.close();
       } else {
         timeOut = setTimeout(() => elRef.current && elRef.current.close(), 150);
       }
@@ -51,13 +57,23 @@ const Dialog = ({
     };
   }, [state]);
 
+  const onClose = useCallback(() => setState(false), []);
+
+  useEffect(() => {
+    elRef.current?.addEventListener('close', onClose);
+
+    return () => {
+      elRef.current?.removeEventListener('close', onClose);
+    };
+  }, [elRef.current]);
+
   return (
     <>
       {dialogIsSupported === true && (
-        <dialog 
+        <dialog
           data-displayed={state}
           data-disabled-animation={disableAnimations}
-          className={[classes.dialog, className].join(' ')} 
+          className={[classes.dialog, className].join(' ')}
           ref={elRef}
         >
           <div className={classes.header}>
