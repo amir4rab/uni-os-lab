@@ -8,7 +8,8 @@ import classes from './process-guider.module.scss';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
 // Components
-import Loading from '../loading';
+// import Loading from '../loading';
+import LoadingIndicator from '../loading-indicator';
 
 // Dynamic components
 const Inner = lazy(() => import('./inner'));
@@ -43,12 +44,12 @@ const ProcessGuider = () => {
           ))}
         </div>
       </header>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<LoadingIndicator animate={true} />}>
         <Inner
           selectedAlgorithms={selectedAlgorithms}
-          setSelectedAlgorithms={setSelectedAlgorithms} 
+          setSelectedAlgorithms={setSelectedAlgorithms}
           currentStep={currentStep}
-          setCurrentStep={setCurrentStep} 
+          setCurrentStep={setCurrentStep}
         />
       </Suspense>
     </section>
