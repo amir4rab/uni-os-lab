@@ -1,35 +1,40 @@
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from 'preact/hooks';
 
 interface AccentColor {
   name: string;
   hexCode: string;
-};
-interface ExportedAccentColor extends AccentColor { selected: boolean };
+}
+interface ExportedAccentColor extends AccentColor {
+  selected: boolean;
+}
 const accentColorsList: AccentColor[] = [
   {
-    hexCode:'0ce7d5',
+    hexCode: '64d2ff',
     name: 'cyan',
   },
   {
-    hexCode:'f556e8',
-    name: 'pink'
+    hexCode: 'ff375f',
+    name: 'pink',
   },
   {
-    hexCode:'60fd00',
-    name: 'green'
+    hexCode: '30d158',
+    name: 'green',
   },
   {
-    hexCode:'ff3232',
-    name: 'red'
+    hexCode: 'ff453a',
+    name: 'red',
   },
   {
-    hexCode:'bb56f5',
-    name: 'purple'
-  }
+    hexCode: 'bf5af2',
+    name: 'purple',
+  },
+  {
+    hexCode: '66d4cf',
+    name: 'mint',
+  },
 ];
 
 type ColorScheme = 'dark' | 'light';
-
 
 interface UseSettings {
   colorScheme: ColorScheme;
@@ -41,7 +46,7 @@ interface UseSettings {
 }
 
 const useLocalStorage = <T,>(v: T, key: string) => {
-  const [ state, setState ] = useState<T>(v);
+  const [state, setState] = useState<T>(v);
 
   useEffect(() => {
     const localStorageValue = window.localStorage.getItem(key);
@@ -49,7 +54,7 @@ const useLocalStorage = <T,>(v: T, key: string) => {
     if (localStorageValue === null) {
       window.localStorage.setItem(key, `${v}`);
     } else {
-      switch(typeof v) {
+      switch (typeof v) {
         case 'number': {
           setState(parseFloat(localStorageValue) as T);
           break;
@@ -64,44 +69,62 @@ const useLocalStorage = <T,>(v: T, key: string) => {
         }
       }
     }
-  }, [])
+  }, []);
 
   const updateState = (v: T) => {
     setState(v);
     localStorage.setItem(key, `${v}`);
   };
 
-  return ([ state, updateState ]) as const;
-}
+  return [state, updateState] as const;
+};
 
 const useSettings: () => UseSettings = () => {
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>('dark', 'colorScheme');
-  const [accentColor, setAccentColor] = useLocalStorage<string>(accentColorsList[0].hexCode, 'accentColor');
-  const [disableBlur, setDisableBlur] = useLocalStorage<boolean>(false, 'disableBlur');
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>(
+    'dark',
+    'colorScheme',
+  );
+  const [accentColor, setAccentColor] = useLocalStorage<string>(
+    accentColorsList[0].hexCode,
+    'accentColor',
+  );
+  const [disableBlur, setDisableBlur] = useLocalStorage<boolean>(
+    false,
+    'disableBlur',
+  );
 
-  const updateHTMLAttributes = ( attribute: string, value: string ) => {
+  const updateHTMLAttributes = (attribute: string, value: string) => {
     try {
       const html = document.getElementsByTagName('html')[0] as HTMLHtmlElement;
       html.setAttribute(attribute, value);
-    } catch(err) { console.error(err) }
-  }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const updateAccentColor = (hexCode: string) => {
-    const accentColor = accentColorsList.find(({ hexCode: code }) => hexCode === code);
-    if ( accentColor === undefined ) {
+    const accentColor = accentColorsList.find(
+      ({ hexCode: code }) => hexCode === code,
+    );
+    if (accentColor === undefined) {
       console.error('Received an unsupported colour for accent colour!');
       return;
-    };
+    }
 
     const { name } = accentColor;
 
-    updateHTMLAttributes('data-accent-color',name);
+    updateHTMLAttributes('data-accent-color', name);
     updateHTMLAttributes('theme-color', hexCode);
   };
 
-  const accentColors: ExportedAccentColor[] = useMemo(() =>(
-    accentColorsList.map(data => ({ ...data, selected: data.hexCode === accentColor ? true : false }))
-  ), [ accentColor ]);
+  const accentColors: ExportedAccentColor[] = useMemo(
+    () =>
+      accentColorsList.map((data) => ({
+        ...data,
+        selected: data.hexCode === accentColor ? true : false,
+      })),
+    [accentColor],
+  );
 
   useEffect(() => {
     updateHTMLAttributes('data-theme', colorScheme);
@@ -113,16 +136,16 @@ const useSettings: () => UseSettings = () => {
 
   useEffect(() => {
     updateHTMLAttributes('data-disable-blur', `${disableBlur}`);
-  }, [disableBlur])
+  }, [disableBlur]);
 
-  return ({
+  return {
     colorScheme,
     setColorScheme,
     setAccentColor,
     setDisableBlur,
     accentColors,
     disableBlur,
-  })
+  };
 };
 
 export default useSettings;

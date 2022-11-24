@@ -1,34 +1,48 @@
 $highlight-color: #0ce7d5;
 
-$white-0: #ffffff;
-$white-1: #f0f0f0;
-$white-2: #dfdfdf;
-$black-0: #111;
-$black-1: #222;
-$black-2: #333;
+$white-0: #fff;
+$white-1: #e5e5ea;
+$white-2: #d1d1d6;
+$black-0: #000;
+$black-1: #1c1c1e;
+$black-2: #2c2c2e;
 
-$cyan: #0ce7d5;
-$pink: #f556e8;
-$green: #60fd00;
-$red: #ff3232;
-$purple: #bb56f5;
+$cyan-l: #32ade6;
+$cyan-d: #64d2ff;
 
-@mixin accent-color-gen($color) {
+$pink-l: #ff2d55;
+$pink-d: #ff375f;
+
+$green-l: #34c759;
+$green-d: #30d158;
+
+$red-l: #ff3b30;
+$red-d: #ff453a;
+
+$purple-l: #af52de;
+$purple-d: #bf5af2;
+
+$mint-l: #00c7be;
+$mint-d: #66d4cf;
+
+@mixin accent-color-gen($color-dark, $color-light) {
   &[data-theme=dark]{
-    --accent-color-0: #{$color};
-    --accent-color-0-25: #{transparentize($color, .75)};
-    --accent-color-1: #{lighten($color, 10%)};
-    --accent-color-1-25: #{transparentize(lighten($color, 10%), .75)};
-    --accent-color-1-50: #{transparentize(lighten($color, 10%), .5)};
-    --accent-color-2: #{lighten($color, 20%)};
+    --accent-color-0: #{$color-dark};
+    --accent-color-0-25: #{transparentize($color-dark, .75)};
+    --accent-color-1: #{lighten($color-dark, 10%)};
+    --accent-color-2: #{lighten($color-dark, 20%)};
+    --accent-color-3: #{lighten($color-dark, 30%)};
+    --accent-color-1-25: #{transparentize(lighten($color-dark, 10%), .75)};
+    --accent-color-1-50: #{transparentize(lighten($color-dark, 10%), .5)};
   }
   &[data-theme=light]{
-    --accent-color-0: #{darken($color, 10%)};
-    --accent-color-0-25: #{transparentize(darken($color, 10%), .75)};
-    --accent-color-1: #{darken($color, 20%)};
-    --accent-color-1-25: #{transparentize(darken($color, 20%), .75)};
-    --accent-color-1-50: #{transparentize(darken($color, 20%), .5)};
-    --accent-color-2: #{darken($color, 30%)};
+    --accent-color-0: #{$color-light};
+    --accent-color-0-25: #{transparentize($color-light, .75)};
+    --accent-color-1: #{darken($color-light, 10%)};
+    --accent-color-2: #{darken($color-light, 20%)};
+    --accent-color-3: #{darken($color-light, 30%)};
+    --accent-color-1-25: #{transparentize(darken($color-light, 10%), .75)};
+    --accent-color-1-50: #{transparentize(darken($color-light, 10%), .5)};
   }
 }
 
@@ -56,18 +70,21 @@ $purple: #bb56f5;
     --background-3: #{darken($white-0, 30%)};
   }
   &[data-accent-color=cyan] {
-    @include accent-color-gen($cyan);
+    @include accent-color-gen($cyan-d, $cyan-l);
   }
   &[data-accent-color=pink] {
-    @include accent-color-gen($pink);
+    @include accent-color-gen($pink-d, $pink-l);
   }
   &[data-accent-color=green] {
-    @include accent-color-gen($green);
+    @include accent-color-gen($green-d, $green-l);
   }
   &[data-accent-color=purple] {
-    @include accent-color-gen($purple);
+    @include accent-color-gen($purple-d, $purple-l);
   }
   &[data-accent-color=red] {
-    @include accent-color-gen($red);
+    @include accent-color-gen($red-d, $red-l);
+  }
+  &[data-accent-color=mint] {
+    @include accent-color-gen($mint-d, $mint-l);
   }
 }

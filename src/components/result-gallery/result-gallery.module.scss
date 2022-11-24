@@ -82,8 +82,8 @@
       }
 
       &[data-active=true] {
-        color: var(--accent-color-1);
-        border: .1rem solid var(--accent-color-1);
+        color: var(--accent-color-0);
+        border: .1rem solid var(--accent-color-0);
       }
 
       &[data-active=false] {

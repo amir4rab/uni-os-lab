@@ -31,7 +31,7 @@
   }
   .icon {
     transform: scale(.75);
-    stroke: var(--accent-color-1);
+    stroke: var(--accent-color-0);
   }  
   
   &[data-checked=false] {
@@ -44,7 +44,7 @@
   &[data-checked=true] {
     label {
       background:--accent-color-1-75;
-      border: .1rem solid var(--accent-color-1);
+      border: .1rem solid var(--accent-color-0);
     }
   }
 }

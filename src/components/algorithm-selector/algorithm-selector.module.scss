@@ -2,7 +2,7 @@
 
 .title {
   font-size: 1.75rem;
-  color: var(--accent-color-1);
+  color: var(--accent-color-0);
   margin-bottom: 5vh;
 }
 
@@ -78,14 +78,12 @@
     margin-bottom: 0;
   }
   .desktopButton {
-    font-size: .8rem;
-    background: transparent;
-    color: var(--text-main);
-    border: none;
+    font-size: .8rem !important;
 
-    &[data-main] {
-      background: var(--accent-color-1);
-      color: var(--background-1);
+    &:not([data-primary]) {
+      background: transparent;
+      color: var(--text-main);
+      border: none;
     }
     
     @media screen and (max-width: 1100px) {

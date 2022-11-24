@@ -14,7 +14,7 @@ html {
 
 :root {
   font-family: apple-system, BlinkMacSystemFont, sans-serif;
-  accent-color: var(--accent-color-1);
+  accent-color: var(--accent-color-0);
   --background-blur: blur(2rem);
 };
 
@@ -36,7 +36,7 @@ input, select {
 }
 
 a {
-  color: var(--accent-color-1);
+  color: var(--accent-color-0);
 }
 
 button {
@@ -65,17 +65,17 @@ button {
     padding: .4em .75em;
   }
   &[data-primary] {
-    border: var(--accent-color-1) .1rem solid;
-    background-color: var(--accent-color-1);
+    border: var(--accent-color-0) .1rem solid;
+    background-color: var(--accent-color-0);
 
     &:not(:disabled):hover {
-      border: var(--accent-color-2) .1rem solid;
-      background-color: var(--accent-color-2);
+      border: var(--accent-color-1) .1rem solid;
+      background-color: var(--accent-color-1);
     }
 
     &:not(:disabled):active {
-      border: var(--accent-color-3) .1rem solid;
-      background-color: var(--accent-color-3);
+      border: var(--accent-color-2) .1rem solid;
+      background-color: var(--accent-color-2);
     }
   }
   &[data-border-less] {
