@@ -40,22 +40,25 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
     });
   };
 
-  const clearAll = () => 
-    setSelectedAlgorithms(new Array(algorithms.length).fill(null, 0, algorithms.length));
+  const clearAll = () =>
+    setSelectedAlgorithms(
+      new Array(algorithms.length).fill(null, 0, algorithms.length),
+    );
 
   const submitAll = () => onSubmit(algorithms.map(({ id }) => id));
 
-  const submitSelected = useCallback(() => 
-    onSubmit(
-      selectedAlgorithms.filter(
-        (i) => i !== null,
-      ) as SchedulingAlgorithm[],
-    )
-  ,[selectedAlgorithms]);
+  const submitSelected = useCallback(
+    () =>
+      onSubmit(
+        selectedAlgorithms.filter((i) => i !== null) as SchedulingAlgorithm[],
+      ),
+    [selectedAlgorithms],
+  );
 
-  const selectedAlgorithmExist = useMemo(() => 
-    selectedAlgorithms.filter(i => i !== null).length !== 0
-  ,[selectedAlgorithms]);
+  const selectedAlgorithmExist = useMemo(
+    () => selectedAlgorithms.filter((i) => i !== null).length !== 0,
+    [selectedAlgorithms],
+  );
 
   return (
     <>
@@ -65,10 +68,10 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           <div className={classes.algorithm}>
             <div className={classes.header}>
               <h4 className={classes.title}>Expert mode</h4>
-              <button 
-                className={classes.desktopButton} 
+              <button
+                className={[classes.desktopButton, 'primary'].join(' ')}
                 onClick={submitAll}
-                data-main 
+                data-primary
               >
                 Continue with Expert mode
               </button>
@@ -80,69 +83,67 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           <div className={classes.algorithm}>
             <div className={classes.header}>
               <h4 className={classes.title}>Custom mode</h4>
-              <button 
+              <button
                 className={classes.desktopButton}
                 onClick={() => setCustomMode(true)}
               >
-                {selectedAlgorithmExist ? `Modify selected algorithms` : `Select algorithms`}
+                {selectedAlgorithmExist
+                  ? `Modify selected algorithms`
+                  : `Select algorithms`}
               </button>
             </div>
             <p className={classes.about}>
               Mix and match algorithms to your liking
             </p>
-            {
-              selectedAlgorithmExist &&
+            {selectedAlgorithmExist && (
               <div className={classes.selectedOverView}>
                 <div className={classes.header}>
-                  <p>
-                    Selected algorithms
-                  </p>
-                  <button onClick={clearAll}>
-                    clear all
-                  </button>
+                  <p>Selected algorithms</p>
+                  <button onClick={clearAll}>clear all</button>
                 </div>
                 <div>
-                  {
-                    algorithms.map(({ name, id }, i) => {
-                      if ( selectedAlgorithms[i] === null ) return null;
+                  {algorithms.map(({ name, id }, i) => {
+                    if (selectedAlgorithms[i] === null) return null;
 
-                      return (
-                        <div className={['dialog-item', classes.item].join(' ')} key={id}>
-                          <div className='item-header'>
-                          <p className='item-title'>
-                            { name }
-                          </p>
+                    return (
+                      <div
+                        className={['dialog-item', classes.item].join(' ')}
+                        key={id}
+                      >
+                        <div className="item-header">
+                          <p className="item-title">{name}</p>
                           <button onClick={() => toggle(id, false, i)}>
                             <Suspense fallback={null}>
                               <DeleteIcon />
                             </Suspense>
                           </button>
                         </div>
-                        </div>
-                      );
-                    })
-                  }
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className={classes.actions}>
-                  <button className='secondary' onClick={ submitSelected }>
+                  <button className="secondary" onClick={submitSelected}>
                     Continue with selected
                   </button>
                 </div>
               </div>
-            }
+            )}
           </div>
           <AlgorithmSelectorSubmitButtons
-            {...(
-              !selectedAlgorithmExist ?
-              { title: 'Expert', submit: submitAll , customMode: () => setCustomMode(true) } : 
-              { title: 'Continue with selected', submit: submitSelected }
-            )}
+            {...(!selectedAlgorithmExist
+              ? {
+                  title: 'Expert',
+                  submit: submitAll,
+                  customMode: () => setCustomMode(true),
+                }
+              : { title: 'Continue with selected', submit: submitSelected })}
           />
         </div>
       </div>
       <Suspense fallback={null}>
-        <DialogExpanded 
-          title='Custom Mode'
+        <DialogExpanded
+          title="Custom Mode"
           setState={setCustomMode}
           state={customMode}
         >
