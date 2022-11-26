@@ -13,10 +13,10 @@ import { algorithms } from './algorithms-data';
 // components
 import AlgorithmSelectorDialogInner from './dialog-inner';
 import AlgorithmSelectorSubmitButtons from './submit-buttons';
+import AlgorithmSelectorSelectedAlgorithms from './selected-algorithms';
 
 // lazy components
 const DialogExpanded = lazy(() => import('../dialog-expanded'));
-const DeleteIcon = lazy(() => import('../icons/components/delete'));
 
 interface Props {
   onSubmit: (v: SchedulingAlgorithm[]) => void;
@@ -95,40 +95,14 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
             <p className={classes.about}>
               Mix and match algorithms to your liking
             </p>
-            {selectedAlgorithmExist && (
-              <div className={classes.selectedOverView}>
-                <div className={classes.header}>
-                  <p>Selected algorithms</p>
-                  <button onClick={clearAll}>clear all</button>
-                </div>
-                <div>
-                  {algorithms.map(({ name, id }, i) => {
-                    if (selectedAlgorithms[i] === null) return null;
-
-                    return (
-                      <div
-                        className={['dialog-item', classes.item].join(' ')}
-                        key={id}
-                      >
-                        <div className="item-header">
-                          <p className="item-title">{name}</p>
-                          <button onClick={() => toggle(id, false, i)}>
-                            <Suspense fallback={null}>
-                              <DeleteIcon />
-                            </Suspense>
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className={classes.actions}>
-                  <button className="secondary" onClick={submitSelected}>
-                    Continue with selected
-                  </button>
-                </div>
-              </div>
-            )}
+            <AlgorithmSelectorSelectedAlgorithms
+              displayed={selectedAlgorithmExist}
+              selectedAlgorithms={selectedAlgorithms}
+              onSubmitSelected={submitSelected}
+              onToggle={toggle}
+              onClearAll={clearAll}
+              onEdit={() => setCustomMode(true)}
+            />
           </div>
           <AlgorithmSelectorSubmitButtons
             {...(!selectedAlgorithmExist
