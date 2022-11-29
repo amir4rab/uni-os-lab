@@ -2,10 +2,11 @@ import { useState } from 'preact/hooks';
 import classes from './footer.module.scss';
 
 import { Suspense, lazy } from 'preact/compat';
-import { SettingsIcon } from '../icons';
 
+// lazy components
 const MobileFab = lazy(() => import('../mobile-fab'));
 const SettingDialog = lazy(() => import('../setting-dialog'));
+const SettingsIcon = lazy(() => import('../icons/components/settings'));
 
 const Content = ({ onClick }: { onClick: () => void }) => (
   <div className={classes.inner}>
@@ -31,32 +32,33 @@ const Content = ({ onClick }: { onClick: () => void }) => (
     </div>
     <div className={classes.section}>
       <button onClick={onClick} className={classes.settingsButton}>
-        <SettingsIcon className={classes.footerIcon} />
+        <Suspense fallback={null}>
+          <SettingsIcon className={classes.footerIcon} />
+        </Suspense>
       </button>
     </div>
   </div>
 );
 
 const Footer = () => {
-  const [ settingsState, setSettingsState ] = useState(false);
+  const [settingsState, setSettingsState] = useState(false);
 
-  const toggleState = () => setSettingsState(curr => !curr);
+  const toggleState = () => setSettingsState((curr) => !curr);
 
   return (
     <>
       <Suspense fallback={null}>
-        <MobileFab 
+        <MobileFab
           icon={
-            <SettingsIcon className={classes.fabIcon} />
+            <Suspense fallback={null}>
+              <SettingsIcon className={classes.fabIcon} />
+            </Suspense>
           }
           onClick={toggleState}
         />
       </Suspense>
       <Suspense fallback={null}>
-        <SettingDialog 
-          state={settingsState}
-          setState={setSettingsState}
-        />
+        <SettingDialog state={settingsState} setState={setSettingsState} />
       </Suspense>
       <footer className={classes.footer}>
         <Content onClick={toggleState} />

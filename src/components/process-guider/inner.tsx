@@ -2,16 +2,16 @@
 import { StateUpdater, useState } from 'preact/hooks';
 
 // Types
-import ProcessArray from '../../types/process';
-import SchedulingAlgorithm from '../../types/scheduling-algorithm';
+import type ProcessArray from '../../types/process';
+import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
 // components
-import AlgorithmSelector from '../algorithm-selector';
 import Fader from '../fader';
+import AlgorithmSelector from '../algorithm-selector';
 import ResultGallery from '../result-gallery';
 import ProcessesDisplay from '../processes-display';
 
-// interface 
+// interface
 interface Props {
   selectedAlgorithms: SchedulingAlgorithm[];
   setSelectedAlgorithms: StateUpdater<SchedulingAlgorithm[]>;
@@ -19,7 +19,12 @@ interface Props {
   currentStep: number;
 }
 
-const Inner = ({selectedAlgorithms, setSelectedAlgorithms, setCurrentStep, currentStep}: Props) => {
+const Inner = ({
+  selectedAlgorithms,
+  setSelectedAlgorithms,
+  setCurrentStep,
+  currentStep,
+}: Props) => {
   const [timeSlice, setTimeSlice] = useState(1);
   const [processes, setProcesses] = useState<ProcessArray>([]);
 

@@ -5,10 +5,10 @@ import { Suspense, lazy } from 'preact/compat';
 // Sass classes
 import classes from './process-guider.module.scss';
 
-import SchedulingAlgorithm from '../../types/scheduling-algorithm';
+// types
+import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
 // Components
-// import Loading from '../loading';
 import LoadingIndicator from '../loading-indicator';
 
 // Dynamic components
