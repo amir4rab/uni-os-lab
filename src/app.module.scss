@@ -1,6 +1,6 @@
 @import './sass/styles';
 
-@media screen and (min-width: 1100px) {
+@include while-desktop {
   .main {
     max-width: 1000px;
     width: 80%;
@@ -17,7 +17,7 @@
   }
 }
 
-@media screen and (max-width: 1100px) {
+@include while-mobile {
   .chip {
     display: none;
   }

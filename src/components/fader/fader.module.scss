@@ -1,3 +1,5 @@
+@import '../../sass/styles';
+
 @keyframes animateInM {
   from {
     transform: translate(100%, 0);
@@ -57,7 +59,7 @@
       animation: animateOutM .3s ease-in-out forwards;
     }
   }
-  @media screen and (min-width: 1100px) {
+  @include while-desktop {
     &[data-displayed=true] {
       animation: animateInD .3s ease-in-out forwards;
     }

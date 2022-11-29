@@ -107,7 +107,7 @@
     }
 
     .subInfoGroup {
-      @media screen and (max-width: 1100px) {
+      @include while-mobile {
         width: 20vw;
         margin-bottom: .5rem;
         display: flex;

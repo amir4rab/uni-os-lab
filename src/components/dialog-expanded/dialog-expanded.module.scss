@@ -4,7 +4,7 @@ $thin-border: .05em solid var(--background-2);
 $thin-border-main: .05em solid var(--background-3);
 
 .settingDialog {
-  @media screen and (max-width: 1100px) {    
+  @include while-mobile {    
     width: 100vw;
     height: calc(100vh - 2rem);
     max-width: 100%;
@@ -19,7 +19,7 @@ $thin-border-main: .05em solid var(--background-3);
     }
   }
   
-  @media screen and (min-width: 1100px) {
+  @include while-desktop {
     width: 60vw;
     height: 60vh;
     border: $thin-border-main;
@@ -82,7 +82,7 @@ $thin-border-main: .05em solid var(--background-3);
   height: 100%;
   display: flex;
 
-  @media screen and (max-width: 1100px) {
+  @include while-mobile {
     .side {
       display: none;
     }
@@ -104,7 +104,7 @@ $thin-border-main: .05em solid var(--background-3);
     }
   } 
   
-  @media screen and (min-width: 1100px) {
+  @include while-desktop {
     .side {
       width: 20%;
       padding: 2rem;

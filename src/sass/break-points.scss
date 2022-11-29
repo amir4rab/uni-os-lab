@@ -1,0 +1,13 @@
+$desktop-breakpoint: 992px;
+
+@mixin while-desktop() {
+  @media (min-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
+@mixin while-mobile() {
+  @media (max-width: $desktop-breakpoint) {
+    @content;
+  }
+}

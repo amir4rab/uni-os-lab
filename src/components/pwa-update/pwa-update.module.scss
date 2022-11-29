@@ -1,3 +1,5 @@
+@import '../../sass/styles';
+
 .pwaUpdate {
   .title {
     margin-bottom: 1rem;
@@ -15,7 +17,7 @@
 
 .dialog {
   opacity: 0;
-  @media screen and (max-width: 1100px) {  
+  @include while-mobile {  
     &[data-displayed=true] {
       animation: animateInM forwards .15s ease-in-out;
     }
@@ -23,7 +25,7 @@
       animation: animateOutM forwards .15s ease-in-out;
     }
   }
-  @media screen and (min-width: 1100px) {
+  @include while-desktop {
     top: 2rem !important;
     right: 2rem !important;
     left: auto !important;
