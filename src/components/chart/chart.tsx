@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'preact/hooks';
 import classes from './chart.module.scss';
 
-interface Props {
+export interface Props {
   better?: 'less' | 'more';
   title?: string;
   data: {
     v: number;
     name: string;
   }[];
+  marginLess?: boolean;
 }
 
-const Chart = ({ data, better, title }: Props) => {
-  const [maxHeight, setMaxHeight] = useState<null | number>(null);
-  const [itemWidth, setItemWidth] = useState<null | number>(null);
+const Chart = ({ data, better, title, marginLess }: Props) => {
+  const [maxWidth, setMaxWidth] = useState<null | number>(null);
   const [edgeValues, setEdgeValues] = useState<null | {
     min: number;
     max: number;
@@ -27,8 +27,7 @@ const Chart = ({ data, better, title }: Props) => {
       if (min > v) min = v;
     });
 
-    setMaxHeight(max * 1);
-    setItemWidth(100 / (data.length + 1));
+    setMaxWidth(max);
     if (min !== null && max !== null)
       setEdgeValues({
         min,
@@ -38,12 +37,12 @@ const Chart = ({ data, better, title }: Props) => {
 
   return (
     <>
-      {maxHeight === null || itemWidth === null ? (
+      {maxWidth === null ? (
         <p className={classes.alert}>loading</p>
-      ) : maxHeight === 0 ? (
+      ) : maxWidth === 0 ? (
         <p className={classes.alert}>Failed to draw a chart</p>
       ) : (
-        <div className={classes.chart}>
+        <div className={classes.chart} data-margin-less={marginLess}>
           {title && <h3 className={classes.title}>{title}</h3>}
           <div className={classes.barsWrapper}>
             {data.map(({ v, name }, i) => {
@@ -62,14 +61,14 @@ const Chart = ({ data, better, title }: Props) => {
                       <div
                         className={classes.progressInner}
                         style={`transform: translate(${
-                          (v * 100) / maxHeight
+                          (v * 100) / maxWidth
                         }%, 0)`}
                       />
                     </div>
                   </div>
                   <p>
+                    <span className={classes.value}>{`${v}ms`}</span>
                     <span className={classes.name}>{name}</span>
-                    <span className={classes.value}>{`${v} \n ms`}</span>
                   </p>
                 </div>
               );

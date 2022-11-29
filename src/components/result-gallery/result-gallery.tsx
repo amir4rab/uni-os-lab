@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'preact/hooks';
-import useAlgorithm from '../../hooks/use-algorithm';
-import ProcessArray from '../../types/process';
-import ProcessResult from '../../types/process-results';
-import SchedulingAlgorithm from '../../types/scheduling-algorithm';
-import Chart from '../chart';
-import GanttChart from '../gantt-chart';
+
+// styles
 import classes from './result-gallery.module.scss';
+
+// hooks
+import useAlgorithm from '../../hooks/use-algorithm';
+
+// types
+import type ProcessArray from '../../types/process';
+import type ProcessResult from '../../types/process-results';
+import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
+
+// components
+import Chart, { ChartsGroup } from '../chart';
+import GanttChart from '../gantt-chart';
 
 interface Props {
   data: ProcessArray;
@@ -29,7 +37,7 @@ const ResultGallery = ({
 }: Props) => {
   const { process } = useAlgorithm();
   const [activeAlgorithms, setActiveAlgorithms] = useState(
-    new Array(algorithms.length).fill(true, 0, algorithms.length)
+    new Array(algorithms.length).fill(true, 0, algorithms.length),
   );
   const [averageReturnTimes, setAverageReturnTimes] = useState<
     AverageTimeItem[]
@@ -75,10 +83,27 @@ const ResultGallery = ({
   return (
     <div className={classes.resultGallery}>
       <h1 className={classes.title}>Processes result</h1>
-      {
-        algorithms.length > 1 &&
+      {algorithms.length > 1 && (
         <>
-          <Chart
+          <ChartsGroup
+            items={[
+              {
+                data: {
+                  data: averageReturnTimes,
+                  better: 'less',
+                },
+                title: 'Average Return Time',
+              },
+              {
+                data: {
+                  data: averageResponseTimes,
+                  better: 'less',
+                },
+                title: 'Average Response Time',
+              },
+            ]}
+          />
+          {/* <Chart
             data={averageReturnTimes}
             better="less"
             title="Average Return Time per algorithm"
@@ -87,34 +112,38 @@ const ResultGallery = ({
             data={averageResponseTimes}
             better="less"
             title="Average Response Time per algorithm"
-          />
+          /> */}
           <div className={classes.filters}>
             <p className={classes.filtersTitle}>Displayed algorithms</p>
             <div className={classes.chipsWrapper}>
-              {
-                activeAlgorithms.map((v, i) => (
-                  <button
-                    className={classes.chip}
-                    data-active={v}
-                    onClick={() => setActiveAlgorithms(curr => {
+              {activeAlgorithms.map((v, i) => (
+                <button
+                  className={classes.chip}
+                  data-active={v}
+                  onClick={() =>
+                    setActiveAlgorithms((curr) => {
                       const newArr = [...curr];
                       newArr[i] = !curr[i];
                       return newArr;
-                    })}
-                  >
-                    {algorithms[i]}
-                  </button>
-                ))
-              }
+                    })
+                  }
+                >
+                  {algorithms[i]}
+                </button>
+              ))}
             </div>
           </div>
         </>
-      }
+      )}
       {processResults.map(({ algorithm, data }, i) => {
         const { averageResponseTime, averageReturnTime, gantt } = data;
 
         return (
-          <div id={algorithm} className={classes.item} data-displayed={activeAlgorithms[i]}>
+          <div
+            id={algorithm}
+            className={classes.item}
+            data-displayed={activeAlgorithms[i]}
+          >
             <h2 className={classes.subtitle}>{algorithm}</h2>
             <GanttChart gantt={gantt} />
             <div className={classes.subDetails}>
@@ -134,7 +163,7 @@ const ResultGallery = ({
         <button onClick={() => goBack()} className="secondary">
           Go back
         </button>
-        <button onClick={onReset} className="primary">
+        <button onClick={onReset} style="flex-grow: 1;" className="primary">
           Reset
         </button>
       </div>

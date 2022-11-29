@@ -1,0 +1,36 @@
+@import '../../sass/styles';
+
+.chartsGroup {
+  padding: 2rem 0;
+  .actionsWrapper {
+    display: flex;
+    @include while-desktop {
+      justify-content: flex-end;
+    }
+  }
+  .actionsGroup {
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    border-radius: .4rem;
+    border: solid var(--background-3) .04rem;
+    background: var(--background-2);
+
+    button {
+      background: transparent;
+      border-radius: .4rem;
+      padding: .4em 1em;
+      color: var(--main-text);
+      opacity: .75;
+      font-weight: 500;
+
+      &[data-selected=true] {
+        background: var(--background-3);
+        opacity: 1;
+      }
+      &:hover, &:active {
+        transform: none;
+      }
+    }
+  }
+} 
