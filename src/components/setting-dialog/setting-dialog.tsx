@@ -9,7 +9,6 @@ import { version } from '../../../package.json';
 version as string;
 
 // components
-import Checkbox from '../checkbox';
 import ColorSelector from '../color-selector';
 
 const DialogExpanded = lazy(() => import('../dialog-expanded'));
@@ -86,10 +85,15 @@ const SettingDialog = (props: Props) => {
           <div className="dialog-item">
             <div className="item-header">
               <h4 className="item-title">Disable blur</h4>
-              <Checkbox
-                id="disable-blur"
-                outerState={disableBlur}
-                onChange={setDisableBlur}
+              <input
+                type="checkbox"
+                selected={disableBlur}
+                data-radio
+                data-size="s"
+                onChange={(e) =>
+                  e.target &&
+                  setDisableBlur((e.target as HTMLInputElement).checked)
+                }
               />
             </div>
             <p className="item-description">

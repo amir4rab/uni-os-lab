@@ -1,0 +1,45 @@
+input[data-radio] {
+  padding: 0;
+  display: inline-block;
+  position: relative;
+  border: solid .04rem var(--background-2);
+  background: var(--background-1);
+  transition: background .3s ease-in-out;
+  border-radius: 1.5rem;
+  &::after {
+    content: '';
+    border-radius: 50%;
+    background: var(--background-2);
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: transform .15s ease-in-out;
+  }
+  &:checked {
+    background: var(--accent-color-0);
+  }
+  &[data-size=s] {
+    width: 2.25rem;
+    height: 1.125rem;
+    &:checked::after {
+      transform: translate(1.125rem, 0);
+    }
+    &::after {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+  &[data-size=m] {
+    width: 3rem;
+    height: 1.5rem;
+
+    &:checked::after {
+      transform: translate(1.5rem, 0);
+    }
+
+    &::after {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
