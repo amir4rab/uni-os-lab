@@ -15,7 +15,7 @@ export default defineConfig({
         name: 'CPU Scheduler Emulator',
         short_name: 'CSE',
         description: 'Simple CPU scheduler emulator',
-        theme_color: '#0ce7d5',
+        theme_color: '#111111',
         background_color: '#111111',
         start_url: '.',
         display: 'standalone',
