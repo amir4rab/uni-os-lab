@@ -20,12 +20,24 @@ const DialogExpanded = lazy(() => import('../dialog-expanded'));
 
 interface Props {
   onSubmit: (v: SchedulingAlgorithm[]) => void;
+  defaultSelectedAlgorithms: SchedulingAlgorithm[];
 }
 
-const AlgorithmSelector = ({ onSubmit }: Props) => {
+const validateDefaultAlgorithms = (
+  defaultSelectedAlgorithms: SchedulingAlgorithm[],
+): (SchedulingAlgorithm | null)[] => {
+  if (defaultSelectedAlgorithms.length === 0)
+    return new Array(algorithms.length).fill(null, 0, algorithms.length);
+
+  return algorithms.map(({ id }) =>
+    defaultSelectedAlgorithms.includes(id) ? id : null,
+  );
+};
+
+const AlgorithmSelector = ({ onSubmit, defaultSelectedAlgorithms }: Props) => {
   const [selectedAlgorithms, setSelectedAlgorithms] = useState<
     (SchedulingAlgorithm | null)[]
-  >(new Array(algorithms.length).fill(null, 0, algorithms.length));
+  >(validateDefaultAlgorithms(defaultSelectedAlgorithms));
   const [customMode, setCustomMode] = useState<boolean>(false);
 
   const toggle = (
@@ -83,14 +95,14 @@ const AlgorithmSelector = ({ onSubmit }: Props) => {
           <div className={classes.algorithm}>
             <div className={classes.header}>
               <h4 className={classes.title}>Custom mode</h4>
-              <button
-                className={classes.desktopButton}
-                onClick={() => setCustomMode(true)}
-              >
-                {selectedAlgorithmExist
-                  ? `Modify selected algorithms`
-                  : `Select algorithms`}
-              </button>
+              {!selectedAlgorithmExist && (
+                <button
+                  className={classes.desktopButton}
+                  onClick={() => setCustomMode(true)}
+                >
+                  Select algorithms
+                </button>
+              )}
             </div>
             <p className={classes.about}>
               Mix and match algorithms to your liking

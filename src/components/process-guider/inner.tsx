@@ -42,6 +42,7 @@ const Inner = ({
     <>
       <Fader displayed={currentStep === 0}>
         <AlgorithmSelector
+          defaultSelectedAlgorithms={selectedAlgorithms}
           onSubmit={(v) => {
             setSelectedAlgorithms(v);
             setCurrentStep((curr) => curr + 1);
