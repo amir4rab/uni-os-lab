@@ -17,7 +17,7 @@ const Chart = ({
   better,
   title,
   marginLess,
-  printable = true,
+  printable = false,
 }: Props) => {
   const [maxWidth, setMaxWidth] = useState<null | number>(null);
   const [edgeValues, setEdgeValues] = useState<null | {
