@@ -1,5 +1,5 @@
 button {
-  &.primary {
+  &.primary, &[data-primary] {
     background-color: var(--accent-color-0);
     color: var(--background-0);
     
@@ -11,7 +11,7 @@ button {
       background-color: var(--accent-color-3);
     }
   }
-  &.secondary {
+  &.secondary, &[data-secondary] {
     color: var(--accent-color-0);
     border: var(--accent-color-0) .1rem solid;
     background-color: transparent;
@@ -27,5 +27,8 @@ button {
       color: var(--accent-color-2);
       background-color: transparent;
     }
+  }
+  &.compact, &[data-compact] {
+    padding: .4em 1em !important;
   }
 }

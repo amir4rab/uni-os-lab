@@ -9,9 +9,16 @@ export interface Props {
     name: string;
   }[];
   marginLess?: boolean;
+  printable?: boolean;
 }
 
-const Chart = ({ data, better, title, marginLess }: Props) => {
+const Chart = ({
+  data,
+  better,
+  title,
+  marginLess,
+  printable = true,
+}: Props) => {
   const [maxWidth, setMaxWidth] = useState<null | number>(null);
   const [edgeValues, setEdgeValues] = useState<null | {
     min: number;
@@ -50,6 +57,8 @@ const Chart = ({ data, better, title, marginLess }: Props) => {
                 (better === 'less' && v === edgeValues?.min) ||
                 (better === 'more' && v === edgeValues?.max);
 
+              const transformAmount = (v * 100) / maxWidth;
+
               return (
                 <div
                   key={`${i}-${v}`}
@@ -61,7 +70,7 @@ const Chart = ({ data, better, title, marginLess }: Props) => {
                       <div
                         className={classes.progressInner}
                         style={`transform: translate(${
-                          (v * 100) / maxWidth
+                          transformAmount < 100 ? transformAmount : 100
                         }%, 0)`}
                       />
                     </div>
@@ -74,7 +83,16 @@ const Chart = ({ data, better, title, marginLess }: Props) => {
               );
             })}
           </div>
-          {better && <p className={classes.footer}>{`${better} is better.`}</p>}
+          <div className={classes.footer}>
+            {printable && (
+              <button data-compact data-secondary>
+                Print
+              </button>
+            )}
+            {better && (
+              <p className={classes.footerText}>{`${better} is better.`}</p>
+            )}
+          </div>
         </div>
       )}
     </>

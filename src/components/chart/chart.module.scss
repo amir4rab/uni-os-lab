@@ -18,10 +18,16 @@
   }
 
   .footer {
-    text-align: center;
     margin-top: .25rem;
-    font-size: .8rem;
-    opacity: .7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    .footerText {
+      text-align: center;
+      font-size: .8rem;
+      opacity: .7;
+    }
   }
   
   .barsWrapper {

@@ -28,6 +28,7 @@ const ChartsGroup = ({ items }: Props) => {
               key={i}
               onClick={() => setSelectedIndex(i)}
               data-selected={i === selectedIndex}
+              data-compact
             >
               {title}
             </button>

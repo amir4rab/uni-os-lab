@@ -7,6 +7,12 @@
     @include while-desktop {
       justify-content: flex-end;
     }
+    @include while-mobile {
+      width: 100%;
+      button {
+        flex-grow: 1;
+      }
+    }
   }
   .actionsGroup {
     display: inline-flex;

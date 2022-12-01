@@ -12,7 +12,7 @@ import type ProcessResult from '../../types/process-results';
 import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
 // components
-import Chart, { ChartsGroup } from '../chart';
+import { ChartsGroup } from '../chart';
 import GanttChart from '../gantt-chart';
 
 interface Props {
@@ -103,16 +103,6 @@ const ResultGallery = ({
               },
             ]}
           />
-          {/* <Chart
-            data={averageReturnTimes}
-            better="less"
-            title="Average Return Time per algorithm"
-          />
-          <Chart
-            data={averageResponseTimes}
-            better="less"
-            title="Average Response Time per algorithm"
-          /> */}
           <div className={classes.filters}>
             <p className={classes.filtersTitle}>Displayed algorithms</p>
             <div className={classes.chipsWrapper}>

@@ -11,27 +11,30 @@ import { ComponentChildren } from 'preact';
 import Input from '../input';
 import Select from '../select';
 
-const ConditionallyDisplayed = (
-  { children, displayed, title }:
-  { children: ComponentChildren, displayed: boolean, title?: string }
-) => (
+const ConditionallyDisplayed = ({
+  children,
+  displayed,
+  title,
+}: {
+  children: ComponentChildren;
+  displayed: boolean;
+  title?: string;
+}) => (
   <>
-    { 
-      !displayed ? null :
+    {!displayed ? null : (
       <>
-        {
-          title &&  
-          <div className={ classes.divider }>
-            <div className={classes.br}/>
-            <p>{ title }</p>
-            <div className={classes.br}/>
+        {title && (
+          <div className={classes.divider}>
+            <div className={classes.br} />
+            <p>{title}</p>
+            <div className={classes.br} />
           </div>
-        }
-        { children } 
+        )}
+        {children}
       </>
-    } 
+    )}
   </>
-)
+);
 
 interface Props {
   submitProcess: (v: Process) => void;
@@ -46,7 +49,7 @@ const ProcessInput = ({
   currentCount = 1,
   priorityEnabled = false,
   typeEnabled = false,
-  feedbackQueueEnabled= false
+  feedbackQueueEnabled = false,
 }: Props) => {
   const [error, setError] = useState<null | string>(null);
 
@@ -112,13 +115,13 @@ const ProcessInput = ({
         ? 'foreground'
         : (processTypeSelectRef.current.value as 'foreground' | 'background');
     const cpuBursts =
-        processCpuBurstsSelectRef.current === null
-          ? 'short'
-          : (processCpuBurstsSelectRef.current.value as 'short' | 'long');
+      processCpuBurstsSelectRef.current === null
+        ? 'short'
+        : (processCpuBurstsSelectRef.current.value as 'short' | 'long');
     const ioBursts =
-          processIoBurstsSelectRef.current === null
-            ? 'high'
-            : (processIoBurstsSelectRef.current.value as 'high' | 'low');
+      processIoBurstsSelectRef.current === null
+        ? 'high'
+        : (processIoBurstsSelectRef.current.value as 'high' | 'low');
     const priority =
       priorityInputRef.current === null
         ? 0
@@ -148,18 +151,18 @@ const ProcessInput = ({
       arrivalTime: parseInt((Math.random() * 30).toFixed(0)),
       name,
       priority: parseInt((Math.random() * 127).toFixed(0)),
-      type: (Math.random() * 10) > 5 ? 'background' : 'foreground',
+      type: Math.random() * 10 > 5 ? 'background' : 'foreground',
       cpuBursts: 'long',
-      ioBursts: 'high'
+      ioBursts: 'high',
     });
     resetInput();
-  }
+  };
 
   return (
     <form onSubmit={(e) => onSubmit(e)}>
       <div>
         <div className={classes.inputWrapper}>
-          <Input 
+          <Input
             required={true}
             type="text"
             id="processName"
@@ -168,7 +171,7 @@ const ProcessInput = ({
             passedRef={nameInputRef}
           />
         </div>
-        <Input 
+        <Input
           name="Arrival time in ms"
           required={true}
           min={0}
@@ -177,7 +180,7 @@ const ProcessInput = ({
           defaultValue={'0'}
           passedRef={arrivalTimeInputRef}
         />
-        <Input 
+        <Input
           name="Execution time in ms"
           required={true}
           min={1}
@@ -186,8 +189,11 @@ const ProcessInput = ({
           defaultValue={'1'}
           passedRef={durationInputRef}
         />
-        <ConditionallyDisplayed displayed={priorityEnabled} title="Priority algorithm only">
-          <Input 
+        <ConditionallyDisplayed
+          displayed={priorityEnabled}
+          title="Priority algorithm only"
+        >
+          <Input
             name="Priority"
             required={true}
             type="number"
@@ -196,54 +202,68 @@ const ProcessInput = ({
             max={127}
             defaultValue={'0'}
             passedRef={priorityInputRef}
-          />  
+          />
         </ConditionallyDisplayed>
-        <ConditionallyDisplayed displayed={typeEnabled} title="Multilevel algorithm only">
-            <Select 
-              required={true}
-              id="processType"
-              name="Process Type"
-              defaultValue={'foreground'}
-              passedRef={processTypeSelectRef}
-              options={[
-                {value: "foreground", name: "Foreground"},
-                {value: "background", name: "Background"}
-              ]}
-            />
+        <ConditionallyDisplayed
+          displayed={typeEnabled}
+          title="Multilevel algorithm only"
+        >
+          <Select
+            required={true}
+            id="processType"
+            name="Process Type"
+            defaultValue={'foreground'}
+            passedRef={processTypeSelectRef}
+            options={[
+              { value: 'foreground', name: 'Foreground' },
+              { value: 'background', name: 'Background' },
+            ]}
+          />
         </ConditionallyDisplayed>
-        <ConditionallyDisplayed 
-          displayed={feedbackQueueEnabled} 
+        <ConditionallyDisplayed
+          displayed={feedbackQueueEnabled}
           title="Feedback Queue algorithm only"
         >
-            <Select 
-              required={true}
-              id="cpuBurtType"
-              name="Cpu bursts"
-              defaultValue={'short'}
-              passedRef={processCpuBurstsSelectRef}
-              options={[
-                {value: "short", name: "Short"},
-                {value: "long", name: "Long"}
-              ]}
-            />
-            <Select 
-              required={true}
-              id="ioBurtType"
-              name="Io bursts"
-              defaultValue={'high'}
-              passedRef={processIoBurstsSelectRef}
-              options={[
-                {value: "high", name: "High"},
-                {value: "low", name: "Low"}
-              ]}
-            />
+          <Select
+            required={true}
+            id="cpuBurtType"
+            name="Cpu bursts"
+            defaultValue={'short'}
+            passedRef={processCpuBurstsSelectRef}
+            options={[
+              { value: 'short', name: 'Short' },
+              { value: 'long', name: 'Long' },
+            ]}
+          />
+          <Select
+            required={true}
+            id="ioBurtType"
+            name="Io bursts"
+            defaultValue={'high'}
+            passedRef={processIoBurstsSelectRef}
+            options={[
+              { value: 'high', name: 'High' },
+              { value: 'low', name: 'Low' },
+            ]}
+          />
         </ConditionallyDisplayed>
       </div>
       <div className={classes.actions}>
-        <button className='secondary' style='margin-right: .5rem' type="button" onClick={submitRandomData}>
-          Use Random data
+        <button
+          className="secondary"
+          style="margin-right: .25rem"
+          type="button"
+          data-compact
+          onClick={submitRandomData}
+        >
+          Random
         </button>
-        <button className='primary' type="submit">
+        <button
+          data-compact
+          style="flex-grow: 1;"
+          className="primary"
+          type="submit"
+        >
           Submit
         </button>
       </div>
