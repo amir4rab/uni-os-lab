@@ -1,5 +1,12 @@
 @import '../../sass/styles';
 
+.header {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .ganttChart {
   background-color: var(--background-1);
   padding: 1rem 2rem;

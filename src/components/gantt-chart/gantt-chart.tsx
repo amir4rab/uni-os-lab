@@ -1,6 +1,13 @@
-import { useMemo, useState } from 'preact/hooks';
-import Gantt from '../../types/gantt';
+import { useEffect, useMemo, useState } from 'preact/hooks';
+
+// stylings
 import classes from './gantt-chart.module.scss';
+
+// hooks
+import useGenerateCSV from '../../hooks/use-generate-csv';
+
+// types
+import type Gantt from '../../types/gantt';
 
 const lineHeight = 1.75;
 
@@ -36,8 +43,16 @@ const ChartItem = ({
   </div>
 );
 
-const GanttChart = ({ gantt, debugLogging = false }: { gantt: Gantt, debugLogging?: boolean }) => {
+const GanttChart = ({
+  gantt,
+  debugLogging = false,
+}: {
+  gantt: Gantt;
+  debugLogging?: boolean;
+}) => {
+  const { ganttToCSV } = useGenerateCSV();
   const [processEndTime] = useState(gantt[gantt.length - 1].endTime);
+  const [downloadUrl, setDownloadUrl] = useState<string | undefined>(undefined);
   const [itemCount, setItemCount] = useState(0);
   const [names, setNames] = useState<{ name: string; key: string }[]>([]);
 
@@ -84,9 +99,39 @@ const GanttChart = ({ gantt, debugLogging = false }: { gantt: Gantt, debugLoggin
     return items;
   }, []);
 
+  const onCSVGen = () => {
+    if (downloadUrl !== undefined) return;
+
+    const blob = ganttToCSV(gantt);
+
+    const url = URL.createObjectURL(blob);
+
+    setDownloadUrl(url);
+  };
+
+  // Clearing object url
+  useEffect(() => {
+    return () => {
+      downloadUrl && URL.revokeObjectURL(downloadUrl);
+    };
+  }, []);
+
   return (
     <div>
-      <p>Gantt chart</p>
+      <div className={classes.header}>
+        <p>Gantt chart</p>
+        {downloadUrl === undefined ? (
+          <button onClick={onCSVGen} data-secondary data-compact>
+            Convert to csv
+          </button>
+        ) : (
+          <a download="Gantt chart" href={downloadUrl}>
+            <button data-secondary data-compact>
+              Download
+            </button>
+          </a>
+        )}
+      </div>
       <div className={classes.ganttChart}>
         <div className={classes.names}>
           {names.map(({ key, name }, i) => (
