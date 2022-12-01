@@ -9,6 +9,14 @@ interface ExportedAccentColor extends AccentColor {
 }
 const accentColorsList: AccentColor[] = [
   {
+    hexCode: '66d4cf',
+    name: 'mint',
+  },
+  {
+    hexCode: 'bf5af2',
+    name: 'purple',
+  },
+  {
     hexCode: '64d2ff',
     name: 'cyan',
   },
@@ -24,25 +32,19 @@ const accentColorsList: AccentColor[] = [
     hexCode: 'ff453a',
     name: 'red',
   },
-  {
-    hexCode: 'bf5af2',
-    name: 'purple',
-  },
-  {
-    hexCode: '66d4cf',
-    name: 'mint',
-  },
 ];
 
 type ColorScheme = 'dark' | 'light';
 
 interface UseSettings {
   colorScheme: ColorScheme;
-  setColorScheme: (colorScheme: ColorScheme) => void;
+  setColorScheme: (v: ColorScheme) => void;
   accentColors: ExportedAccentColor[];
-  setAccentColor: (hexCode: string) => void;
+  setAccentColor: (v: string) => void;
   disableBlur: boolean;
-  setDisableBlur: (value: boolean) => void;
+  setDisableBlur: (v: boolean) => void;
+  disableTransform: boolean;
+  setDisableTransform: (v: boolean) => void;
 }
 
 const useLocalStorage = <T,>(v: T, key: string) => {
@@ -92,6 +94,10 @@ const useSettings: () => UseSettings = () => {
     false,
     'disableBlur',
   );
+  const [disableTransform, setDisableTransform] = useLocalStorage<boolean>(
+    false,
+    'disableTransform',
+  );
 
   const updateHTMLAttributes = (attribute: string, value: string) => {
     try {
@@ -138,13 +144,19 @@ const useSettings: () => UseSettings = () => {
     updateHTMLAttributes('data-disable-blur', `${disableBlur}`);
   }, [disableBlur]);
 
+  useEffect(() => {
+    updateHTMLAttributes('data-disable-transform', `${disableTransform}`);
+  }, [disableTransform]);
+
   return {
     colorScheme,
     setColorScheme,
     setAccentColor,
     setDisableBlur,
+    setDisableTransform,
     accentColors,
     disableBlur,
+    disableTransform,
   };
 };
 

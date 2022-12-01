@@ -26,6 +26,8 @@ const SettingDialog = (props: Props) => {
     accentColors,
     colorScheme,
     disableBlur,
+    disableTransform,
+    setDisableTransform,
     setAccentColor,
     setColorScheme,
     setDisableBlur,
@@ -87,7 +89,7 @@ const SettingDialog = (props: Props) => {
               <h4 className="item-title">Disable blur</h4>
               <input
                 type="checkbox"
-                selected={disableBlur}
+                checked={disableBlur}
                 data-radio
                 data-size="s"
                 onChange={(e) =>
@@ -100,13 +102,35 @@ const SettingDialog = (props: Props) => {
               Disable blur incase of performance problems in older devices.
             </p>
           </div>
+          {/* Disable transform */}
+          <div className="dialog-item">
+            <div className="item-header">
+              <h4 className="item-title">Disable transform</h4>
+              <input
+                type="checkbox"
+                checked={disableTransform}
+                data-radio
+                data-size="s"
+                onChange={(e) =>
+                  e.target &&
+                  setDisableTransform((e.target as HTMLInputElement).checked)
+                }
+              />
+            </div>
+            <p className="item-description">
+              Disable transform incase of performance problems in older devices,
+              or your personal preference.
+            </p>
+          </div>
           {/* About */}
           <div className="dialog-item">
             <div className="item-header">
               <h4 className="item-title">Version</h4>
             </div>
             <p className="item-description">
-              {`You are running version ${version}.`}
+              <span>{`You are running version "`}</span>
+              <code>{version}</code>
+              <span>{`".`}</span>
             </p>
           </div>
         </>
