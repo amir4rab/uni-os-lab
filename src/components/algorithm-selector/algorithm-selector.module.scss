@@ -76,10 +76,10 @@
   }
 
   &[data-displayed=true] {
-    animation: animate-in .15s ease-in-out forwards;
+    animation: animate-in var(--transform-duration-1x) ease-in-out forwards;
   }
   &[data-displayed=false] {
-    animation: animate-out .15s ease-in-out forwards;
+    animation: animate-out var(--transform-duration-1x) ease-in-out forwards;
   }
 
   border-radius: 1rem;

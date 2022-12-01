@@ -39,3 +39,16 @@
     }
   }
 }
+
+@mixin setup-transform {
+  &[data-disable-transform=false] {
+    --transform-duration-1x: .15s;
+    --transform-duration-2x: .2s;
+    --transform-duration-3x: .3s;
+  }
+  &[data-disable-transform=true] {
+    --transform-duration-1x: 0s;
+    --transform-duration-2x: 0s;
+    --transform-duration-3x: 0s;
+  }
+}

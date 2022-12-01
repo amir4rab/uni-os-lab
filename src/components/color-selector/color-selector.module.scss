@@ -10,7 +10,7 @@
     width: 1.25rem;
     height: 1.25rem;
     border: transparent .3rem solid;
-    transition: border .15s ease-in-out, transform .15s ease-in-out;
+    transition: border .15s ease-in-out, transform var(--transform-duration-1x) ease-in-out;
     color: transparent;
     font-size: 0;
     user-select: none;

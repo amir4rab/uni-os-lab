@@ -9,6 +9,7 @@
 html {
   @include setup-color-schemes();
   @include setup-blur();
+  @include setup-transform();
   transition: none;
 }
 
@@ -46,7 +47,7 @@ button {
   font-weight: 600;
   border-radius: .6rem;
   padding: .75em 1.25em;
-  transition: background-color .15s ease-in-out, transform .15s ease-in-out;
+  transition: background-color .15s ease-in-out, transform var(--transform-duration-1x) ease-in-out;
   &:not(:disabled):hover {
     cursor: pointer;
     background: --background-1;

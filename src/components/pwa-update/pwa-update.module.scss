@@ -19,10 +19,10 @@
   opacity: 0;
   @include while-mobile {  
     &[data-displayed=true] {
-      animation: animateInM forwards .15s ease-in-out;
+      animation: animateInM forwards var(--transform-duration-2x) ease-in-out;
     }
     &[data-displayed=false] {
-      animation: animateOutM forwards .15s ease-in-out;
+      animation: animateOutM forwards var(--transform-duration-2x) ease-in-out;
     }
   }
   @include while-desktop {
@@ -31,11 +31,11 @@
     left: auto !important;
     bottom: auto !important;  
     &[data-displayed=true] {
-      animation: animateInD forwards .15s ease-in-out;
+      animation: animateInD forwards var(--transform-duration-2x) ease-in-out;
     }
 
     &[data-displayed=false] {
-      animation: animateOutD forwards .15s ease-in-out;
+      animation: animateOutD forwards var(--transform-duration-2x) ease-in-out;
     }
   }
 }

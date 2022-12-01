@@ -13,7 +13,7 @@ input[data-radio] {
     position: absolute;
     left: 0;
     top: 0;
-    transition: transform .15s ease-in-out;
+    transition: transform var(--transform-duration-1x) ease-in-out;
   }
   &:checked {
     background: var(--accent-color-0);

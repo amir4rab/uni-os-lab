@@ -12,10 +12,10 @@ $thin-border-main: .05em solid var(--background-3);
     border-radius: 1em 1em 0 0;
 
     &[data-displayed=true] {
-      animation: animateInM forwards .15s ease-in-out;
+      animation: animateInM forwards var(--transform-duration-3x) ease-in-out;
     }
     &[data-displayed=false] {
-      animation: animateOutM forwards .15s ease-in-out;
+      animation: animateOutM forwards var(--transform-duration-3x) ease-in-out;
     }
   }
   
@@ -26,11 +26,11 @@ $thin-border-main: .05em solid var(--background-3);
     border-radius: .4em;
 
     &[data-displayed=true] {
-      animation: animateInD forwards .15s ease-in-out;
+      animation: animateInD forwards var(--transform-duration-3x) ease-in-out;
     }
 
     &[data-displayed=false] {
-      animation: animateOutD forwards .15s ease-in-out;
+      animation: animateOutD forwards var(--transform-duration-3x) ease-in-out;
     }
   }
 

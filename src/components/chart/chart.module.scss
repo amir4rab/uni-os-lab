@@ -75,7 +75,7 @@
           width: 100%;
           left: -100%;
           height: 100%;
-          transition: transform .3s ease-in-out;
+          transition: transform var(--transform-duration-3x) ease-in-out;
           
           @keyframes slide-in {
             from {

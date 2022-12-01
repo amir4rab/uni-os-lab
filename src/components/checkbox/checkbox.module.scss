@@ -27,7 +27,7 @@
     top: 50%;
     width: 100%;
     height: 100%;
-    transition: transform .15s ease-in-out, opacity .15s ease-in-out;
+    transition: transform var(--transform-duration-1x) ease-in-out, opacity .15s ease-in-out;
   }
   .icon {
     transform: scale(.75);

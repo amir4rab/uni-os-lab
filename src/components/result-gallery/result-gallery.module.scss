@@ -71,7 +71,7 @@
       background: var(--background-1);
       color: var(--text-main);
       border: .1rem solid transparent;
-      transition: background .15s ease-in-out, color .15s ease-in-out, border .15s ease-in-out, transform .15s ease-in-out,;
+      transition: background .15s ease-in-out, color .15s ease-in-out, border .15s ease-in-out, transform var(--transform-duration-1x) ease-in-out,;
 
       &:not(:disabled):active {
         background: var(--background-2);

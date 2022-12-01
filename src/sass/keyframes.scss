@@ -12,7 +12,7 @@
   }
 
   opacity: 0;
-  animation: animateIn .3s ease-in-out forwards;
+  animation: animateIn var(--transform-duration-3x) ease-in-out forwards;
 } 
 
 @mixin animate-contents-out() {
@@ -29,5 +29,5 @@
   }
 
   opacity: 0;
-  animation: animateOut .3s ease-in-out forwards;
+  animation: animateOut var(--transform-duration-3x) ease-in-out forwards;
 } 

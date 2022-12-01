@@ -21,7 +21,7 @@
 }
 
 .algorithm {
-  animation: animateIn .3s ease-in-out forwards;
+  animation: animateIn var(--transform-duration-1x) ease-in-out forwards;
   color: var(--accent-color-0);
   text-transform: uppercase;
   font-weight: bold;
@@ -44,7 +44,7 @@
   right: 50%;
   top: 50%;
   transform: translate(50%, -50%);
-  transition: right .3s ease-in-out, transform .3s ease-in-out;
+  transition: right .3s ease-in-out, transform var(--transform-duration-3x) ease-in-out;
   display: flex;
   &[data-to-right=true]{
     right: 0;
@@ -64,7 +64,7 @@
     &[data-active] {
       opacity: 1;
       box-shadow: 0 0 1rem .25rem var(--accent-color-0);
-      animation: dance .3s ease-in-out forwards;
+      animation: dance var(--transform-duration-1x) ease-in-out forwards;
     }
   }
 }
