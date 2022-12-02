@@ -70,20 +70,22 @@
       white-space: nowrap;
       background: var(--background-1);
       color: var(--text-main);
-      border: .1rem solid transparent;
+      border: none;
       transition: background .15s ease-in-out, color .15s ease-in-out, border .15s ease-in-out, transform var(--transform-duration-1x) ease-in-out,;
 
       &:not(:disabled):active {
-        background: var(--background-2);
+        background: var(--accent-color-1);
+        color: var(--background-0);
       }
 
       &:not(:disabled):hover {
-        background: var(--background-2);
+        background: var(--accent-color-2);
+        color: var(--background-0);
       }
 
       &[data-active=true] {
-        color: var(--accent-color-0);
-        border: .1rem solid var(--accent-color-0);
+        color: var(--background-0);
+        background: var(--accent-color-0);
       }
 
       &[data-active=false] {

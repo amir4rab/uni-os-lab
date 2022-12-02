@@ -35,6 +35,7 @@ const Chart = ({
     });
 
     setMaxWidth(max);
+    
     if (min !== null && max !== null)
       setEdgeValues({
         min,

@@ -7,12 +7,6 @@
     @include while-desktop {
       justify-content: flex-end;
     }
-    @include while-mobile {
-      width: 100%;
-      button {
-        flex-grow: 1;
-      }
-    }
   }
   .actionsGroup {
     display: inline-flex;
@@ -21,6 +15,13 @@
     border-radius: .4rem;
     border: solid var(--background-3) .04rem;
     background: var(--background-2);
+
+    @include while-mobile {
+      width: 100%;
+      button {
+        flex-grow: 1;
+      }
+    }
 
     button {
       background: transparent;
