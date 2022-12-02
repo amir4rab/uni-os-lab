@@ -1,17 +1,37 @@
-import { ComponentChildren } from 'preact';
-import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
+import {
+  StateUpdater,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'preact/hooks';
+import { createContext } from 'preact';
+
+// types
+import type { ComponentChildren } from 'preact';
+
+// stylings
 import classes from './fader.module.scss';
+
+const FaderContext = createContext<{
+  height: number;
+  setHeight: StateUpdater<number>;
+  resizeObserver: ResizeObserver | undefined;
+}>({ height: 0, setHeight: () => {}, resizeObserver: undefined });
 
 interface Props {
   displayed: boolean;
   children: ComponentChildren;
+  id: string;
 }
 
 /** Adds fade animation to components */
-const Fader = ({ children, displayed }: Props) => {
+const Child = ({ children, displayed, id }: Props) => {
   const [state, setState] = useState(displayed);
   const [elWidth, setElWidth] = useState<number>(0);
   const elRef = useRef<HTMLDivElement | null>(null);
+  const { resizeObserver } = useContext(FaderContext);
 
   // sets visual state of the element upon displaying or removal
   useEffect(() => {
@@ -31,7 +51,11 @@ const Fader = ({ children, displayed }: Props) => {
   // sets element visual status to be used in animation
   useLayoutEffect(() => {
     if (elRef.current && displayed && state) {
-      setElWidth(elRef.current.getBoundingClientRect().width);
+      const { width } = elRef.current.getBoundingClientRect();
+      setElWidth(width);
+      resizeObserver?.observe(elRef.current);
+    } else {
+      elRef.current && resizeObserver?.unobserve(elRef.current);
     }
   }, [displayed, state]);
 
@@ -39,8 +63,9 @@ const Fader = ({ children, displayed }: Props) => {
     <>
       {state && (
         <div
+          key={id}
           ref={elRef}
-          className={classes.fader}
+          className={classes.child}
           data-displayed={displayed}
           style={!displayed ? `width: ${elWidth}px;` : ''}
         >
@@ -50,5 +75,26 @@ const Fader = ({ children, displayed }: Props) => {
     </>
   );
 };
+
+// Wraps fader children
+const Fader = ({ children }: { children: ComponentChildren }) => {
+  const [height, setHeight] = useState(0);
+  const resizeObserver = new ResizeObserver((elements) => {
+    elements.map((el) => {
+      const { height } = el.contentRect;
+      height !== 0 && setHeight(height);
+    });
+  });
+
+  return (
+    <FaderContext.Provider value={{ height, setHeight, resizeObserver }}>
+      <div style={`height:${height}px;`} className={classes.fader}>
+        {children}
+      </div>
+    </FaderContext.Provider>
+  );
+};
+
+Fader.Child = Child;
 
 export default Fader;

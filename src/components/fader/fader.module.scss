@@ -46,26 +46,34 @@
 }
 
 .fader {
-  opacity: 0;
-  max-width: 100%;
-  &[data-displayed=false]{
-    position: absolute;
-  }
-  @media screen and ( max-width: 1100px ) {
-    &[data-displayed=true] {
-      animation: animateInM var(--transform-duration-3x) ease-in-out forwards;
-    }
-    &[data-displayed=false] {
-      animation: animateOutM var(--transform-duration-3x) ease-in-out forwards;
-    }
-  }
-  @include while-desktop {
-    &[data-displayed=true] {
-      animation: animateInD var(--transform-duration-3x) ease-in-out forwards;
-    }
+  width: 100%;
+  position: relative;
 
-    &[data-displayed=false] {
-      animation: animateOutD var(--transform-duration-3x) ease-in-out forwards;
+  .child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    &[data-displayed=false]{
+      position: absolute;
+    }
+    @include while-mobile{
+      &[data-displayed=true] {
+        animation: animateInM var(--transform-duration-3x) ease-in-out forwards;
+      }
+      &[data-displayed=false] {
+        animation: animateOutM var(--transform-duration-3x) ease-in-out forwards;
+      }
+    }
+    @include while-desktop {
+      &[data-displayed=true] {
+        animation: animateInD var(--transform-duration-3x) ease-in-out forwards;
+      }
+  
+      &[data-displayed=false] {
+        animation: animateOutD var(--transform-duration-3x) ease-in-out forwards;
+      }
     }
   }
 }

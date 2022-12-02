@@ -39,8 +39,8 @@ const Inner = ({
   const stepBack = () => setCurrentStep((curr) => curr - 1);
 
   return (
-    <>
-      <Fader displayed={currentStep === 0}>
+    <Fader>
+      <Fader.Child id="algorithmSelectorFader" displayed={currentStep === 0}>
         <AlgorithmSelector
           defaultSelectedAlgorithms={selectedAlgorithms}
           onSubmit={(v) => {
@@ -48,8 +48,8 @@ const Inner = ({
             setCurrentStep((curr) => curr + 1);
           }}
         />
-      </Fader>
-      <Fader displayed={currentStep === 1}>
+      </Fader.Child>
+      <Fader.Child id="processesDisplayFader" displayed={currentStep === 1}>
         <ProcessesDisplay
           defaultTimeSlice={timeSlice}
           goBack={stepBack}
@@ -61,8 +61,8 @@ const Inner = ({
             setCurrentStep((curr) => curr + 1);
           }}
         />
-      </Fader>
-      <Fader displayed={currentStep === 2}>
+      </Fader.Child>
+      <Fader.Child id="resultGalleryFader" displayed={currentStep === 2}>
         <ResultGallery
           goBack={stepBack}
           data={processes}
@@ -70,8 +70,8 @@ const Inner = ({
           timeSlice={timeSlice}
           algorithms={selectedAlgorithms}
         />
-      </Fader>
-    </>
+      </Fader.Child>
+    </Fader>
   );
 };
 
