@@ -107,9 +107,9 @@
     }
 
     .subInfoGroup {
+      width: 50%;
+      margin-bottom: .5rem;
       @include while-mobile {
-        width: 20vw;
-        margin-bottom: .5rem;
         display: flex;
         flex-direction: column;
         .subInfoName {
@@ -125,12 +125,18 @@
   }
   .processActions {
     button {
+      padding: .5rem !important;
       border: none;
-      border-radius: 50%;
       background: none;
       fill: var(--text-main);
       &:hover, &:active {
-        background: none;
+        background: var(--background-2);
+      }
+      &:disabled {
+        opacity: .5;
+      }
+      &:not(:last-child) {
+        margin-right: .25rem;
       }
       img {
         width: 1.25rem;
@@ -140,7 +146,6 @@
         cursor: pointer;
         transform: none;
       }
-
       &:not(:disabled):active {
         transform: none;
       }

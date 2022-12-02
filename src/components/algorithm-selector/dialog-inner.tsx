@@ -64,7 +64,7 @@ const AlgorithmSelectorDialogInner = ({
       </div>
       <div className={classes.contentWrapper}>
         {algorithms.map(({ id, name, shortInfo }, i) => {
-          if (!name.toLocaleLowerCase().includes(searchQuery.trim()))
+          if (!name.toLowerCase().includes(searchQuery.trim().toLowerCase()))
             return null;
           return (
             <div key={id} className="dialog-item">

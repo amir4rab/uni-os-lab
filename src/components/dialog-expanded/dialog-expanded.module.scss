@@ -96,11 +96,13 @@ $thin-border-main: .05em solid var(--background-3);
       left: 2rem;
       top: 50%;
       transform: translate(0, -50%);
+      font-size: .85rem;
     }
 
     .title {
       text-align: center;
       width: 100%;
+      font-size: 1rem;
     }
   } 
   
