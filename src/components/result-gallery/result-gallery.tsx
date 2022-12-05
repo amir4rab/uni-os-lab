@@ -88,17 +88,11 @@ const ResultGallery = ({
           <ChartsGroup
             items={[
               {
-                data: {
-                  data: averageReturnTimes,
-                  better: 'less',
-                },
+                data: averageReturnTimes,
                 title: 'Average Return Time',
               },
               {
-                data: {
-                  data: averageResponseTimes,
-                  better: 'less',
-                },
+                data: averageResponseTimes,
                 title: 'Average Response Time',
               },
             ]}

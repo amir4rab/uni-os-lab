@@ -27,21 +27,18 @@ const Chart = ({
 
   useEffect(() => {
     let max = 0;
-    let min: number | null = null;
+    let min: number | undefined = undefined;
     data.forEach(({ v }) => {
       if (max < v) max = v;
-      if (min === null) min = v;
-      if (min > v) min = v;
+      if (min === undefined || min > v) min = v;
     });
 
     setMaxWidth(max);
-    
-    if (min !== null && max !== null)
-      setEdgeValues({
-        min,
-        max,
-      });
-  }, [data.length]);
+    setEdgeValues({
+      min: min !== undefined ? min : 0,
+      max,
+    });
+  }, [data]);
 
   return (
     <>

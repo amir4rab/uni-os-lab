@@ -12,7 +12,7 @@ import Chart from './chart';
 interface Props {
   items: {
     title: string;
-    data: ChartProps;
+    data: ChartProps['data'];
   }[];
 }
 
@@ -37,7 +37,11 @@ const ChartsGroup = ({ items }: Props) => {
       </div>
       <div className={classes.chartWrapper}>
         {items[selectedIndex] && (
-          <Chart {...items[selectedIndex].data} marginLess={true} />
+          <Chart
+            data={items[selectedIndex].data}
+            marginLess={true}
+            better="less"
+          />
         )}
       </div>
     </div>
