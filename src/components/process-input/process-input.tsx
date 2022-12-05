@@ -99,8 +99,8 @@ const ProcessInput = ({
 
     if (
       typeof nameInputRef.current.value !== 'string' ||
-      parseInt(arrivalTimeInputRef.current.value) === NaN ||
-      parseInt(durationInputRef.current.value) === NaN
+      isNaN(parseInt(arrivalTimeInputRef.current.value)) ||
+      isNaN(parseInt(durationInputRef.current.value))
     ) {
       const err =
         'Please check form data, other than name, every other field should be number!';
