@@ -1,6 +1,6 @@
-import Gantt from '../../../types/gantt';
-import ProcessArray, { Process } from '../../../types/process';
-import ProcessResult from '../../../types/process-results';
+import type Gantt from '../../../types/gantt';
+import type { Process, default as ProcessArray } from '../../../types/process';
+import type ProcessResult from '../../../types/process-results';
 
 import { sortProcessesByArrivalTime } from '../helpers';
 
@@ -13,17 +13,20 @@ const getPrioritizationScoreConf: {
 };
 
 /** Calculates Process Prioritization score */
-const getPrioritizationScore = (process: Process, conf= getPrioritizationScoreConf) => {
+const getPrioritizationScore = (
+  process: Process,
+  conf = getPrioritizationScoreConf,
+) => {
   const { cpuBursts, ioBursts } = process;
   const { cpuBurstMultiplier, ioBurstMultiplier } = conf;
 
   let score = 0;
 
-  if ( cpuBursts === 'short' ) score += cpuBurstMultiplier;
-  if ( ioBursts === 'high' ) score += ioBurstMultiplier;
+  if (cpuBursts === 'short') score += cpuBurstMultiplier;
+  if (ioBursts === 'high') score += ioBurstMultiplier;
 
   return score;
-}
+};
 
 const multiLevelFeedbackQueue = (processes: ProcessArray): ProcessResult => {
   const sortedProcesses = sortProcessesByArrivalTime(processes);
@@ -34,13 +37,16 @@ const multiLevelFeedbackQueue = (processes: ProcessArray): ProcessResult => {
   let averageResponseTime = 0;
 
   // Processing variables
-  const seen = new Array(sortedProcesses.length).fill(false, 0, sortedProcesses.length - 1);
+  const seen = new Array(sortedProcesses.length).fill(
+    false,
+    0,
+    sortedProcesses.length,
+  );
   let currentTime = 0;
 
   for (let _ = 0; _ < sortedProcesses.length; _++) {
     let selectedItem = -1;
     for (let i = 0; i < processes.length; i++) {
-
       // Skipping incase that the item has been processed before
       if (seen[i]) continue;
 
@@ -51,10 +57,10 @@ const multiLevelFeedbackQueue = (processes: ProcessArray): ProcessResult => {
       }
 
       // if the current item hasn't arrived yet
-      if ( processes[i].arrivalTime > currentTime ) continue;
+      if (processes[i].arrivalTime > currentTime) continue;
 
-      const currItemScore= getPrioritizationScore(processes[i]);
-      const selectedItemScore= getPrioritizationScore(processes[selectedItem]);
+      const currItemScore = getPrioritizationScore(processes[i]);
+      const selectedItemScore = getPrioritizationScore(processes[selectedItem]);
 
       // Changing the item incase we found another item that is more prioritized or has been added before the current selected item
       if (

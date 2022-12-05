@@ -1,14 +1,8 @@
-import Gantt from '../../../types/gantt';
-import ProcessArray from '../../../types/process';
-import ProcessResult from '../../../types/process-results';
+import type Gantt from '../../../types/gantt';
+import type ProcessArray from '../../../types/process';
+import type ProcessResult from '../../../types/process-results';
 
 import { sortProcessesByArrivalTime } from '../helpers';
-
-const defaultResult: ProcessResult = {
-  averageResponseTime: 0,
-  averageReturnTime: 0,
-  gantt: [],
-};
 
 const roundRobin = (
   processes: ProcessArray,
@@ -28,13 +22,11 @@ const roundRobin = (
   let totalArrivalTime = 0;
   let totalProcessTime = 0;
 
-  let loopCount = 0;
-  while (true && loopCount < 1_000) {
-    loopCount++;
+  for (let _ = 0; _ < 1_000; _++) {
     let completed = true;
 
     let timeGap = true;
-    let timeGapIndex = -1; 
+    let timeGapIndex = -1;
 
     for (let i = 0; i < sortedProcesses.length; i++) {
       const { arrivalTime, duration, id, name } = sortedProcesses[i];
@@ -47,12 +39,12 @@ const roundRobin = (
       }
 
       // Incase processes isn't arrived yet, and we got a time gap
-      if ( currentTime < arrivalTime ) {
-        if ( timeGap ) timeGapIndex = i;
+      if (currentTime < arrivalTime) {
+        if (timeGap) timeGapIndex = i;
         break;
       } else {
         timeGap = false;
-      };
+      }
 
       // Incase it's the first visit to the current item
       if (!seen[i]) {
@@ -79,16 +71,11 @@ const roundRobin = (
       currentTime += timeSlice > duration ? duration : timeSlice;
     }
 
-    if (timeGap && timeGapIndex !== -1){
+    if (timeGap && timeGapIndex !== -1) {
       currentTime = sortedProcesses[timeGapIndex].arrivalTime;
     }
 
     if (completed) break;
-  }
-
-  if (loopCount >= 1_000) {
-    console.error('Something went wrong in Calculating Round Robin');
-    return defaultResult;
   }
 
   // Shortcut to calculate average response time in Round Robin algorithm

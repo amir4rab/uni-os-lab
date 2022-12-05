@@ -1,9 +1,8 @@
-import Gantt from '../../../types/gantt';
-import ProcessArray from '../../../types/process';
-import ProcessResult from '../../../types/process-results';
-import { 
-  findNextPrioritizedItemNonPreemptive as findNextPrioritizedItem
-} from '../helpers/priority';
+import type Gantt from '../../../types/gantt';
+import type ProcessArray from '../../../types/process';
+import type ProcessResult from '../../../types/process-results';
+
+import { findNextPrioritizedItemNonPreemptive as findNextPrioritizedItem } from '../helpers/priority';
 
 const priority = (processes: ProcessArray): ProcessResult => {
   // Results variables
@@ -12,7 +11,11 @@ const priority = (processes: ProcessArray): ProcessResult => {
   let averageResponseTime = 0;
 
   // Processing variables
-  const seen = (new Array(processes.length) as boolean[]).fill(false, 0, processes.length);
+  const seen = (new Array(processes.length) as boolean[]).fill(
+    false,
+    0,
+    processes.length,
+  );
   let currentTime = 0;
 
   for (let _ = 0; _ < processes.length; _++) {

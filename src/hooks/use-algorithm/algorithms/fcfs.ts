@@ -1,6 +1,6 @@
-import Gantt from '../../../types/gantt';
-import ProcessArray from '../../../types/process';
-import ProcessResult from '../../../types/process-results';
+import type Gantt from '../../../types/gantt';
+import type ProcessArray from '../../../types/process';
+import type ProcessResult from '../../../types/process-results';
 
 import { sortProcessesByArrivalTime } from '../helpers';
 
