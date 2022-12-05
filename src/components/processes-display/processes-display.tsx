@@ -13,8 +13,8 @@ const isPriority = (algorithms: SchedulingAlgorithm[]) =>
 const isFeedBackQueue = (algorithms: SchedulingAlgorithm[]) =>
   algorithms.includes('multi-level-feedback-queue');
 
-const isRoundRobin = (algorithms: SchedulingAlgorithm[]) => 
-  algorithms.includes('round-robin');
+const isRoundRobin = (algorithms: SchedulingAlgorithm[]) =>
+  algorithms.includes('round-robin') || algorithms.includes('multi-level');
 
 const isMultiLevel = (algorithms: SchedulingAlgorithm[]) => 
   algorithms.includes('multi-level');

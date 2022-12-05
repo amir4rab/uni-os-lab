@@ -4,15 +4,15 @@ import ProcessResult from '../../types/process-results';
 import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 
 // algorithms
-import { 
-  fcfs, 
-  lottery, 
-  multiLevel, 
-  multiLevelFeedbackQueue, 
-  priority, 
-  priorityPreemptive, 
-  roundRobin, 
-  sjf 
+import {
+  fcfs,
+  lottery,
+  multiLevel,
+  multiLevelFeedbackQueue,
+  priority,
+  priorityPreemptive,
+  roundRobin,
+  sjf,
 } from './algorithms';
 
 interface ProcessFNProps {
@@ -43,13 +43,13 @@ const useAlgorithm = () => {
       case 'priority':
         return priority([...processes]);
       case 'priority-preemptive':
-        return priorityPreemptive([...processes])
+        return priorityPreemptive([...processes]);
       case 'round-robin':
         return roundRobin([...processes], timeSlice);
       case 'lottery':
         return lottery([...processes]);
       case 'multi-level':
-        return multiLevel([...processes]);
+        return multiLevel([...processes], timeSlice);
       case 'multi-level-feedback-queue':
         return multiLevelFeedbackQueue([...processes]);
       default:

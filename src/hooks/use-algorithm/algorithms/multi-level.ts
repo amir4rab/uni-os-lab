@@ -1,114 +1,165 @@
-import Gantt from '../../../types/gantt';
-import ProcessArray from '../../../types/process';
-import ProcessResult from '../../../types/process-results';
+import type Gantt from '../../../types/gantt';
+import type { Process, default as ProcessArray } from '../../../types/process';
+import type ProcessResult from '../../../types/process-results';
 
-import { sortProcessesByArrivalTime } from '../helpers';
+const getQueueLevel = (process: Process, currentLevel: number): number => {
+  const { type } = process;
 
-const multiLevel = (processes: ProcessArray): ProcessResult => {
-  const sortedProcesses = sortProcessesByArrivalTime(processes);
+  if (type === 'foreground' && currentLevel >= 2) return currentLevel;
 
+  return currentLevel + 1;
+};
+
+const maxLoopCount = 1_000;
+
+const multiLevel = (
+  processes: ProcessArray,
+  timeSlice: number,
+): ProcessResult => {
   // Results variables
   const gantt: Gantt = [];
   let averageReturnTime = 0;
   let averageResponseTime = 0;
 
   // Processing variables
-  const seen = new Array(sortedProcesses.length).fill(false, 0, sortedProcesses.length - 1);
+  const reminders: (number | null)[] = new Array(processes.length).fill(
+    null,
+    0,
+    processes.length,
+  );
+  const processQueueLevel: number[] = new Array(processes.length).fill(
+    1,
+    0,
+    processes.length,
+  );
+  const processLoopCount: number[] = new Array(processes.length).fill(
+    0,
+    0,
+    processes.length,
+  );
+
   let currentTime = 0;
+  let totalExecutionTime = 0;
+  let totalArrivalTime = 0;
+  let previouslyExecutedProcess = -1;
 
-  for (let _ = 0; _ < sortedProcesses.length; _++) {
-    let nextItem = -1;
-    let readyToExecuteBackgroundProcess = -1;
-    let noProcessExecuted = true;
+  for (let _ = 0; _ < maxLoopCount; _++) {
+    let selectedItem = -1;
 
-    for (let i = 0; i < sortedProcesses.length; i++) {
-      if (seen[i]) continue;
+    // Loops throw the array to find the next process
+    for (let i = 0; i < processes.length; i++) {
+      // Settings variables incase this is the first loop of the selected processes
+      if (reminders[i] === null) {
+        // console.log(reminders[i]);
+        const { duration, arrivalTime } = processes[i];
 
-      if (nextItem === -1) nextItem = i;
-
-      // Executing next item, in case we have a time gap with the next process
-      if (
-        nextItem !== -1 &&
-        sortedProcesses[i].arrivalTime > currentTime &&
-        readyToExecuteBackgroundProcess === -1
-      ) {
-        const { arrivalTime, duration, id, name } = sortedProcesses[nextItem];
-        currentTime = arrivalTime;
-        seen[nextItem] = true;
-
-        gantt.push({
-          id,
-          endTime: currentTime + duration,
-          startTime: currentTime,
-          processName: name,
-        });
-
-        currentTime += duration;
-        averageReturnTime += currentTime - arrivalTime;
-        averageResponseTime += currentTime - arrivalTime + duration;
-        noProcessExecuted = false;
-
-        break;
+        reminders[i] = duration;
+        totalArrivalTime += arrivalTime;
+      } else if (reminders[i] === 0) {
+        // Skipping incase that the item execution been completed before
+        continue;
       }
 
-      // Executing ready foreground task
-      if (
-        sortedProcesses[i].type === 'foreground' &&
-        sortedProcesses[i].arrivalTime <= currentTime
-      ) {
-        seen[i] = true;
-        const { arrivalTime, duration, id, name } = sortedProcesses[i];
-
-        gantt.push({
-          id,
-          endTime: currentTime + duration,
-          startTime: currentTime,
-          processName: name,
-        });
-
-        averageReturnTime += currentTime - arrivalTime + duration;
-        averageResponseTime += currentTime - arrivalTime;
-        currentTime += duration;
-        noProcessExecuted = false;
-
-        break;
+      // Setting the first item
+      if (selectedItem === -1) {
+        selectedItem = i;
+        continue;
       }
 
-      // Caching next background process for execution
+      // If the current item hasn't arrived yet
+      if (processes[i].arrivalTime > currentTime) continue;
+
+      // We compare items queue level to find the item which needs to be executed
+      const currQueue = processQueueLevel[i];
+      const currPLC = processLoopCount[i];
+
+      const selectedItemQueue = processQueueLevel[selectedItem];
+      const selectedPLC = processLoopCount[selectedItem];
+
+      // Changing the item incase we found another item that is more prioritized or has been added before the current selected item
       if (
-        readyToExecuteBackgroundProcess === -1 &&
-        sortedProcesses[i].type === 'background' &&
-        sortedProcesses[i].arrivalTime <= currentTime
+        processes[i].arrivalTime <= currentTime &&
+        (currQueue < selectedItemQueue || currPLC < selectedPLC)
       ) {
-        readyToExecuteBackgroundProcess = i;
+        selectedItem = i;
+        continue;
       }
     }
 
-    // Incase there was a cached background task we will execute it now
-    if (readyToExecuteBackgroundProcess !== -1 && noProcessExecuted) {
-      seen[readyToExecuteBackgroundProcess] = true;
+    // breaks incase there were no more processes
+    if (selectedItem === -1) break;
 
-      const { arrivalTime, duration, id, name } =
-        sortedProcesses[readyToExecuteBackgroundProcess];
+    const {
+      id,
+      name,
+      arrivalTime,
+      duration: totalDuration,
+    } = processes[selectedItem];
+    const selectedItemQueue = processQueueLevel[selectedItem];
+    let duration = reminders[selectedItem];
 
-      gantt.push({
-        id,
-        endTime: currentTime + duration,
-        startTime: currentTime,
-        processName: name,
-      });
+    if (typeof duration !== 'number') duration = totalDuration;
 
-      averageReturnTime += currentTime - arrivalTime + duration;
-      averageResponseTime += currentTime - arrivalTime;
-      currentTime += duration;
+    // Pushing current time to  arrival time of the process, incase of time gap
+    currentTime = currentTime > arrivalTime ? currentTime : arrivalTime;
+
+    // Depending on processes queue we choose an algorithm to execute it:
+    //    Queue 1) Round robin with time slice multiplied by 1
+    //    Queue 2) Round robin with time slice multiplied by 2
+    //    Queue 3) First in First Out
+
+    let executedChunk: number = 0;
+    let executionRemainer: number = 0;
+
+    if (selectedItemQueue <= 2) {
+      const queueTS = timeSlice * selectedItemQueue;
+      console.log(queueTS, selectedItemQueue);
+
+      executedChunk = duration < queueTS ? duration : queueTS;
+      executionRemainer = duration - executedChunk;
+
+      processQueueLevel[selectedItem] = getQueueLevel(
+        processes[selectedItem],
+        selectedItemQueue,
+      );
+    } else {
+      executedChunk = duration;
+      executionRemainer = 0;
     }
+
+    // Pushing process info to gantt array
+    gantt.push({
+      startTime: currentTime,
+      endTime: currentTime + executedChunk,
+      id: id + currentTime,
+      ogId: id,
+      processName: name,
+    });
+
+    // Appending time average return time
+    averageResponseTime += currentTime + executedChunk;
+
+    // Updating variables
+    reminders[selectedItem] = executionRemainer;
+
+    // Setting executed process to previously executed process
+    previouslyExecutedProcess = selectedItem;
+
+    processLoopCount[selectedItem] = processLoopCount[selectedItem] + 1;
+
+    currentTime += executedChunk;
+    totalExecutionTime += executedChunk;
   }
 
+  // Shortcut to calculate average response time in Round Robin algorithm
+  averageReturnTime =
+    averageResponseTime - totalExecutionTime - totalArrivalTime;
+
   averageResponseTime = parseFloat(
-    (averageResponseTime / sortedProcesses.length).toFixed(2),
+    (averageResponseTime / processes.length).toFixed(2),
   );
   averageReturnTime = parseFloat(
-    (averageReturnTime / sortedProcesses.length).toFixed(2),
+    (averageReturnTime / processes.length).toFixed(2),
   );
 
   return {
