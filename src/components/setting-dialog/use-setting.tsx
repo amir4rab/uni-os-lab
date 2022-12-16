@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo } from 'preact/hooks';
+import useLocalStorage from '../../hooks/use-local-storage';
 
 interface AccentColor {
   name: string;
@@ -46,40 +47,6 @@ interface UseSettings {
   disableTransform: boolean;
   setDisableTransform: (v: boolean) => void;
 }
-
-const useLocalStorage = <T,>(v: T, key: string) => {
-  const [state, setState] = useState<T>(v);
-
-  useEffect(() => {
-    const localStorageValue = window.localStorage.getItem(key);
-
-    if (localStorageValue === null) {
-      window.localStorage.setItem(key, `${v}`);
-    } else {
-      switch (typeof v) {
-        case 'number': {
-          setState(parseFloat(localStorageValue) as T);
-          break;
-        }
-        case 'boolean': {
-          setState((localStorageValue === 'true') as T);
-          break;
-        }
-        case 'string': {
-          setState(localStorageValue as T);
-          break;
-        }
-      }
-    }
-  }, []);
-
-  const updateState = (v: T) => {
-    setState(v);
-    localStorage.setItem(key, `${v}`);
-  };
-
-  return [state, updateState] as const;
-};
 
 const useSettings: () => UseSettings = () => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>(
