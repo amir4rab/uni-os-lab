@@ -1,12 +1,12 @@
+import { useTranslation } from '../../i18n';
 import classes from './header.module.scss';
 
 const MobileHeader = () => {
+  const { t } = useTranslation('common');
   return (
     <div className={classes.header}>
       <h1 className={classes.title}>
-        <span>CPU</span>
-        <span>Scheduler</span>
-        <span>Emulator</span>
+        { t('title') }
       </h1>
     </div>
   );
