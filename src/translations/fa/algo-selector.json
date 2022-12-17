@@ -1,0 +1,12 @@
+{
+  "initial-prompt": "لطفا الگوریتم های زمان بندی را انتخاب کنید",
+  "expert-mode": "حالت پیشرفته",
+  "expert-mode-description": "پروسس ها را با تمامی الگوریتم ها پردازش میکند",
+  "export-mode-btn": "ادامه با حالت پیشرفته",
+  "custom-mode": "حالت اختصاصی",
+  "custom-mode-description": "الگوریتم های مورد نظرتان را انتخاب کنید",
+  "custom-mode-btn": "ادامه با الگوریتم های انتخاب شده",
+  "selected-algorithms": "الگوریتم های انتخاب شده",
+  "select-algorithms": "انتخاب الگوریتم ها",
+  "custom": "اختصاصی"
+}

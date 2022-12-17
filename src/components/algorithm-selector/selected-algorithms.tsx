@@ -1,4 +1,5 @@
 import { Suspense, lazy, useState, useEffect } from 'preact/compat';
+import { useTranslation } from '../../i18n';
 
 // types
 import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
@@ -36,6 +37,7 @@ const AlgorithmSelectorSelectedAlgorithms = ({
   onEdit,
 }: Props) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const {t} = useTranslation('algoSelector');
 
   useEffect(() => {
     if (displayed && isFirstRender) setIsFirstRender(false);
@@ -47,7 +49,7 @@ const AlgorithmSelectorSelectedAlgorithms = ({
       className={classes.algorithmSelectorSelectedAlgorithms}
     >
       <div className={classes.header}>
-        <p>Selected algorithms</p>
+        <p>{t('selected-algorithms')}</p>
         <Suspense fallback={null}>
           <div className={classes.headerActions}>
             <button onClick={onClearAll}>
@@ -83,7 +85,7 @@ const AlgorithmSelectorSelectedAlgorithms = ({
       </div>
       <div className={classes.actions}>
         <button className="secondary" onClick={onSubmitSelected}>
-          Continue with selected
+          {t('custom-mode-btn')}
         </button>
       </div>
     </div>

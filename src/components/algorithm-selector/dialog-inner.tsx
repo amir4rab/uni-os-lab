@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
 import { lazy, Suspense } from 'preact/compat';
+import { useTranslation } from '../../i18n';
 
 // classes
 import classes from './dialog-inner.module.scss';
@@ -35,6 +36,7 @@ const AlgorithmSelectorDialogInner = ({
 }: Props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const searchFiled = useDialogSupported();
+  const { t } = useTranslation('common');
 
   return (
     <div className={classes.algorithmSelectorDialogInner}>
@@ -44,7 +46,7 @@ const AlgorithmSelectorDialogInner = ({
           <div className={classes.searchWrapper}>
             <SearchIcon className={classes.searchIcon} />
             <input
-              placeholder={'Search'}
+              placeholder={t('search')}
               onChange={(e) =>
                 e.target && setSearchQuery((e.target as HTMLInputElement).value)
               }

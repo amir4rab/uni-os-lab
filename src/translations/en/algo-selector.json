@@ -1,0 +1,12 @@
+{
+  "initial-prompt": "Please select a Scheduling Algorithm",
+  "expert-mode": "Expert mode",
+  "expert-mode-description": "Processes your data with every possible algorithm",
+  "export-mode-btn": "Continue with Expert mode",
+  "custom-mode": "Custom mode",
+  "custom-mode-description": "Mix and match algorithms to your liking",
+  "custom-mode-btn": "Continue with selected",
+  "selected-algorithms": "Selected algorithms",
+  "select-algorithms": "Select algorithms",
+  "custom": "Custom"
+}

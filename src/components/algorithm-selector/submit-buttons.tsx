@@ -1,9 +1,9 @@
 import { useState } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
+import { useTranslation } from '../../i18n';
 
 // styles
 import classes from './algorithm-selector.module.scss';
-
 
 interface Props {
   submit: () => void; 
@@ -14,6 +14,7 @@ interface Props {
 const AlgorithmSelectorSubmitButtons = (
   { submit, customMode, title }:Props
 ) => {
+  const {t} = useTranslation('algoSelector');
   const [ clicked, setClicked ] = useState(false);
   const el = document.getElementById('bottom-buttons-portal');
 
@@ -32,7 +33,7 @@ const AlgorithmSelectorSubmitButtons = (
             onClick={customMode}
             className={classes.customButton}
           >
-            Custom
+            { t('custom') }
           </button>
         }
       </div>,

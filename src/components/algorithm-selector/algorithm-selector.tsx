@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'preact/hooks';
 import { lazy, Suspense } from 'preact/compat';
+import { useTranslation } from '../../i18n';
 
 // styles
 import classes from './algorithm-selector.module.scss';
@@ -39,6 +40,7 @@ const AlgorithmSelector = ({ onSubmit, defaultSelectedAlgorithms }: Props) => {
     (SchedulingAlgorithm | null)[]
   >(validateDefaultAlgorithms(defaultSelectedAlgorithms));
   const [customMode, setCustomMode] = useState<boolean>(false);
+  const { t } = useTranslation('algoSelector');
 
   const toggle = (
     algorithm: SchedulingAlgorithm,
@@ -75,37 +77,37 @@ const AlgorithmSelector = ({ onSubmit, defaultSelectedAlgorithms }: Props) => {
   return (
     <>
       <div>
-        <h3 className={classes.title}>Please select a Scheduling Algorithm</h3>
+        <h3 className={classes.title}>{t('initial-prompt')}</h3>
         <div className={classes.content}>
           <div className={classes.algorithm}>
             <div className={classes.header}>
-              <h4 className={classes.title}>Expert mode</h4>
+              <h4 className={classes.title}>{t('expert-mode')}</h4>
               <button
                 className={[classes.desktopButton, 'primary'].join(' ')}
                 onClick={submitAll}
                 data-primary
               >
-                Continue with Expert mode
+                {t('export-mode-btn')}
               </button>
             </div>
             <p className={classes.about}>
-              Processes your data with every possible algorithm
+              {t('expert-mode-description')}
             </p>
           </div>
           <div className={classes.algorithm}>
             <div className={classes.header}>
-              <h4 className={classes.title}>Custom mode</h4>
+              <h4 className={classes.title}>{t('custom-mode')}</h4>
               {!selectedAlgorithmExist && (
                 <button
                   className={classes.desktopButton}
                   onClick={() => setCustomMode(true)}
                 >
-                  Select algorithms
+                  {t('select-algorithms')}
                 </button>
               )}
             </div>
             <p className={classes.about}>
-              Mix and match algorithms to your liking
+              {t('custom-mode-description')}
             </p>
             <AlgorithmSelectorSelectedAlgorithms
               displayed={selectedAlgorithmExist}
@@ -119,17 +121,17 @@ const AlgorithmSelector = ({ onSubmit, defaultSelectedAlgorithms }: Props) => {
           <AlgorithmSelectorSubmitButtons
             {...(!selectedAlgorithmExist
               ? {
-                  title: 'Expert',
+                  title: t('expert-mode'),
                   submit: submitAll,
                   customMode: () => setCustomMode(true),
                 }
-              : { title: 'Continue with selected', submit: submitSelected })}
+              : { title: t('custom-mode-btn'), submit: submitSelected })}
           />
         </div>
       </div>
       <Suspense fallback={null}>
         <DialogExpanded
-          title="Custom Mode"
+          title={t('custom-mode')}
           setState={setCustomMode}
           state={customMode}
         >
