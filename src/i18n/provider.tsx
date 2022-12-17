@@ -2,7 +2,7 @@ import type { NameSpaces } from '../types/name-space';
 import type { ComponentChildren } from 'preact';
 
 import { createContext } from 'preact';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import useLocalStorage from '../hooks/use-local-storage';
 
 interface ContextValue {
@@ -10,13 +10,15 @@ interface ContextValue {
   langs: string[];
   nameSpaces: NameSpaces;
   setLang: (lang: string) => void;
+  dir: 'ltr' | 'rtl';
 };
 
 const defaultValue: ContextValue = {
   lang: 'en',
   langs: ['en'],
   nameSpaces: {},
-  setLang: () => {}
+  setLang: () => {},
+  dir: 'ltr'
 }
 
 export interface Config {
@@ -37,6 +39,7 @@ interface ProviderProps {
 /** Provides Translation capabilities for web-application */
 export const TranslationProvider = ({ children, config:{ lang: defaultLang, langs, ns }}: ProviderProps) => {
   const [ lang, setLang ] = useLocalStorage(defaultLang, 'lang');
+  const [ dir, setDir ] = useState<ContextValue['dir']>('ltr');
   const [ nameSpaces, setNameSpaces ] = useState(ns[lang]);
 
   /** Updates web-applications language */
@@ -47,20 +50,29 @@ export const TranslationProvider = ({ children, config:{ lang: defaultLang, lang
       return;
     }
 
-    // Updating html attributes
-    const html =  document.getElementsByTagName('html')[0] as HTMLHtmlElement;
-    html.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
-    html.setAttribute('lang', lang);
-
+    
     // Setting state hooks
     setLang(lang);
-    setNameSpaces(ns[lang])
   }
+  
+  // Updating on language changes
+  useEffect(() => {
+    const dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+    setNameSpaces(ns[lang])
+    setDir(dir);
+
+    // Updating html attributes
+    const html =  document.getElementsByTagName('html')[0] as HTMLHtmlElement;
+    html.setAttribute('dir', dir);
+    html.setAttribute('lang', lang);
+  }, [lang])
 
   return (
     <TranslationContext.Provider
       value={{
         lang,
+        dir,
         langs,
         nameSpaces,
         setLang: onSetLang
