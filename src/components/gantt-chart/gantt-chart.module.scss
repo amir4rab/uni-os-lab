@@ -78,3 +78,9 @@
     }
   }
 }
+
+[dir=rtl] {
+  .item {
+    flex-direction: row-reverse;
+  }
+}

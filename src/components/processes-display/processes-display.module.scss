@@ -10,6 +10,9 @@
   margin-top: 2rem;
   display: flex;
   justify-content: flex-end;
+  .submitButton {
+    flex-grow: 1;
+  }
 }
 
 @keyframes animateIn {
@@ -68,7 +71,6 @@
   .mainInfo {
     display: flex;
     .name {
-      margin-right: .5rem;
       font-weight: 600;
       font-size: 1.15rem;
     }
@@ -135,9 +137,6 @@
       &:disabled {
         opacity: .5;
       }
-      &:not(:last-child) {
-        margin-right: .25rem;
-      }
       img {
         width: 1.25rem;
         height: 1.5rem;
@@ -150,5 +149,35 @@
         transform: none;
       }
     }
+  }
+}
+
+[dir=rtl] {
+  .mainInfo .name {
+    margin-left: .5rem;
+  }
+  .backButton {
+    margin-left: auto;
+  }
+  .submitButton {
+    margin-right: .5rem;
+  }
+  .listDisplay .processActions button:not(:last-child) {
+    margin-left: .25rem;
+  }
+}
+
+[dir=ltr] {
+  .mainInfo .name {
+    margin-right: .5rem;
+  }
+  .backButton {
+    margin-right: auto;
+  }
+  .submitButton {
+    margin-left: .5rem;
+  }
+  .listDisplay .processActions button:not(:last-child) {
+    margin-right: .25rem;
   }
 }

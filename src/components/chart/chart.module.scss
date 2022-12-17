@@ -42,6 +42,10 @@
     margin: 2rem 0;
     opacity: .75;
     transition: opacity .3s ease-in-out;
+    
+    p {
+      text-align: left;
+    }
 
     &[data-highlighted=true] {
       opacity: 1;

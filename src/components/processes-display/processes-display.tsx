@@ -209,8 +209,7 @@ const ProcessesDisplay = ({
       <div className={classes.actions}>
         <button
           onClick={() => goBack()}
-          className="secondary"
-          style="margin-right:auto;"
+          className={["secondary", classes.backButton].join(' ')}
         >
           Go back
         </button>
@@ -218,8 +217,7 @@ const ProcessesDisplay = ({
           Add
         </button>
         <button
-          style="margin-left: .5rem;"
-          className="primary"
+          className={["primary", classes.submitButton].join(' ')}
           onClick={() => onSubmit(processes, timeSlice)}
           disabled={processes.length === 0}
         >

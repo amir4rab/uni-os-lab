@@ -28,6 +28,9 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+  .submit {
+    flex-grow: 1;
+  }
 }
 
 @include while-mobile {
@@ -52,5 +55,17 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
-    }
+  }
+}
+
+[dir=ltr] {
+  .random {
+    margin-right: .25rem
+  }
+}
+
+[dir=rtl] {
+  .random {
+    margin-left: .25rem
+  }
 }

@@ -250,8 +250,7 @@ const ProcessInput = ({
       </div>
       <div className={classes.actions}>
         <button
-          className="secondary"
-          style="margin-right: .25rem"
+          className={["secondary", classes.random].join(' ')}
           type="button"
           data-compact
           onClick={submitRandomData}
@@ -260,8 +259,7 @@ const ProcessInput = ({
         </button>
         <button
           data-compact
-          style="flex-grow: 1;"
-          className="primary"
+          className={["primary", classes.submit].join(' ')}
           type="submit"
         >
           Submit

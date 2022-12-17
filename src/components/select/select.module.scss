@@ -10,6 +10,9 @@
     transition: opacity .15s ease-in-out;
   }
   margin-bottom: .75rem;
+  &[data-margin-less] {
+    margin-bottom: 0;
+  }
   &:focus-within, &:hover {
     label {
       opacity: 1;

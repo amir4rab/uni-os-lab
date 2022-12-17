@@ -147,7 +147,7 @@ const ResultGallery = ({
         <button onClick={() => goBack()} className="secondary">
           Go back
         </button>
-        <button onClick={onReset} style="flex-grow: 1;" className="primary">
+        <button onClick={onReset} className={["primary", classes.reset].join(' ')}>
           Reset
         </button>
       </div>

@@ -19,12 +19,17 @@
     &[data-selected=true]{
       border: .3rem solid var(--text-main);
     }
-    // &[data-selected=false]{
+  }
+}
 
-    // }
+[dir=ltr] {
+  .item:not(:last-child) {
+    margin-right: .5rem;
+  }
+}
 
-    &:not(:last-child) {
-      margin-right: .5rem;
-    }
+[dir=rtl] {
+  .item:not(:last-child) {
+    margin-left: .5rem;
   }
 }

@@ -21,8 +21,8 @@
   .actions{
     display: flex;
     justify-content: flex-end;
-    button:not(:last-child) {
-      margin-right: .5rem;
+    .reset {
+      flex-grow: 1;
     }
   }
 
@@ -96,5 +96,18 @@
         margin-right: .25rem;
       }
     }
+  }
+}
+
+
+[dir=ltr] {
+  button:not(:last-child) {
+    margin-right: .5rem;
+  }
+}
+
+[dir=rtl] {
+  button:not(:last-child) {
+    margin-left: .5rem;
   }
 }
