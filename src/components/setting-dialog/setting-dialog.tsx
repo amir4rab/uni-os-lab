@@ -10,11 +10,13 @@ version as string;
 
 // components
 import ColorSelector from '../color-selector';
+import Select from '../select';
 
 const DialogExpanded = lazy(() => import('../dialog-expanded'));
 
 // hooks
 import useSettings from './use-setting';
+import { useTranslation } from '../../i18n';
 
 interface Props {
   state: boolean;
@@ -32,16 +34,36 @@ const SettingDialog = (props: Props) => {
     setColorScheme,
     setDisableBlur,
   } = useSettings();
+  const {
+    lang, langs, setLang
+  } = useTranslation('common');
 
   return (
     <Suspense fallback={null}>
       <DialogExpanded title="Settings" {...props}>
         <>
+          {/* Language selector */}
+          <div className="dialog-item">
+            <div className="item-header">
+              <h4 className="item-title">Language</h4>
+              <div className={classes.beta}>WIP</div>
+            </div>
+            <p className="item-description">
+              Select your local language
+            </p>
+            <div className="item-actions">
+              <Select
+                marginLess
+                defaultValue={lang}
+                options={langs.map(lang => ({ name: lang.toUpperCase(), value: lang }))}
+                onUpdate={(v) => setLang(v)}
+              />
+            </div>
+          </div>
           {/* Colour scheme */}
           <div className="dialog-item">
             <div className="item-header">
               <h4 className="item-title">Colour scheme</h4>
-              <div className={classes.beta}>Beta</div>
             </div>
             <p className="item-description">
               We are on the dark side, you too?
@@ -74,7 +96,6 @@ const SettingDialog = (props: Props) => {
           <div className="dialog-item">
             <div className="item-header">
               <h4 className="item-title">Accent colour</h4>
-              <div className={classes.beta}>Beta</div>
             </div>
             <p className="item-description">
               Change accent colour to your liking.
