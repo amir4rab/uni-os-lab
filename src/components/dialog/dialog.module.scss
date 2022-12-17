@@ -1,18 +1,84 @@
 @import '../../sass/styles';
 
+[dir=rtl] {
+  .dialog {
+    @include while-mobile {
+      right: 2rem;
+      bottom: 2rem;
+    }
+  
+    @include while-desktop {
+      right: 50%;
+      top: 50%;
+      transform: translate(50%, -50%);
+    }
+
+    &[data-disabled-animation=false] {
+      opacity: 0;
+      @include while-mobile {    
+        &[data-displayed=true] {
+          animation: animateInM forwards var(--transform-duration-1x) ease-in-out;
+        }
+        &[data-displayed=false] {
+          animation: animateOutM forwards var(--transform-duration-1x) ease-in-out;
+        }
+      }
+      @include while-desktop {
+        &[data-displayed=true] {
+          animation: animateInDrtl forwards var(--transform-duration-1x) ease-in-out;
+        }
+    
+        &[data-displayed=false] {
+          animation: animateOutDrtl forwards var(--transform-duration-1x) ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+[dir=ltr] {
+  .dialog {
+    @include while-mobile {
+      left: 2rem;
+      bottom: 2rem;
+    }
+
+    @include while-desktop {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &[data-disabled-animation=false] {
+      opacity: 0;
+      @include while-mobile {
+        &[data-displayed=true] {
+          animation: animateInM forwards var(--transform-duration-1x) ease-in-out;
+        }
+        &[data-displayed=false] {
+          animation: animateOutM forwards var(--transform-duration-1x) ease-in-out;
+        }
+      }
+      @include while-desktop {
+        &[data-displayed=true] {
+          animation: animateInD forwards var(--transform-duration-1x) ease-in-out;
+        }
+    
+        &[data-displayed=false] {
+          animation: animateOutD forwards var(--transform-duration-1x) ease-in-out;
+        }
+      }
+    }
+  }
+}
+
 .dialog {
   @include while-mobile {
     width: calc(100% - 4rem);
-    left: 2rem;
-    bottom: 2rem;
     top: auto;
   }
 
   @include while-desktop {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
     .header .close {
       width: .75rem !important;
       height: .75rem !important;
@@ -77,70 +143,68 @@
     padding: 1rem 2rem;
     background: var(--background-1);
   }
+}
 
-  
-  &[data-disabled-animation=false] {
+@keyframes animateInM {
+  from {
+    transform: translate(0, 100%);
     opacity: 0;
-    @include while-mobile {    
-      &[data-displayed=true] {
-        animation: animateInM forwards var(--transform-duration-1x) ease-in-out;
-      }
-      &[data-displayed=false] {
-        animation: animateOutM forwards var(--transform-duration-1x) ease-in-out;
-      }
-    }
-    @include while-desktop {
-      &[data-displayed=true] {
-        animation: animateInD forwards var(--transform-duration-1x) ease-in-out;
-      }
-  
-      &[data-displayed=false] {
-        animation: animateOutD forwards var(--transform-duration-1x) ease-in-out;
-      }
-    }
-
-    @keyframes animateInM {
-      from {
-        transform: translate(0, 100%);
-        opacity: 0;
-      }
-      to {
-        transform: translate(0, 0);
-        opacity: 1;
-      }
-    }
-    
-    @keyframes animateOutM {
-      from {
-        opacity: 1;
-        transform: translate(0, 0);
-      }
-      to {
-        opacity: 0;
-        transform: translate(0, 100%);
-      }
-    }
-    
-    @keyframes animateInD {
-      from {
-        transform: translate(-50%, calc(-100px - 50%));
-        opacity: 0;
-      }
-    
-      to {
-        transform: translate(-50%, -50%);
-        opacity: 1;
-      }
-    }
-    
-    @keyframes animateOutD {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-      }
-    }
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
   }
 }
 
+@keyframes animateOutM {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(0, 100%);
+  }
+}
+
+@keyframes animateInD {
+  from {
+    transform: translate(-50%, calc(-100px - 50%));
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes animateOutD {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes animateInDrtl {
+  from {
+    transform: translate(50%, calc(-100px - 50%));
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes animateOutDrtl {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
