@@ -5,6 +5,7 @@ import classes from './gantt-chart.module.scss';
 
 // hooks
 import useGenerateCSV from '../../hooks/use-generate-csv';
+import { useTranslation } from '../../i18n';
 
 // types
 import type Gantt from '../../types/gantt';
@@ -55,6 +56,7 @@ const GanttChart = ({
   const [downloadUrl, setDownloadUrl] = useState<string | undefined>(undefined);
   const [itemCount, setItemCount] = useState(0);
   const [names, setNames] = useState<{ name: string; key: string }[]>([]);
+  const {t} = useTranslation('common');
 
   const items = useMemo(() => {
     setNames([]);
@@ -119,15 +121,15 @@ const GanttChart = ({
   return (
     <div>
       <div className={classes.header}>
-        <p>Gantt chart</p>
+        <p>{t('gantt')}</p>
         {downloadUrl === undefined ? (
           <button onClick={onCSVGen} data-secondary data-compact>
-            Convert to csv
+            {t('convertToCSV')}
           </button>
         ) : (
           <a download="Gantt chart" href={downloadUrl}>
             <button data-secondary data-compact>
-              Download
+              {t('download')}
             </button>
           </a>
         )}

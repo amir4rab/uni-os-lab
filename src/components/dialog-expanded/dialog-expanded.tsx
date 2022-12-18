@@ -15,6 +15,7 @@ const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
 
 // hooks
 import useDialogSupported from '../../hooks/use-dialog-supported';
+import { useTranslation } from '../../i18n';
 
 // types
 import type { ComponentChildren } from 'preact';
@@ -25,17 +26,19 @@ interface InnerProps {
   title: string;
 }
 const SettingInner = ({ onClose, children, title }: InnerProps) => {
+  const {t} = useTranslation('common')
+
   return (
     <div className={classes.content}>
       <div className={classes.side}>
         <button className={classes.close} onClick={onClose}>
-          close
+          {t('close')}
         </button>
       </div>
       <div className={classes.main}>
         <div className={classes.header}>
           <button className={classes.mobileClose} onClick={onClose}>
-            Done
+            {t('done')}
           </button>
           <h3 className={classes.title}>{title}</h3>
         </div>

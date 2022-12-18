@@ -1,5 +1,10 @@
 {
   "title": "CPU\nScheduler\nEmulator",
   "search": "Search",
-  "print": "Print"
+  "print": "Print",
+  "close": "Close",
+  "done": "Done",
+  "gantt": "Gantt",
+  "convertToCSV": "Convert to CSV",
+  "download": "Download"
 }

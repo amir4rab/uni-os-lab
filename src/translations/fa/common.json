@@ -1,5 +1,10 @@
 {
   "title": "شبیه ساز\nزمانبدند\nپردازشگر",
   "search": "جستجو",
-  "print": "چاپ"
+  "print": "چاپ",
+  "close": "بستن",
+  "done": "اتمام",
+  "gantt": "گانت",
+  "convertToCSV": "تبدیل به csv",
+  "download": "دانلود"
 }

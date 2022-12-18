@@ -15,6 +15,7 @@ const DialogPolyfill = lazy(() => import('../dialog-polyfill'));
 
 // hooks
 import useDialogSupported from '../../hooks/use-dialog-supported';
+import { useTranslation } from '../../i18n';
 
 interface Props {
   state: boolean;
@@ -38,6 +39,7 @@ const Dialog = ({
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
+  const {t} = useTranslation('common');
 
   useEffect(() => {
     let timeOut: undefined | NodeJS.Timeout | number;
@@ -79,7 +81,7 @@ const Dialog = ({
           <div className={classes.header}>
             <p className={classes.title}>{title}</p>
             <button className={classes.close} onClick={() => setState(false)}>
-              close
+              {t('close')}
             </button>
           </div>
           <div className={classes.content}>{children}</div>
@@ -97,7 +99,7 @@ const Dialog = ({
                   setState(false);
                 }}
               >
-                close
+                {t('close')}
               </button>
             </div>
             <div className={classes.content}>{children}</div>
