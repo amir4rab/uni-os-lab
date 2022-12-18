@@ -2,43 +2,48 @@ import { useState } from 'preact/hooks';
 import classes from './footer.module.scss';
 
 import { Suspense, lazy } from 'preact/compat';
+import { useTranslation } from '../../i18n';
 
 // lazy components
 const MobileFab = lazy(() => import('../mobile-fab'));
 const SettingDialog = lazy(() => import('../setting-dialog'));
 const SettingsIcon = lazy(() => import('../icons/components/settings'));
 
-const Content = ({ onClick }: { onClick: () => void }) => (
-  <div className={classes.inner}>
-    <div className={classes.section}>
-      <div className={classes.sectionItem}>
-        <p className={classes.title}>0</p>
-        <p className={classes.content}>
-          Chose <br /> Scheduler <br /> Algorithm
-        </p>
+const Content = ({ onClick }: { onClick: () => void }) => {
+  const { t, lang } = useTranslation('footer');
+
+  return (
+    <div className={classes.inner}>
+      <div className={classes.section}>
+        <div className={classes.sectionItem}>
+          <p className={classes.title}>{(0).toLocaleString(lang)}</p>
+          <p className={classes.content}>
+            {t('csa')}
+          </p>
+        </div>
+        <div className={classes.sectionItem}>
+          <p className={classes.title}>{(1).toLocaleString(lang)}</p>
+          <p className={classes.content}>
+            {t('ap')}
+          </p>
+        </div>
+        <div className={classes.sectionItem}>
+          <p className={classes.title}>{(2).toLocaleString(lang)}</p>
+          <p className={classes.content}>
+            {t('vr')}
+          </p>
+        </div>
       </div>
-      <div className={classes.sectionItem}>
-        <p className={classes.title}>1</p>
-        <p className={classes.content}>
-          Add <br /> Processes
-        </p>
-      </div>
-      <div className={classes.sectionItem}>
-        <p className={classes.title}>2</p>
-        <p className={classes.content}>
-          Visit <br /> results
-        </p>
+      <div className={classes.section}>
+        <button onClick={onClick} className={classes.settingsButton}>
+          <Suspense fallback={null}>
+            <SettingsIcon className={classes.footerIcon} />
+          </Suspense>
+        </button>
       </div>
     </div>
-    <div className={classes.section}>
-      <button onClick={onClick} className={classes.settingsButton}>
-        <Suspense fallback={null}>
-          <SettingsIcon className={classes.footerIcon} />
-        </Suspense>
-      </button>
-    </div>
-  </div>
-);
+  )
+};
 
 const Footer = () => {
   const [settingsState, setSettingsState] = useState(false);
