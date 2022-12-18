@@ -40,7 +40,7 @@ const AlgorithmSelector = ({ onSubmit, defaultSelectedAlgorithms }: Props) => {
     (SchedulingAlgorithm | null)[]
   >(validateDefaultAlgorithms(defaultSelectedAlgorithms));
   const [customMode, setCustomMode] = useState<boolean>(false);
-  const { t } = useTranslation('algoSelector');
+  const { t } = useTranslation('algorithm-selector');
 
   const toggle = (
     algorithm: SchedulingAlgorithm,

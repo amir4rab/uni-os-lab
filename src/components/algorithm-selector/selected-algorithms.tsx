@@ -37,7 +37,7 @@ const AlgorithmSelectorSelectedAlgorithms = ({
   onEdit,
 }: Props) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const {t} = useTranslation('algoSelector');
+  const {t} = useTranslation('algorithm-selector');
 
   useEffect(() => {
     if (displayed && isFirstRender) setIsFirstRender(false);

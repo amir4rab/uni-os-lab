@@ -14,7 +14,7 @@ interface Props {
 const AlgorithmSelectorSubmitButtons = (
   { submit, customMode, title }:Props
 ) => {
-  const {t} = useTranslation('algoSelector');
+  const {t} = useTranslation('algorithm-selector');
   const [ clicked, setClicked ] = useState(false);
   const el = document.getElementById('bottom-buttons-portal');
 
