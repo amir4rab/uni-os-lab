@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { useTranslation } from '../../i18n';
 import classes from './chart.module.scss';
 
 export interface Props {
@@ -24,6 +25,7 @@ const Chart = ({
     min: number;
     max: number;
   }>(null);
+  const {t} = useTranslation('chart');
 
   useEffect(() => {
     let max = 0;
@@ -84,11 +86,11 @@ const Chart = ({
           <div className={classes.footer}>
             {printable && (
               <button data-compact data-secondary>
-                Print
+                {t('print')}
               </button>
             )}
             {better && (
-              <p className={classes.footerText}>{`${better} is better.`}</p>
+              <p className={classes.footerText}>{t(`${better}Better`)}</p>
             )}
           </div>
         </div>
