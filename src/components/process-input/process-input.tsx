@@ -10,6 +10,7 @@ import { ComponentChildren } from 'preact';
 // components
 import Input from '../input';
 import Select from '../select';
+import { useTranslation } from '../../i18n';
 
 const ConditionallyDisplayed = ({
   children,
@@ -51,6 +52,8 @@ const ProcessInput = ({
   typeEnabled = false,
   feedbackQueueEnabled = false,
 }: Props) => {
+  const {t} = useTranslation('process-input');
+
   const [error, setError] = useState<null | string>(null);
 
   const nameInputRef = useRef<HTMLInputElement | null>(null);
@@ -161,43 +164,41 @@ const ProcessInput = ({
   return (
     <form onSubmit={(e) => onSubmit(e)}>
       <div>
-        <div className={classes.inputWrapper}>
-          <Input
-            required={true}
-            type="text"
-            id="processName"
-            name="Name"
-            defaultValue={'P1'}
-            passedRef={nameInputRef}
-          />
-        </div>
         <Input
-          name="Arrival time in ms"
+          required={true}
+          type='text'
+          id='processName'
+          name={t('processName')}
+          defaultValue={'P1'}
+          passedRef={nameInputRef}
+        />
+        <Input
+          name={t('at')}
           required={true}
           min={0}
-          type="number"
-          id="arrivalTime"
+          type='number'
+          id='arrivalTime'
           defaultValue={'0'}
           passedRef={arrivalTimeInputRef}
         />
         <Input
-          name="Execution time in ms"
+          name={t('et')}
           required={true}
           min={1}
-          type="number"
-          id="duration"
+          type='number'
+          id='duration'
           defaultValue={'1'}
           passedRef={durationInputRef}
         />
         <ConditionallyDisplayed
           displayed={priorityEnabled}
-          title="Priority algorithm only"
+          title={t('pao')}
         >
           <Input
-            name="Priority"
+            name={t('priority')}
             required={true}
-            type="number"
-            id="priority"
+            type='number'
+            id='priority'
             min={0}
             max={127}
             defaultValue={'0'}
@@ -206,63 +207,63 @@ const ProcessInput = ({
         </ConditionallyDisplayed>
         <ConditionallyDisplayed
           displayed={typeEnabled}
-          title="Multilevel algorithm only"
+          title={t('mlo')}
         >
           <Select
             required={true}
-            id="processType"
-            name="Process Type"
+            id='processType'
+            name={t('pt')}
             defaultValue={'foreground'}
             passedRef={processTypeSelectRef}
             options={[
-              { value: 'foreground', name: 'Foreground' },
-              { value: 'background', name: 'Background' },
+              { value: 'foreground', name: t('foreground') },
+              { value: 'background', name: t('background') },
             ]}
           />
         </ConditionallyDisplayed>
         <ConditionallyDisplayed
           displayed={feedbackQueueEnabled}
-          title="Feedback Queue algorithm only"
+          title={t('fqao')}
         >
           <Select
             required={true}
-            id="cpuBurtType"
-            name="Cpu bursts"
+            id='cpuBurtType'
+            name={t('cb')}
             defaultValue={'short'}
             passedRef={processCpuBurstsSelectRef}
             options={[
-              { value: 'short', name: 'Short' },
-              { value: 'long', name: 'Long' },
+              { value: 'short', name: t('short') },
+              { value: 'long', name: t('long') },
             ]}
           />
           <Select
             required={true}
-            id="ioBurtType"
-            name="Io bursts"
+            id='ioBurtType'
+            name={t("ib")}
             defaultValue={'high'}
             passedRef={processIoBurstsSelectRef}
             options={[
-              { value: 'high', name: 'High' },
-              { value: 'low', name: 'Low' },
+              { value: 'high', name: t('high') },
+              { value: 'low', name: t('low') },
             ]}
           />
         </ConditionallyDisplayed>
       </div>
       <div className={classes.actions}>
         <button
-          className={["secondary", classes.random].join(' ')}
-          type="button"
+          className={['secondary', classes.random].join(' ')}
+          type='button'
           data-compact
           onClick={submitRandomData}
         >
-          Random
+          {t('random')}
         </button>
         <button
           data-compact
-          className={["primary", classes.submit].join(' ')}
-          type="submit"
+          className={['primary', classes.submit].join(' ')}
+          type='submit'
         >
-          Submit
+          {t('submit')}
         </button>
       </div>
     </form>

@@ -1,0 +1,20 @@
+{
+  "processName": "Process Name",
+  "at": "Arrival time in ms",
+  "et": "Execution time in ms",
+  "pao": "Priority algorithm only",
+  "priority": "Priority",
+  "muo": "Multilevel algorithm only",
+  "pt": "Process Type",
+  "foreground": "Foreground",
+  "background": "Background",
+  "fqao": "Feedback Queue algorithm only",
+  "cb": "Cpu bursts",
+  "ib": "Io bursts",
+  "short": "Short",
+  "long": "Long",
+  "high": "High",
+  "low": "Low",
+  "random": "Random",
+  "submit": "Submit"
+}
