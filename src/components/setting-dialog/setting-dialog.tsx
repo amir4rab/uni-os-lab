@@ -24,6 +24,7 @@ interface Props {
 }
 
 const SettingDialog = (props: Props) => {
+  const {t} = useTranslation('settings');
   const {
     accentColors,
     colorScheme,
@@ -45,11 +46,11 @@ const SettingDialog = (props: Props) => {
           {/* Language selector */}
           <div className="dialog-item">
             <div className="item-header">
-              <h4 className="item-title">Language</h4>
+              <h4 className="item-title">{t('lang')}</h4>
               <div className={classes.beta}>WIP</div>
             </div>
             <p className="item-description">
-              Select your local language
+              {t('langDesc')}
             </p>
             <div className="item-actions">
               <Select
@@ -63,10 +64,10 @@ const SettingDialog = (props: Props) => {
           {/* Colour scheme */}
           <div className="dialog-item">
             <div className="item-header">
-              <h4 className="item-title">Colour scheme</h4>
+              <h4 className="item-title">{t('colourScheme')}</h4>
             </div>
             <p className="item-description">
-              We are on the dark side, you too?
+              {t('colourSchemeDesc')}
             </p>
             <div className="item-actions">
               <ColorSelector
@@ -95,10 +96,10 @@ const SettingDialog = (props: Props) => {
           {/* Accent colour */}
           <div className="dialog-item">
             <div className="item-header">
-              <h4 className="item-title">Accent colour</h4>
+              <h4 className="item-title">{t('accentColour')}</h4>
             </div>
             <p className="item-description">
-              Change accent colour to your liking.
+              {t('accentColourDesc')}
             </p>
             <div className="item-actions">
               <ColorSelector onSelect={setAccentColor} colors={accentColors} />
@@ -107,7 +108,7 @@ const SettingDialog = (props: Props) => {
           {/* Disable blur */}
           <div className="dialog-item">
             <div className="item-header">
-              <h4 className="item-title">Disable blur</h4>
+              <h4 className="item-title">{t('disableBlur')}</h4>
               <input
                 type="checkbox"
                 checked={disableBlur}
@@ -120,13 +121,13 @@ const SettingDialog = (props: Props) => {
               />
             </div>
             <p className="item-description">
-              Disable blur incase of performance problems in older devices.
+              {t('disableBlurDesc')}
             </p>
           </div>
           {/* Disable transform */}
           <div className="dialog-item">
             <div className="item-header">
-              <h4 className="item-title">Disable transform</h4>
+              <h4 className="item-title">{t('disableAnimations')}</h4>
               <input
                 type="checkbox"
                 checked={disableTransform}
@@ -139,19 +140,19 @@ const SettingDialog = (props: Props) => {
               />
             </div>
             <p className="item-description">
-              Disable transform incase of performance problems in older devices,
-              or your personal preference.
+              {t('disableAnimationsDesc')}
             </p>
           </div>
           {/* About */}
           <div className="dialog-item">
             <div className="item-header">
-              <h4 className="item-title">Version</h4>
+              <h4 className="item-title">{t('version')}</h4>
             </div>
             <p className="item-description">
-              <span>{`You are running version "`}</span>
+              <span>{t('versionDesc')}</span>
+              <span>{` "`}</span>
               <code>{version}</code>
-              <span>{`".`}</span>
+              <span>{`"`}</span>
             </p>
           </div>
         </>

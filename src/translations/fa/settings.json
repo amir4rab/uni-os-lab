@@ -1,0 +1,14 @@
+{
+  "lang": "زبان",
+  "langDesc": "زبان خود را انتخاب کنید",
+  "colourScheme": "رنگ زمینه",
+  "colourSchemeDesc": "ما در ساهی هستیم شما چطور؟",
+  "accentColour": "رنگ تم",
+  "accentColourDesc": "رنگ تم را مطابق با علاقیتان تغییر دهید.",
+  "disableBlur": "غیر فعال کردن تاری",
+  "disableBlurDesc": "تاری را در صورتی که دستگاه قدیمی ای دارید غیر فعال کنید.",
+  "disableAnimations": "غیر فعال کردن انیمیشن ها",
+  "disableAnimationsDesc": "انیمیشن ها را برای سرعت بهتر غیر فعال کنید.",
+  "version": "نسخه",
+  "versionDesc": "نسخه وب اپ شما برار است با"
+}

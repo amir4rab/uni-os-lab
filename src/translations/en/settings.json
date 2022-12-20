@@ -1,0 +1,14 @@
+{
+  "lang": "Language",
+  "langDesc": "Select your local language",
+  "colourScheme": "Colour scheme",
+  "colourSchemeDesc": "We are on the dark side, you too?",
+  "accentColour": "Accent colour",
+  "accentColourDesc": "Change accent colour to your liking.",
+  "disableBlur": "Disable blur",
+  "disableBlurDesc": "Disable blur incase of performance problems in older devices.",
+  "disableAnimations": "Disable animations",
+  "disableAnimationsDesc": "Disable animations incase of performance problems in older devices, or your personal preference.",
+  "version": "Version",
+  "versionDesc": "You are running version"
+}
