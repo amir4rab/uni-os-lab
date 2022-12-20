@@ -6,5 +6,8 @@
   "done": "Done",
   "gantt": "Gantt",
   "convertToCSV": "Convert to CSV",
-  "download": "Download"
+  "download": "Download",
+  "goBack": "Go back",
+  "submit": "Submit",
+  "add": "Add"
 }

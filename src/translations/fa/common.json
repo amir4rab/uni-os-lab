@@ -6,5 +6,8 @@
   "done": "اتمام",
   "gantt": "گانت",
   "convertToCSV": "تبدیل به csv",
-  "download": "دانلود"
+  "download": "دانلود",
+  "goBack": "بازگشت",
+  "submit": "ثبت",
+  "add": "جدید"
 }

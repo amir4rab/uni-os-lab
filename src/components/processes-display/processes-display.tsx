@@ -1,23 +1,23 @@
-import { useEffect, useRef, useState } from 'preact/hooks';
-import ProcessesArray, { Process } from '../../types/process';
-import SchedulingAlgorithm from '../../types/scheduling-algorithm';
-import Dialog from '../dialog';
-import { DeleteIcon, DownArrowIcon, UpArrowIcon } from '../icons';
-import ProcessInput from '../process-input';
+import { useState } from 'preact/hooks';
+import { Suspense, lazy } from 'preact/compat';
+
+// types
+import type { default as ProcessesArray } from '../../types/process';
+import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
+
+// i18n
+import { useTranslation } from '../../i18n';
+
+// components
+const Dialog = lazy(() => import('../dialog'));
+const ProcessInput = lazy(() => import('../process-input'));
+const ItemDisplay = lazy(() => import('./item-display'));
+
+// classes
 import classes from './processes-display.module.scss';
 
-const isPriority = (algorithms: SchedulingAlgorithm[]) => 
-  algorithms.includes('priority') ||
-  algorithms.includes('priority-preemptive');
-
-const isFeedBackQueue = (algorithms: SchedulingAlgorithm[]) =>
-  algorithms.includes('multi-level-feedback-queue');
-
-const isRoundRobin = (algorithms: SchedulingAlgorithm[]) =>
-  algorithms.includes('round-robin') || algorithms.includes('multi-level');
-
-const isMultiLevel = (algorithms: SchedulingAlgorithm[]) => 
-  algorithms.includes('multi-level');
+// utils 
+import { isFeedBackQueue, isMultiLevel, isPriority, isRoundRobin } from './utils';
 
 interface Props {
   algorithms: SchedulingAlgorithm[];
@@ -27,125 +27,6 @@ interface Props {
   goBack: () => void;
 }
 
-const ProcessDisplay = ({
-  deleteItem,
-  i,
-  moveItem,
-  p,
-  processesLength,
-  algorithms,
-}: {
-  p: Process;
-  moveItem: (d: 'up' | 'down', i: number) => void;
-  deleteItem: (i: number) => void;
-  processesLength: number;
-  i: number;
-  algorithms: SchedulingAlgorithm[];
-}) => {
-  const { name, arrivalTime, duration, id, priority, type, cpuBursts, ioBursts } = p;
-  const elRef = useRef<HTMLDivElement | null>(null);
-  const [expanded, setExpanded] = useState(false);
-  let timeout: number | undefined | NodeJS.Timeout;
-
-  useEffect(() => {
-    // clearing timeout upon element removal
-    return () => timeout && clearTimeout(timeout);
-  }, []);
-
-  const recentlyMoved = () => {
-    // verifying element existence and then selecting it
-    if (elRef.current === null) return;
-    const div = elRef.current;
-
-    // setting attribute
-    div.setAttribute('data-recently-moved', 'true');
-
-    // clearing previous timeout if existed
-    timeout && clearTimeout(timeout);
-
-    // setting a new timeout
-    timeout = setTimeout(() => div.removeAttribute('data-recently-moved'), 300);
-  };
-
-  return (
-    <div ref={elRef} className={classes.item}>
-      <div className={classes.mainInfo}>
-        <p className={classes.name}>{name}</p>
-        <button onClick={() => setExpanded((curr) => !curr)}>i</button>
-      </div>
-      <div className={classes.processActions}>
-        <button  
-          data-type="delete" 
-          onClick={() => deleteItem(i)} 
-          data-compact
-        >
-          <DeleteIcon />
-        </button>
-        <button
-          onClick={() => {
-            recentlyMoved();
-            moveItem('up', i);
-          }}
-          data-compact
-          disabled={i === 0}
-        >
-          <UpArrowIcon />
-        </button>
-        <button
-          onClick={() => {
-            recentlyMoved();
-            moveItem('down', i);
-          }}
-          data-compact
-          disabled={i + 1 >= processesLength}
-        >
-          <DownArrowIcon />
-        </button>
-      </div>
-      <div className={classes.subInfo} data-shown={expanded ? true : undefined}>
-        <p className={classes.subInfoGroup}>
-          <span className={classes.subInfoName}>Arrival time: </span>
-          <span>{`${arrivalTime}ms`}</span>
-        </p>
-        <p className={classes.subInfoGroup}>
-          <span className={classes.subInfoName}>{`Duration: `}</span>
-          <span>{`${duration}ms`}</span>
-        </p>
-        <p className={classes.subInfoGroup}>
-          <span className={classes.subInfoName}>{`ID: `}</span>
-          <span>{id}</span>
-        </p>
-        {
-          isPriority(algorithms) && (
-            <p className={classes.subInfoGroup}>
-              <span className={classes.subInfoName}>{`Priority: `}</span>{' '}
-              <span>{priority}</span>
-            </p>
-          )
-        }
-        { isMultiLevel(algorithms) && (
-          <p className={classes.subInfoGroup}>
-            <span className={classes.subInfoName}>{`Type: `}</span>{' '}
-            <span>{type}</span>
-          </p>
-        )}
-        { isFeedBackQueue(algorithms) && (
-          <>
-            <p className={classes.subInfoGroup}>
-              <span className={classes.subInfoName}>{`IO Bursts: `}</span>{' '}
-              <span>{ioBursts}</span>
-            </p>
-            <p className={classes.subInfoGroup}>
-              <span className={classes.subInfoName}>{`Cpu Bursts: `}</span>{' '}
-              <span>{cpuBursts}</span>
-            </p>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
-
 const ProcessesDisplay = ({
   onSubmit,
   algorithms,
@@ -153,6 +34,9 @@ const ProcessesDisplay = ({
   defaultTimeSlice = 1,
   goBack,
 }: Props) => {
+  const {t} = useTranslation('processes-display');
+  const {t: commonT} = useTranslation('common');
+
   const [processes, setProcesses] = useState<ProcessesArray>(defaultProcesses);
   const [timeSlice, setTimeSlice] = useState(defaultTimeSlice);
   const [dialogSate, setDialogState] = useState(false);
@@ -172,13 +56,13 @@ const ProcessesDisplay = ({
 
   return (
     <div>
-      <h3 className={classes.title}>Add Processes</h3>
+      <h3 className={classes.title}>{t('addProcess')}</h3>
       { 
         isRoundRobin(algorithms) && (
           <div className={classes.timeSliceInputGroup}>
-            <label>Time Slice</label>
+            <label>{t('ts')}</label>
             <input
-              type="number"
+              type='number'
               defaultValue={timeSlice + ''}
               onChange={(v) =>
                 v.target &&
@@ -190,52 +74,56 @@ const ProcessesDisplay = ({
       }
       <div className={classes.listDisplay}>
         {processes.map((p, i) => (
-          <ProcessDisplay
-            algorithms={algorithms}
-            p={p}
-            deleteItem={deleteItem}
-            moveItem={moveItem}
-            i={i}
-            key={p.id}
-            processesLength={processes.length}
-          />
+          <Suspense fallback={null}>
+            <ItemDisplay
+              algorithms={algorithms}
+              p={p}
+              deleteItem={deleteItem}
+              moveItem={moveItem}
+              i={i}
+              key={p.id}
+              processesLength={processes.length}
+            />
+          </Suspense>
         ))}
         {processes.length === 0 ? (
           <p className={classes.alert}>
-            No process added yet! click on the add button to add one
+            {t('noProcesses')}
           </p>
         ) : null}
       </div>
       <div className={classes.actions}>
         <button
           onClick={() => goBack()}
-          className={["secondary", classes.backButton].join(' ')}
+          className={['secondary', classes.backButton].join(' ')}
         >
-          Go back
+          {commonT('goBack')}
         </button>
-        <button className="secondary" onClick={() => setDialogState(true)}>
-          Add
+        <button className='secondary' onClick={() => setDialogState(true)}>
+          {commonT('add')}
         </button>
         <button
-          className={["primary", classes.submitButton].join(' ')}
+          className={['primary', classes.submitButton].join(' ')}
           onClick={() => onSubmit(processes, timeSlice)}
           disabled={processes.length === 0}
         >
-          Submit
+          {commonT('submit')}
         </button>
       </div>
-      <Dialog state={dialogSate} title="Add Process" setState={setDialogState}>
-        <ProcessInput
-          priorityEnabled={isPriority(algorithms)}
-          typeEnabled={isMultiLevel(algorithms)}
-          feedbackQueueEnabled={isFeedBackQueue(algorithms)}
-          currentCount={processes.length + 1}
-          submitProcess={(v) => {
-            setProcesses((curr) => [...curr, v]);
-            setDialogState(false);
-          }}
-        />
-      </Dialog>
+      <Suspense fallback={null}>
+        <Dialog state={dialogSate} title={t('addProcess')} setState={setDialogState}>
+          <ProcessInput
+            priorityEnabled={isPriority(algorithms)}
+            typeEnabled={isMultiLevel(algorithms)}
+            feedbackQueueEnabled={isFeedBackQueue(algorithms)}
+            currentCount={processes.length + 1}
+            submitProcess={(v) => {
+              setProcesses((curr) => [...curr, v]);
+              setDialogState(false);
+            }}
+          />
+        </Dialog>
+      </Suspense>
     </div>
   );
 };
