@@ -14,6 +14,7 @@ import type SchedulingAlgorithm from '../../types/scheduling-algorithm';
 // components
 import { ChartsGroup } from '../chart';
 import GanttChart from '../gantt-chart';
+import { useTranslation } from '../../i18n';
 
 interface Props {
   data: ProcessArray;
@@ -35,6 +36,9 @@ const ResultGallery = ({
   timeSlice,
   algorithms,
 }: Props) => {
+  const {t} = useTranslation('result-gallery');
+  const {t: commonT} = useTranslation('common');
+
   const { process } = useAlgorithm();
   const [activeAlgorithms, setActiveAlgorithms] = useState(
     new Array(algorithms.length).fill(true, 0, algorithms.length),
@@ -89,11 +93,11 @@ const ResultGallery = ({
             items={[
               {
                 data: averageTurnAroundTimes,
-                title: 'Average Waiting Time',
+                title: t('att'),
               },
               {
                 data: averageWaitingTimes,
-                title: 'Average Turnaround Time',
+                title: t('awt'),
               },
             ]}
           />
@@ -132,11 +136,11 @@ const ResultGallery = ({
             <GanttChart gantt={gantt} />
             <div className={classes.subDetails}>
               <p>
-                <span>Average Waiting Time: </span>
+                <span>{t('awt')}</span>
                 <span>{`${averageWaitingTime}ms`}</span>
               </p>
               <p>
-                <span>Average Turnaround Time: </span>
+                <span>{t('att')}</span>
                 <span>{`${averageTurnaroundTime}ms`}</span>
               </p>
             </div>
@@ -145,10 +149,10 @@ const ResultGallery = ({
       })}
       <div className={classes.actions}>
         <button onClick={() => goBack()} className="secondary">
-          Go back
+          {commonT('goBack')}
         </button>
         <button onClick={onReset} className={["primary", classes.reset].join(' ')}>
-          Reset
+          {commonT('reset')}
         </button>
       </div>
     </div>
