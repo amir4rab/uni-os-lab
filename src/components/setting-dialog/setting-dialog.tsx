@@ -143,7 +143,7 @@ const SettingDialog = (props: Props) => {
               {t('disableAnimationsDesc')}
             </p>
           </div>
-          {/* About */}
+          {/* Version */}
           <div className="dialog-item">
             <div className="item-header">
               <h4 className="item-title">{t('version')}</h4>
@@ -153,6 +153,18 @@ const SettingDialog = (props: Props) => {
               <span>{` "`}</span>
               <code>{version}</code>
               <span>{`"`}</span>
+            </p>
+          </div>
+          {/* About */}
+          <div className="dialog-item">
+            <div className="item-header">
+              <h4 className="item-title">{t('about')}</h4>
+            </div>
+            <p className="item-description">
+              <p>{t('aboutDesc')}</p>
+              <p>
+                <a href='https://github.com/amir4rab/uni-os-lab' target='_blank' rel='noreferrer'>{`Source Code`}</a>
+              </p>
             </p>
           </div>
         </>

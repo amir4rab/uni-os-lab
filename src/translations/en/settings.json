@@ -10,5 +10,7 @@
   "disableAnimations": "Disable animations",
   "disableAnimationsDesc": "Disable animations incase of performance problems in older devices, or your personal preference.",
   "version": "Version",
-  "versionDesc": "You are running version"
+  "versionDesc": "You are running version",
+  "about": "About",
+  "aboutDesc": "This web app is my project for Operating system lab. it is completely open source, and under MPL v2.0. you can find the source code at the following link on GitHub."
 }
