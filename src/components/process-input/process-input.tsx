@@ -1,4 +1,4 @@
-import { MutableRef, useRef, useState } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 
 // classes
 import classes from './process-input.module.scss';
@@ -52,7 +52,7 @@ const ProcessInput = ({
   typeEnabled = false,
   feedbackQueueEnabled = false,
 }: Props) => {
-  const {t} = useTranslation('process-input');
+  const {t} = useTranslation('process');
 
   const [error, setError] = useState<null | string>(null);
 
