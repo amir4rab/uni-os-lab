@@ -5,8 +5,8 @@ import type ProcessResult from '../../../types/process-results';
 import { sortProcessesByArrivalTime } from '../helpers';
 
 const defaultResult: ProcessResult = {
-  averageResponseTime: 0,
-  averageReturnTime: 0,
+  averageWaitingTime: 0,
+  averageTurnaroundTime: 0,
   gantt: [],
 };
 
@@ -20,8 +20,8 @@ const sjf = (processes: ProcessArray): ProcessResult => {
 
   // results
   const gantt: Gantt = [];
-  let averageReturnTime = 0;
-  let averageResponseTime = 0;
+  let averageTurnaroundTime = 0;
+  let averageWaitingTime = 0;
 
   for (let _ = 0; _ < pArray.length; _++) {
     let smallestItemIndex = -1;
@@ -65,27 +65,27 @@ const sjf = (processes: ProcessArray): ProcessResult => {
     });
 
     // Updating other result variables
-    averageReturnTime +=
+    averageTurnaroundTime +=
       currentTime +
       pArray[smallestItemIndex].duration -
       pArray[smallestItemIndex].arrivalTime;
-    averageResponseTime += currentTime - pArray[smallestItemIndex].arrivalTime;
+    averageWaitingTime += currentTime - pArray[smallestItemIndex].arrivalTime;
 
     // Updating loop variables
     currentTime += pArray[smallestItemIndex].duration;
     completedItems[smallestItemIndex] = true;
   }
 
-  averageReturnTime = parseFloat(
-    (averageReturnTime / pArray.length).toFixed(2),
+  averageTurnaroundTime = parseFloat(
+    (averageTurnaroundTime / pArray.length).toFixed(2),
   );
-  averageResponseTime = parseFloat(
-    (averageResponseTime / pArray.length).toFixed(2),
+  averageWaitingTime = parseFloat(
+    (averageWaitingTime / pArray.length).toFixed(2),
   );
 
   return {
-    averageResponseTime,
-    averageReturnTime,
+    averageWaitingTime,
+    averageTurnaroundTime,
     gantt,
   };
 };

@@ -18,8 +18,8 @@ const multiLevel = (
 ): ProcessResult => {
   // Results variables
   const gantt: Gantt = [];
-  let averageReturnTime = 0;
-  let averageResponseTime = 0;
+  let averageTurnaroundTime = 0;
+  let averageWaitingTime = 0;
 
   // Processing variables
   const reminders: (number | null)[] = new Array(processes.length).fill(
@@ -137,7 +137,7 @@ const multiLevel = (
     });
 
     // Appending time average return time
-    averageResponseTime += currentTime + executedChunk;
+    averageWaitingTime += currentTime + executedChunk;
 
     // Updating variables
     reminders[selectedItem] = executionRemainer;
@@ -152,20 +152,20 @@ const multiLevel = (
   }
 
   // Shortcut to calculate average response time in Round Robin algorithm
-  averageReturnTime =
-    averageResponseTime - totalExecutionTime - totalArrivalTime;
+  averageTurnaroundTime =
+    averageWaitingTime - totalExecutionTime - totalArrivalTime;
 
-  averageResponseTime = parseFloat(
-    (averageResponseTime / processes.length).toFixed(2),
+  averageWaitingTime = parseFloat(
+    (averageWaitingTime / processes.length).toFixed(2),
   );
-  averageReturnTime = parseFloat(
-    (averageReturnTime / processes.length).toFixed(2),
+  averageTurnaroundTime = parseFloat(
+    (averageTurnaroundTime / processes.length).toFixed(2),
   );
 
   return {
     gantt,
-    averageReturnTime,
-    averageResponseTime,
+    averageTurnaroundTime,
+    averageWaitingTime,
   };
 };
 

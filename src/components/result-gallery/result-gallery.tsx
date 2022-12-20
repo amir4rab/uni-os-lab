@@ -39,10 +39,10 @@ const ResultGallery = ({
   const [activeAlgorithms, setActiveAlgorithms] = useState(
     new Array(algorithms.length).fill(true, 0, algorithms.length),
   );
-  const [averageReturnTimes, setAverageReturnTimes] = useState<
+  const [averageTurnAroundTimes, setAverageTurnAroundTimes] = useState<
     AverageTimeItem[]
   >([]);
-  const [averageResponseTimes, setAverageResponseTimes] = useState<
+  const [averageWaitingTimes, setAverageWaitingTimes] = useState<
     AverageTimeItem[]
   >([]);
   const [processResults, setProcessResults] = useState<
@@ -51,11 +51,11 @@ const ResultGallery = ({
 
   useEffect(() => {
     setProcessResults([]);
-    setAverageReturnTimes([]);
-    setAverageResponseTimes([]);
+    setAverageTurnAroundTimes([]);
+    setAverageWaitingTimes([]);
 
     algorithms.map((algorithm) => {
-      const { averageResponseTime, averageReturnTime, gantt } = process({
+      const { averageWaitingTime, averageTurnaroundTime, gantt } = process({
         algorithm,
         processes: [...data],
         timeSlice,
@@ -65,17 +65,17 @@ const ResultGallery = ({
         ...curr,
         {
           algorithm,
-          data: { averageResponseTime, averageReturnTime, gantt },
+          data: { averageWaitingTime, averageTurnaroundTime, gantt },
         },
       ]);
 
-      setAverageReturnTimes((curr) => [
+      setAverageTurnAroundTimes((curr) => [
         ...curr,
-        { name: algorithm, v: averageReturnTime },
+        { name: algorithm, v: averageTurnaroundTime },
       ]);
-      setAverageResponseTimes((curr) => [
+      setAverageWaitingTimes((curr) => [
         ...curr,
-        { name: algorithm, v: averageResponseTime },
+        { name: algorithm, v: averageWaitingTime },
       ]);
     });
   }, [data, timeSlice]);
@@ -88,12 +88,12 @@ const ResultGallery = ({
           <ChartsGroup
             items={[
               {
-                data: averageReturnTimes,
-                title: 'Average Return Time',
+                data: averageTurnAroundTimes,
+                title: 'Average Waiting Time',
               },
               {
-                data: averageResponseTimes,
-                title: 'Average Response Time',
+                data: averageWaitingTimes,
+                title: 'Average Turnaround Time',
               },
             ]}
           />
@@ -120,7 +120,7 @@ const ResultGallery = ({
         </>
       )}
       {processResults.map(({ algorithm, data }, i) => {
-        const { averageResponseTime, averageReturnTime, gantt } = data;
+        const { averageWaitingTime, averageTurnaroundTime, gantt } = data;
 
         return (
           <div
@@ -132,12 +132,12 @@ const ResultGallery = ({
             <GanttChart gantt={gantt} />
             <div className={classes.subDetails}>
               <p>
-                <span>Average Response Time: </span>
-                <span>{`${averageResponseTime}ms`}</span>
+                <span>Average Waiting Time: </span>
+                <span>{`${averageWaitingTime}ms`}</span>
               </p>
               <p>
-                <span>Average Return Time: </span>
-                <span>{`${averageReturnTime}ms`}</span>
+                <span>Average Turnaround Time: </span>
+                <span>{`${averageTurnaroundTime}ms`}</span>
               </p>
             </div>
           </div>

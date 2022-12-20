@@ -7,8 +7,8 @@ import { findNextPrioritizedItemNonPreemptive as findNextPrioritizedItem } from 
 const priority = (processes: ProcessArray): ProcessResult => {
   // Results variables
   const gantt: Gantt = [];
-  let averageReturnTime = 0;
-  let averageResponseTime = 0;
+  let averageTurnaroundTime = 0;
+  let averageWaitingTime = 0;
 
   // Processing variables
   const seen = (new Array(processes.length) as boolean[]).fill(
@@ -35,23 +35,23 @@ const priority = (processes: ProcessArray): ProcessResult => {
       processName: name,
     });
 
-    averageReturnTime += currentTime + duration - arrivalTime;
-    averageResponseTime += currentTime - arrivalTime;
+    averageTurnaroundTime += currentTime + duration - arrivalTime;
+    averageWaitingTime += currentTime - arrivalTime;
     currentTime += duration;
 
     seen[selectedItem] = true;
   }
 
-  averageResponseTime = parseFloat(
-    (averageResponseTime / processes.length).toFixed(2),
+  averageWaitingTime = parseFloat(
+    (averageWaitingTime / processes.length).toFixed(2),
   );
-  averageReturnTime = parseFloat(
-    (averageReturnTime / processes.length).toFixed(2),
+  averageTurnaroundTime = parseFloat(
+    (averageTurnaroundTime / processes.length).toFixed(2),
   );
 
   return {
-    averageResponseTime,
-    averageReturnTime,
+    averageWaitingTime,
+    averageTurnaroundTime,
     gantt,
   };
 };

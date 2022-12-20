@@ -22,8 +22,8 @@ interface ProcessFNProps {
 }
 
 const defaultResult: ProcessResult = {
-  averageResponseTime: 0,
-  averageReturnTime: 0,
+  averageWaitingTime: 0,
+  averageTurnaroundTime: 0,
   gantt: [],
 };
 

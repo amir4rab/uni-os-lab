@@ -10,8 +10,8 @@ const roundRobin = (
 ): ProcessResult => {
   // Results variables
   const gantt: Gantt = [];
-  let averageReturnTime = 0;
-  let averageResponseTime = 0;
+  let averageTurnaroundTime = 0;
+  let averageWaitingTime = 0;
 
   // Processing variables
   const copiedProcesses = JSON.parse(JSON.stringify({ processes }))
@@ -57,7 +57,7 @@ const roundRobin = (
 
       // Incase process ended in the current loop
       if (remindedDuration === 0 && duration !== 0) {
-        averageResponseTime += currentTime + duration;
+        averageWaitingTime += currentTime + duration;
       }
 
       gantt.push({
@@ -79,19 +79,19 @@ const roundRobin = (
   }
 
   // Shortcut to calculate average response time in Round Robin algorithm
-  averageReturnTime = averageResponseTime - totalProcessTime - totalArrivalTime;
+  averageTurnaroundTime = averageWaitingTime - totalProcessTime - totalArrivalTime;
 
-  averageResponseTime = parseFloat(
-    (averageResponseTime / sortedProcesses.length).toFixed(2),
+  averageWaitingTime = parseFloat(
+    (averageWaitingTime / sortedProcesses.length).toFixed(2),
   );
-  averageReturnTime = parseFloat(
-    (averageReturnTime / sortedProcesses.length).toFixed(2),
+  averageTurnaroundTime = parseFloat(
+    (averageTurnaroundTime / sortedProcesses.length).toFixed(2),
   );
 
   return {
     gantt,
-    averageResponseTime,
-    averageReturnTime,
+    averageWaitingTime,
+    averageTurnaroundTime,
   };
 };
 

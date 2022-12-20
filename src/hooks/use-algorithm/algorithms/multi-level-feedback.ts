@@ -33,8 +33,8 @@ const multiLevelFeedbackQueue = (processes: ProcessArray): ProcessResult => {
 
   // Results variables
   const gantt: Gantt = [];
-  let averageReturnTime = 0;
-  let averageResponseTime = 0;
+  let averageTurnaroundTime = 0;
+  let averageWaitingTime = 0;
 
   // Processing variables
   const seen = new Array(sortedProcesses.length).fill(
@@ -86,24 +86,24 @@ const multiLevelFeedbackQueue = (processes: ProcessArray): ProcessResult => {
       processName: name,
     });
 
-    averageReturnTime += currentTime + duration - arrivalTime;
-    averageResponseTime += currentTime - arrivalTime;
+    averageTurnaroundTime += currentTime + duration - arrivalTime;
+    averageWaitingTime += currentTime - arrivalTime;
     currentTime += duration;
 
     seen[selectedItem] = true;
   }
 
-  averageResponseTime = parseFloat(
-    (averageResponseTime / sortedProcesses.length).toFixed(2),
+  averageWaitingTime = parseFloat(
+    (averageWaitingTime / sortedProcesses.length).toFixed(2),
   );
-  averageReturnTime = parseFloat(
-    (averageReturnTime / sortedProcesses.length).toFixed(2),
+  averageTurnaroundTime = parseFloat(
+    (averageTurnaroundTime / sortedProcesses.length).toFixed(2),
   );
 
   return {
     gantt,
-    averageReturnTime,
-    averageResponseTime,
+    averageTurnaroundTime,
+    averageWaitingTime,
   };
 };
 

@@ -7,8 +7,8 @@ import { findNextPrioritizedItemPreemptive as findNextPrioritizedItem } from '..
 const priorityPreemptive = (processes: ProcessArray): ProcessResult => {
   // Results variables
   const gantt: Gantt = [];
-  let averageReturnTime = 0;
-  let averageResponseTime = 0;
+  let averageTurnaroundTime = 0;
+  let averageWaitingTime = 0;
 
   // Processing variables
   let reminders: number[] = [];
@@ -68,24 +68,24 @@ const priorityPreemptive = (processes: ProcessArray): ProcessResult => {
     reminders[selectedItem] = reminders[selectedItem] - executedChunk;
 
     if (reminders[selectedItem] === 0)
-      averageResponseTime += currentTime + executedChunk;
+      averageWaitingTime += currentTime + executedChunk;
     currentTime += executedChunk;
   }
 
   // Shortcut to calculate average response time in preemptive algorithms
-  averageReturnTime =
-    averageResponseTime - totalExecutionTimes - totalArrivalTimes;
+  averageTurnaroundTime =
+    averageWaitingTime - totalExecutionTimes - totalArrivalTimes;
 
-  averageResponseTime = parseFloat(
-    (averageResponseTime / processes.length).toFixed(2),
+  averageWaitingTime = parseFloat(
+    (averageWaitingTime / processes.length).toFixed(2),
   );
-  averageReturnTime = parseFloat(
-    (averageReturnTime / processes.length).toFixed(2),
+  averageTurnaroundTime = parseFloat(
+    (averageTurnaroundTime / processes.length).toFixed(2),
   );
 
   return {
-    averageResponseTime,
-    averageReturnTime,
+    averageWaitingTime,
+    averageTurnaroundTime,
     gantt,
   };
 };

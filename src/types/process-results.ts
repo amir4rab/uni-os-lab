@@ -2,8 +2,8 @@ import Gantt from './gantt';
 
 interface ProcessResult {
   gantt: Gantt;
-  averageReturnTime: number;
-  averageResponseTime: number;
+  averageTurnaroundTime: number;
+  averageWaitingTime: number;
 }
 
 export default ProcessResult;
