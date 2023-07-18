@@ -60,7 +60,7 @@ const SettingDialog = ({ state, setState, children, title }: Props) => {
   const [polyfillState, setPolyfillState] = useState(false);
 
   useEffect(() => {
-    let timeOut: undefined | NodeJS.Timeout | number;
+    let timeOut: undefined | number;
     if (state) {
       elRef.current && elRef.current.showModal();
       !dialogIsSupported && setPolyfillState(true);

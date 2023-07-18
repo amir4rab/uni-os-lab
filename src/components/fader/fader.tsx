@@ -35,7 +35,7 @@ const Child = ({ children, displayed, id }: Props) => {
 
   // sets visual state of the element upon displaying or removal
   useEffect(() => {
-    let unmountingTimeout: number | NodeJS.Timeout;
+    let unmountingTimeout: undefined | number;
 
     if (displayed) {
       setState(true);

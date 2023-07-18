@@ -42,7 +42,7 @@ const Dialog = ({
   const {t} = useTranslation('common');
 
   useEffect(() => {
-    let timeOut: undefined | NodeJS.Timeout | number;
+    let timeOut: undefined | number;
     if (state) {
       elRef.current && elRef.current.showModal();
       !dialogIsSupported && setPolyfillState(true);
