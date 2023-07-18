@@ -67,7 +67,10 @@ const ItemDisplay = ({
     timeout && clearTimeout(timeout);
 
     // setting a new timeout
-    timeout = setTimeout(() => div.removeAttribute('data-recently-moved'), 300);
+    timeout = setTimeout(
+      () => div.removeAttribute('data-recently-moved'),
+      300,
+    ) as unknown as number;
   };
 
   return (

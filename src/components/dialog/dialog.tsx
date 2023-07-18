@@ -39,7 +39,7 @@ const Dialog = ({
   const elRef = useRef<HTMLDialogElement | null>(null);
   const dialogIsSupported = useDialogSupported();
   const [polyfillState, setPolyfillState] = useState(false);
-  const {t} = useTranslation('common');
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     let timeOut: undefined | number;
@@ -50,7 +50,10 @@ const Dialog = ({
       if (closeImmediately) {
         elRef.current && elRef.current.close();
       } else {
-        timeOut = setTimeout(() => elRef.current && elRef.current.close(), 150);
+        timeOut = setTimeout(
+          () => elRef.current && elRef.current.close(),
+          150,
+        ) as unknown as number;
       }
       !dialogIsSupported && setPolyfillState(false);
     }

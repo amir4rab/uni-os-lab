@@ -40,7 +40,10 @@ const Child = ({ children, displayed, id }: Props) => {
     if (displayed) {
       setState(true);
     } else {
-      unmountingTimeout = setTimeout(() => setState(false), 300);
+      unmountingTimeout = setTimeout(
+        () => setState(false),
+        300,
+      ) as unknown as number;
     }
 
     return () => {

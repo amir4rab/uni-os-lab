@@ -26,7 +26,7 @@ interface InnerProps {
   title: string;
 }
 const SettingInner = ({ onClose, children, title }: InnerProps) => {
-  const {t} = useTranslation('common')
+  const { t } = useTranslation('common');
 
   return (
     <div className={classes.content}>
@@ -65,7 +65,10 @@ const SettingDialog = ({ state, setState, children, title }: Props) => {
       elRef.current && elRef.current.showModal();
       !dialogIsSupported && setPolyfillState(true);
     } else {
-      timeOut = setTimeout(() => elRef.current && elRef.current.close(), 500);
+      timeOut = setTimeout(
+        () => elRef.current && elRef.current.close(),
+        500,
+      ) as unknown as number;
       !dialogIsSupported && setPolyfillState(false);
     }
     () => {
