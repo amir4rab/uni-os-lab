@@ -56,7 +56,15 @@ const Inner = ({
           defaultProcesses={processes}
           algorithms={selectedAlgorithms}
           onSubmit={(processes, timeSlice) => {
-            setProcesses(processes);
+            setProcesses(
+              processes.sort((a, b) =>
+                a.arrivalTime < b.arrivalTime
+                  ? -1
+                  : a.arrivalTime > b.arrivalTime
+                  ? 1
+                  : 0,
+              ),
+            );
             setTimeSlice(timeSlice);
             setCurrentStep((curr) => curr + 1);
           }}
