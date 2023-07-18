@@ -13,8 +13,12 @@ import { DeleteIcon, DownArrowIcon, UpArrowIcon } from '../icons';
 // classes
 import classes from './processes-display.module.scss';
 
-// utils 
-import { isFeedBackQueue, isMultiLevel, isPriority } from './utils';
+// utils
+import {
+  // isFeedBackQueue,
+  // isMultiLevel,
+  isPriority,
+} from './utils';
 
 const ItemDisplay = ({
   deleteItem,
@@ -31,11 +35,20 @@ const ItemDisplay = ({
   i: number;
   algorithms: SchedulingAlgorithm[];
 }) => {
-  const {t} = useTranslation('process');
-  const { name, arrivalTime, duration, id, priority, type, cpuBursts, ioBursts } = p;
+  const { t } = useTranslation('process');
+  const {
+    name,
+    arrivalTime,
+    duration,
+    id,
+    priority,
+    type,
+    cpuBursts,
+    ioBursts,
+  } = p;
   const elRef = useRef<HTMLDivElement | null>(null);
   const [expanded, setExpanded] = useState(false);
-  let timeout: number | undefined | NodeJS.Timeout;
+  let timeout: number | undefined;
 
   useEffect(() => {
     // clearing timeout upon element removal
@@ -64,11 +77,7 @@ const ItemDisplay = ({
         <button onClick={() => setExpanded((curr) => !curr)}>i</button>
       </div>
       <div className={classes.processActions}>
-        <button  
-          data-type='delete' 
-          onClick={() => deleteItem(i)} 
-          data-compact
-        >
+        <button data-type="delete" onClick={() => deleteItem(i)} data-compact>
           <DeleteIcon />
         </button>
         <button
@@ -105,21 +114,19 @@ const ItemDisplay = ({
           <span className={classes.subInfoName}>{`ID: `}</span>
           <span>{id}</span>
         </p>
-        {
-          isPriority(algorithms) && (
-            <p className={classes.subInfoGroup}>
-              <span className={classes.subInfoName}>{t('priority')}</span>{' '}
-              <span>{priority}</span>
-            </p>
-          )
-        }
-        { isMultiLevel(algorithms) && (
+        {isPriority(algorithms) && (
+          <p className={classes.subInfoGroup}>
+            <span className={classes.subInfoName}>{t('priority')}</span>{' '}
+            <span>{priority}</span>
+          </p>
+        )}
+        {/* {isMultiLevel(algorithms) && (
           <p className={classes.subInfoGroup}>
             <span className={classes.subInfoName}>{t('pt')}</span>{' '}
             <span>{t(type)}</span>
           </p>
-        )}
-        { isFeedBackQueue(algorithms) && (
+        )} */}
+        {/* {isFeedBackQueue(algorithms) && (
           <>
             <p className={classes.subInfoGroup}>
               <span className={classes.subInfoName}>{t('cb')}</span>{' '}
@@ -130,7 +137,7 @@ const ItemDisplay = ({
               <span>{t(cpuBursts)}</span>
             </p>
           </>
-        )}
+        )} */}
       </div>
     </div>
   );

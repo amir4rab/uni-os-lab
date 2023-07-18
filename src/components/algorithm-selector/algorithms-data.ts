@@ -25,19 +25,19 @@ export const algorithms: Algorithm[] = [
     shortInfo:
       'The scheduler assigns a fixed time unit per process, and cycles through them. If process completes within that time-slice it gets terminated otherwise it is rescheduled after giving a chance to all other processes.',
   },
-  {
-    id: 'multi-level',
-    name: 'Multi Level',
-    shortInfo:
-      'Multi-level queueing, used at least since the late 1950s/early 1960s, is a queue with a predefined number of levels. Items get assigned to a particular level at insert (using some predefined algorithm), and thus cannot be moved to another level (unlike in the multilevel feedback queue). Items get removed from the queue by removing all items from a level, and then moving to the next. If an item is added to a level above, the "fetching" restarts from there. Each level of the queue is free to use its own scheduling, thus adding greater flexibility than merely having multiple levels in a queue.',
-  },
-  {
-    id: 'multi-level-feedback-queue',
-    name: 'Multi Level Feedback Queue',
-    shortInfo: `
-      Scheduling algorithms are designed to have some process running at all times to keep the central processing unit (CPU) busy. The multilevel feedback queue extends standard algorithms with the following design requirements: A) Separate processes into multiple ready queues based on their need for the processor. B) Give preference to processes with short CPU bursts.
-    `,
-  },
+  // {
+  //   id: 'multi-level',
+  //   name: 'Multi Level',
+  //   shortInfo:
+  //     'Multi-level queueing, used at least since the late 1950s/early 1960s, is a queue with a predefined number of levels. Items get assigned to a particular level at insert (using some predefined algorithm), and thus cannot be moved to another level (unlike in the multilevel feedback queue). Items get removed from the queue by removing all items from a level, and then moving to the next. If an item is added to a level above, the "fetching" restarts from there. Each level of the queue is free to use its own scheduling, thus adding greater flexibility than merely having multiple levels in a queue.',
+  // },
+  // {
+  //   id: 'multi-level-feedback-queue',
+  //   name: 'Multi Level Feedback Queue',
+  //   shortInfo: `
+  //     Scheduling algorithms are designed to have some process running at all times to keep the central processing unit (CPU) busy. The multilevel feedback queue extends standard algorithms with the following design requirements: A) Separate processes into multiple ready queues based on their need for the processor. B) Give preference to processes with short CPU bursts.
+  //   `,
+  // },
   {
     id: 'lottery',
     name: 'Lottery',

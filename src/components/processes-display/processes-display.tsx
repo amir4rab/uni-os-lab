@@ -16,8 +16,13 @@ const ItemDisplay = lazy(() => import('./item-display'));
 // classes
 import classes from './processes-display.module.scss';
 
-// utils 
-import { isFeedBackQueue, isMultiLevel, isPriority, isRoundRobin } from './utils';
+// utils
+import {
+  // isFeedBackQueue,
+  // isMultiLevel,
+  isPriority,
+  isRoundRobin,
+} from './utils';
 
 interface Props {
   algorithms: SchedulingAlgorithm[];
@@ -34,8 +39,8 @@ const ProcessesDisplay = ({
   defaultTimeSlice = 1,
   goBack,
 }: Props) => {
-  const {t} = useTranslation('processes-display');
-  const {t: commonT} = useTranslation('common');
+  const { t } = useTranslation('processes-display');
+  const { t: commonT } = useTranslation('common');
 
   const [processes, setProcesses] = useState<ProcessesArray>(defaultProcesses);
   const [timeSlice, setTimeSlice] = useState(defaultTimeSlice);
@@ -57,21 +62,19 @@ const ProcessesDisplay = ({
   return (
     <div>
       <h3 className={classes.title}>{t('addProcess')}</h3>
-      { 
-        isRoundRobin(algorithms) && (
-          <div className={classes.timeSliceInputGroup}>
-            <label>{t('ts')}</label>
-            <input
-              type='number'
-              defaultValue={timeSlice + ''}
-              onChange={(v) =>
-                v.target &&
-                setTimeSlice(parseInt((v.target as HTMLInputElement).value))
-              }
-            />
-          </div>
-        )
-      }
+      {isRoundRobin(algorithms) && (
+        <div className={classes.timeSliceInputGroup}>
+          <label>{t('ts')}</label>
+          <input
+            type="number"
+            defaultValue={timeSlice + ''}
+            onChange={(v) =>
+              v.target &&
+              setTimeSlice(parseInt((v.target as HTMLInputElement).value))
+            }
+          />
+        </div>
+      )}
       <div className={classes.listDisplay}>
         {processes.map((p, i) => (
           <Suspense fallback={null}>
@@ -87,9 +90,7 @@ const ProcessesDisplay = ({
           </Suspense>
         ))}
         {processes.length === 0 ? (
-          <p className={classes.alert}>
-            {t('noProcesses')}
-          </p>
+          <p className={classes.alert}>{t('noProcesses')}</p>
         ) : null}
       </div>
       <div className={classes.actions}>
@@ -99,7 +100,7 @@ const ProcessesDisplay = ({
         >
           {commonT('goBack')}
         </button>
-        <button className='secondary' onClick={() => setDialogState(true)}>
+        <button className="secondary" onClick={() => setDialogState(true)}>
           {commonT('add')}
         </button>
         <button
@@ -111,11 +112,21 @@ const ProcessesDisplay = ({
         </button>
       </div>
       <Suspense fallback={null}>
-        <Dialog state={dialogSate} title={t('addProcess')} setState={setDialogState}>
+        <Dialog
+          state={dialogSate}
+          title={t('addProcess')}
+          setState={setDialogState}
+        >
           <ProcessInput
             priorityEnabled={isPriority(algorithms)}
-            typeEnabled={isMultiLevel(algorithms)}
-            feedbackQueueEnabled={isFeedBackQueue(algorithms)}
+            typeEnabled={
+              // isMultiLevel(algorithms)
+              false
+            }
+            feedbackQueueEnabled={
+              // isFeedBackQueue(algorithms)
+              false
+            }
             currentCount={processes.length + 1}
             submitProcess={(v) => {
               setProcesses((curr) => [...curr, v]);

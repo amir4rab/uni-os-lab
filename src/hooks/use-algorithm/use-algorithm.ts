@@ -7,8 +7,8 @@ import SchedulingAlgorithm from '../../types/scheduling-algorithm';
 import {
   fcfs,
   lottery,
-  multiLevel,
-  multiLevelFeedbackQueue,
+  // multiLevel,
+  // multiLevelFeedbackQueue,
   priority,
   priorityPreemptive,
   roundRobin,
@@ -48,10 +48,10 @@ const useAlgorithm = () => {
         return roundRobin([...processes], timeSlice);
       case 'lottery':
         return lottery([...processes]);
-      case 'multi-level':
-        return multiLevel([...processes], timeSlice);
-      case 'multi-level-feedback-queue':
-        return multiLevelFeedbackQueue([...processes]);
+      // case 'multi-level':
+      //   return multiLevel([...processes], timeSlice);
+      // case 'multi-level-feedback-queue':
+      //   return multiLevelFeedbackQueue([...processes]);
       default:
         return defaultResult;
     }
